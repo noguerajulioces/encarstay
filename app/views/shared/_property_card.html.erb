@@ -3,6 +3,7 @@
   <div class="aspect-[4/3] overflow-hidden">
     <% if property.cover_photo %>
       <%= image_tag property.cover_photo.image.variant(resize_to_fill: [ 640, 480 ]),
+            alt: "#{property.name} en #{property.address_area}", loading: "lazy",
             class: "h-full w-full object-cover group-hover:scale-105 transition-transform duration-300" %>
     <% else %>
       <div class="h-full w-full bg-gradient-to-br from-emerald-600 to-emerald-900 flex items-center justify-center text-white text-4xl font-semibold">

@@ -1,5 +1,31 @@
 <% content_for :title, @property.name %>
 <% content_for :description, @property.description.to_s.truncate(150) %>
+<% content_for :og_type, "product" %>
+<% content_for(:og_image, rails_blob_url(@property.cover_photo.image)) if @property.cover_photo %>
+<% content_for :seo do %>
+  <%= json_ld({
+    "@context" => "https://schema.org",
+    "@type" => "Product",
+    "name" => @property.name,
+    "description" => strip_tags(@property.description.to_s).squish.presence,
+    "image" => (@property.cover_photo ? rails_blob_url(@property.cover_photo.image) : nil),
+    "offers" => {
+      "@type" => "Offer",
+      "price" => (@property.base_price_cents / 100).to_s,
+      "priceCurrency" => @property.currency,
+      "availability" => "https://schema.org/InStock",
+      "url" => property_url(@property)
+    }
+  }.compact) %>
+  <%= json_ld({
+    "@context" => "https://schema.org",
+    "@type" => "BreadcrumbList",
+    "itemListElement" => [
+      { "@type" => "ListItem", "position" => 1, "name" => "Propiedades", "item" => properties_url },
+      { "@type" => "ListItem", "position" => 2, "name" => @property.name, "item" => property_url(@property) }
+    ]
+  }) %>
+<% end %>
 
 <nav class="text-sm text-stone-500 mb-4">
   <%= link_to "Propiedades", properties_path, class: "hover:text-emerald-700" %> /
@@ -12,7 +38,9 @@
     <% @property.photos.each_with_index do |photo, index| %>
       <% next unless photo.image.attached? %>
       <div class="<%= index.zero? ? 'col-span-2 row-span-2 aspect-square' : 'aspect-square' %> overflow-hidden">
-        <%= image_tag photo.image.variant(resize_to_fill: [ 800, 800 ]), class: "h-full w-full object-cover" %>
+        <%= image_tag photo.image.variant(resize_to_fill: [ 800, 800 ]),
+              alt: "#{@property.name} — foto #{index + 1}", loading: (index.zero? ? "eager" : "lazy"),
+              class: "h-full w-full object-cover" %>
       </div>
     <% end %>
   </div>
@@ -54,7 +82,7 @@
         <span class="text-stone-500 text-sm">/ noche</span>
       </p>
 
-      <%= form_with url: property_path(@property), method: :get, class: "mt-4 space-y-3" do |form| %>
+      <%= form_with url: property_path(@property), method: :get, data: { turbo_frame: "quote", turbo_action: "advance" }, class: "mt-4 space-y-3" do |form| %>
         <div class="grid grid-cols-2 gap-2">
           <div>
             <%= form.label :check_in, "Llegada", class: "block text-xs font-medium text-stone-500 mb-1" %>
@@ -72,18 +100,25 @@
         <%= form.submit "Ver precio", class: "w-full rounded-lg border border-emerald-700 text-emerald-800 font-medium px-4 py-2.5 hover:bg-emerald-50 cursor-pointer" %>
       <% end %>
 
-      <% if @quote.valid? %>
-        <div class="mt-5 pt-5 border-t border-stone-200">
-          <%= render "shared/price_breakdown", quote: @quote %>
-          <% if @available %>
-            <%= link_to "Reservar", new_booking_path(property_slug: @property.slug, check_in: @check_in, check_out: @check_out, guests: @guests),
-                  class: "mt-4 block text-center rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-4 py-3" %>
-          <% else %>
-            <p class="mt-4 rounded-lg bg-rose-50 text-rose-700 text-sm text-center px-4 py-3">
-              No disponible para esas fechas.
-            </p>
-          <% end %>
-        </div>
+      <%= turbo_frame_tag "quote" do %>
+        <% if @quote.valid? %>
+          <div class="mt-5 pt-5 border-t border-stone-200">
+            <%= render "shared/price_breakdown", quote: @quote %>
+            <% if @available %>
+              <%= link_to "Reservar", new_booking_path(property_slug: @property.slug, check_in: @check_in, check_out: @check_out, guests: @guests),
+                    data: { turbo_frame: "_top" },
+                    class: "mt-4 block text-center rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-4 py-3" %>
+            <% else %>
+              <p class="mt-4 rounded-lg bg-rose-50 text-rose-700 text-sm text-center px-4 py-3">
+                No disponible para esas fechas.
+              </p>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="mt-5 pt-5 border-t border-stone-200 text-sm text-stone-500">
+            Elegí fechas para ver el precio total y reservar.
+          </p>
+        <% end %>
       <% end %>
     </div>
   </div>

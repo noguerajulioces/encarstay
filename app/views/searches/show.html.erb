@@ -30,7 +30,7 @@
           <%= link_to property_path(property, check_in: @search.check_in, check_out: @search.check_out),
                 class: "block aspect-[4/3] overflow-hidden" do %>
             <% if property.cover_photo %>
-              <%= image_tag property.cover_photo.image.variant(resize_to_fill: [ 640, 480 ]), class: "h-full w-full object-cover" %>
+              <%= image_tag property.cover_photo.image.variant(resize_to_fill: [ 640, 480 ]), alt: property.name, loading: "lazy", class: "h-full w-full object-cover" %>
             <% else %>
               <div class="h-full w-full bg-gradient-to-br from-emerald-600 to-emerald-900 flex items-center justify-center text-white text-4xl font-semibold"><%= property.name.first %></div>
             <% end %>

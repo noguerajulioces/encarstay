@@ -1,3 +1,19 @@
+<% content_for :seo do %>
+  <%= json_ld({
+    "@context" => "https://schema.org",
+    "@type" => "Organization",
+    "name" => "Reservá Directo",
+    "url" => root_url,
+    "description" => "Reservas directas de casas y cabañas en Paraguay, sin intermediarios."
+  }) %>
+  <%= json_ld({
+    "@context" => "https://schema.org",
+    "@type" => "WebSite",
+    "name" => "Reservá Directo",
+    "url" => root_url
+  }) %>
+<% end %>
+
 <section class="rounded-3xl bg-gradient-to-br from-emerald-800 to-emerald-950 text-white px-6 py-12 sm:px-12 sm:py-16">
   <div class="max-w-2xl">
     <p class="text-emerald-300 font-medium">Reservá directo, sin comisiones</p>

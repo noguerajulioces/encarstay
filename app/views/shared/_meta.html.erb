@@ -1,0 +1,16 @@
+<% title = content_for(:title).present? ? "#{content_for(:title)} · Reservá Directo" : "Reservá Directo — casas y cabañas sin comisiones" %>
+<% description = content_for(:description).presence || "Reservá directo, sin intermediarios. Consultá disponibilidad real y reservá casas y cabañas para tu próxima estadía en Paraguay." %>
+
+<title><%= title %></title>
+<meta name="description" content="<%= strip_tags(description).squish.truncate(160) %>">
+<link rel="canonical" href="<%= canonical_url %>">
+<meta name="robots" content="index, follow, max-image-preview:large">
+
+<meta property="og:site_name" content="Reservá Directo">
+<meta property="og:type" content="<%= content_for(:og_type).presence || 'website' %>">
+<meta property="og:title" content="<%= title %>">
+<meta property="og:description" content="<%= strip_tags(description).squish.truncate(160) %>">
+<meta property="og:url" content="<%= canonical_url %>">
+<meta property="og:locale" content="es_PY">
+<% if content_for?(:og_image) %><meta property="og:image" content="<%= content_for(:og_image) %>"><% end %>
+<meta name="twitter:card" content="<%= content_for?(:og_image) ? 'summary_large_image' : 'summary' %>">

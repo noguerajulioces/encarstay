@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="es" class="h-full">
   <head>
-    <title><%= content_for(:title) || "Reservá Directo" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="description" content="<%= content_for(:description) || 'Reservá directo, sin intermediarios. Casas y cabañas para tu próxima estadía.' %>">
+    <meta name="turbo-refresh-method" content="morph">
+    <meta name="turbo-refresh-scroll" content="preserve">
+    <%= render "shared/meta" %>
+    <%= yield :seo %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
@@ -28,20 +30,15 @@
       </div>
     </header>
 
-    <% if notice.present? %>
-      <div class="mx-auto max-w-6xl px-5 mt-4">
-        <div class="rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 text-sm"><%= notice %></div>
-      </div>
-    <% end %>
-    <% if alert.present? %>
-      <div class="mx-auto max-w-6xl px-5 mt-4">
-        <div class="rounded-lg bg-rose-50 border border-rose-200 text-rose-800 px-4 py-3 text-sm"><%= alert %></div>
-      </div>
-    <% end %>
+    <div id="flash" class="mx-auto max-w-6xl px-5 empty:hidden [&>*]:mt-4">
+      <%= render "shared/flash_messages" %>
+    </div>
 
     <main class="mx-auto max-w-6xl px-5 py-8 min-h-[70vh]">
       <%= yield %>
     </main>
+
+    <%= render "shared/whatsapp" %>
 
     <footer class="border-t border-stone-200 bg-white mt-12">
       <div class="mx-auto max-w-6xl px-5 py-8 text-sm text-stone-500 flex flex-col sm:flex-row justify-between gap-3">

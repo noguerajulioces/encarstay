@@ -3,7 +3,7 @@
 <div class="flex items-center justify-between flex-wrap gap-3">
   <h1 class="text-2xl font-semibold text-stone-900">Reservas</h1>
 
-  <%= form_with url: admin_bookings_path, method: :get, class: "flex gap-2 text-sm" do %>
+  <%= form_with url: admin_bookings_path, method: :get, data: { turbo_frame: "bookings", turbo_action: "advance" }, class: "flex gap-2 text-sm" do %>
     <%= select_tag :status,
           options_for_select([ ["Todos los estados", ""], ["Pendiente", "pending"], ["Confirmada", "confirmed"], ["Completada", "completed"], ["Cancelada", "cancelled"] ], params[:status]),
           onchange: "this.form.requestSubmit()", class: "rounded-lg border-stone-300 border px-3 py-2" %>
@@ -13,7 +13,7 @@
   <% end %>
 </div>
 
-<div class="mt-5 rounded-xl bg-white border border-stone-200 overflow-hidden">
+<%= turbo_frame_tag "bookings", class: "block mt-5 rounded-xl bg-white border border-stone-200 overflow-hidden" do %>
   <% if @bookings.empty? %>
     <p class="p-6 text-sm text-stone-400 text-center">No hay reservas con esos filtros.</p>
   <% else %>
@@ -44,4 +44,4 @@
       </table>
     </div>
   <% end %>
-</div>
+<% end %>

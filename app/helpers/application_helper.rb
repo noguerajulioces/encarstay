@@ -1,4 +1,15 @@
 module ApplicationHelper
+  # Renders a JSON-LD structured-data block, escaping "<" so a stray "</script>"
+  # in the data can't break out of the tag.
+  def json_ld(data)
+    tag.script(JSON.generate(data).gsub("<", "\\u003c").html_safe, type: "application/ld+json")
+  end
+
+  # The clean URL without query string — the SEO canonical for the current page.
+  def canonical_url
+    "#{request.base_url}#{request.path}"
+  end
+
   # Amounts are stored in minor units (× 100). Guaraní shows no decimals; dollar shows two.
   def money(cents, currency)
     case currency
@@ -11,6 +22,16 @@ module ApplicationHelper
 
   def nights_label(count)
     "#{count} #{count == 1 ? 'noche' : 'noches'}"
+  end
+
+  def whatsapp_number
+    ENV.fetch("WHATSAPP_NUMBER", "595981000000")
+  end
+
+  # Click-to-chat link, optionally with a prefilled message.
+  def whatsapp_url(text = nil)
+    base = "https://wa.me/#{whatsapp_number}"
+    text.present? ? "#{base}?text=#{CGI.escape(text)}" : base
   end
 
   # Full weeks (Monday-first) covering a month, for rendering a calendar grid.

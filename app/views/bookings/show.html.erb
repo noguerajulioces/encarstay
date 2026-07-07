@@ -45,7 +45,12 @@
     </div>
   </div>
 
-  <p class="text-center text-sm text-stone-500 mt-6">
-    ¿Dudas? Escribinos y mencioná tu código <strong><%= @booking.code %></strong>.
-  </p>
+  <div class="text-center mt-6">
+    <%= link_to whatsapp_url("Hola, consulto por mi reserva #{@booking.code} en #{@booking.property.name}."),
+          target: "_blank", rel: "noopener",
+          class: "inline-flex items-center gap-2 rounded-lg bg-[#25D366] text-white font-medium px-5 py-3 hover:brightness-105" do %>
+      Coordinar por WhatsApp
+    <% end %>
+    <p class="text-sm text-stone-500 mt-2">Mencioná tu código <strong><%= @booking.code %></strong>.</p>
+  </div>
 </div>

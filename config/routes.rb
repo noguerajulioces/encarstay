@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   # Outgoing iCal feed consumed by Airbnb ("Import calendar"). Tokenized per property.
   get "calendars/:calendar_token/:slug", to: "calendars#show", as: :calendar_feed, defaults: { format: "ics" }
 
+  get "sitemap.xml", to: "sitemaps#show", as: :sitemap, defaults: { format: "xml" }
+
   # --- Admin panel ---
   namespace :admin do
     root "dashboard#show"

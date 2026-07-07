@@ -26,6 +26,7 @@ class PublicBookingFlowTest < ActionDispatch::IntegrationTest
     get property_path(@property, check_in: @check_in, check_out: @check_out)
     assert_response :success
     assert_select "h1", @property.name
+    assert_select "turbo-frame#quote", 1
     assert_match "Reservar", response.body
   end
 

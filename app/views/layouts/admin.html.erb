@@ -4,6 +4,8 @@
     <title><%= content_for(:title) ? "#{content_for(:title)} · Panel" : "Panel · Reservá Directo" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="robots" content="noindex">
+    <meta name="turbo-refresh-method" content="morph">
+    <meta name="turbo-refresh-scroll" content="preserve">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
@@ -42,8 +44,9 @@
             </div>
           </header>
 
-          <% if notice.present? %><div class="bg-emerald-50 border-b border-emerald-200 text-emerald-800 px-6 py-2 text-sm"><%= notice %></div><% end %>
-          <% if alert.present? %><div class="bg-rose-50 border-b border-rose-200 text-rose-800 px-6 py-2 text-sm"><%= alert %></div><% end %>
+          <div id="flash" class="empty:hidden [&>*]:px-6 [&>*]:py-2 [&>*]:rounded-none [&>*]:border-x-0 [&>*]:border-t-0">
+            <%= render "shared/flash_messages" %>
+          </div>
 
           <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-6xl w-full"><%= yield %></main>
         </div>
