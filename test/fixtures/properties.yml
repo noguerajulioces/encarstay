@@ -1,0 +1,31 @@
+lago:
+  name: Casa del Lago
+  slug: casa-del-lago
+  description: Vista al lago, ideal para familias.
+  address_area: San Bernardino
+  capacity: 4
+  bedrooms: 2
+  beds: 3
+  bathrooms: 1
+  base_price_cents: 350000
+  currency: PYG
+  cleaning_fee_cents: 50000
+  min_nights: 2
+  active: true
+  calendar_token: tok-lago-fixture-0000000001
+
+bosque:
+  name: Cabaña del Bosque
+  slug: cabana-del-bosque
+  description: Cabaña rodeada de naturaleza.
+  address_area: Areguá
+  capacity: 2
+  bedrooms: 1
+  beds: 1
+  bathrooms: 1
+  base_price_cents: 8000
+  currency: USD
+  cleaning_fee_cents: 1500
+  min_nights: 2
+  active: true
+  calendar_token: tok-bosque-fixture-000000002

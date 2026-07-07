@@ -1,0 +1,5 @@
+lago_airbnb:
+  property: lago
+  name: Airbnb
+  ical_url: https://www.airbnb.com/calendar/ical/lago.ics
+  active: true

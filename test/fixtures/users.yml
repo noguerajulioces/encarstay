@@ -1,0 +1,4 @@
+admin:
+  email: admin@example.com
+  name: Administrador
+  password_digest: <%= BCrypt::Password.create("secret123", cost: 4) %>
