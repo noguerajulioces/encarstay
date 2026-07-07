@@ -51,6 +51,29 @@ class BookingTest < ActiveSupport::TestCase
     assert_not_includes Booking.overlapping(Date.new(2026, 9, 14), Date.new(2026, 9, 20)), booking
   end
 
+  test "freezes the priced amounts on create" do
+    booking = create_booking(check_in: Date.new(2026, 9, 1), check_out: Date.new(2026, 9, 4))
+    assert_equal 3 * 350_000, booking.subtotal_cents
+    assert_equal 50_000, booking.cleaning_fee_cents
+    assert_equal 3 * 350_000 + 50_000, booking.total_cents
+    assert_equal 550_000, booking.deposit_cents
+    assert_equal "PYG", booking.currency
+  end
+
+  test "rejects a stay below the minimum nights" do
+    booking = @property.bookings.build(check_in: Date.new(2026, 9, 1), check_out: Date.new(2026, 9, 2),
+      guests_count: 2, guest_name: "Ana", guest_email: "ana@example.com")
+    assert_not booking.valid?
+    assert_includes booking.errors[:base], "La estadía mínima es de 2 noches"
+  end
+
+  test "rejects more guests than the property capacity" do
+    booking = @property.bookings.build(check_in: Date.new(2026, 9, 1), check_out: Date.new(2026, 9, 3),
+      guests_count: 99, guest_name: "Ana", guest_email: "ana@example.com")
+    assert_not booking.valid?
+    assert_includes booking.errors.attribute_names, :guests_count
+  end
+
   private
     def create_booking(check_in: Date.new(2026, 9, 1), check_out: Date.new(2026, 9, 3))
       @property.book!(check_in: check_in, check_out: check_out,

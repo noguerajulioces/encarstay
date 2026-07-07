@@ -1,0 +1,12 @@
+<h1 style="color:#b91c1c;">⚠️ Colisión de calendario</h1>
+
+<p>Un evento importado de un calendario externo <strong>se solapa</strong> con una reserva directa
+en <strong><%= @booking.property.name %></strong>. Resolvé cancelando en uno de los canales.</p>
+
+<table style="width:100%;border-collapse:collapse;margin:20px 0;">
+  <tr><td style="padding:6px 0;color:#78716c;">Reserva directa</td><td style="padding:6px 0;text-align:right;font-weight:bold;"><%= @booking.code %> (<%= status_label(@booking.status) %>)</td></tr>
+  <tr><td style="padding:6px 0;color:#78716c;">Fechas directa</td><td style="padding:6px 0;text-align:right;"><%= l @booking.check_in, format: :long %> → <%= l @booking.check_out, format: :long %></td></tr>
+  <tr><td style="padding:6px 0;color:#78716c;">Evento externo</td><td style="padding:6px 0;text-align:right;"><%= @event.starts_on %> → <%= @event.ends_on %></td></tr>
+</table>
+
+<p><a href="<%= admin_booking_url(@booking) %>" style="display:inline-block;background:#b91c1c;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;">Ver la reserva</a></p>

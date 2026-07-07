@@ -1,0 +1,10 @@
+⚠️ COLISIÓN DE CALENDARIO
+
+Un evento importado se solapa con una reserva directa en <%= @booking.property.name %>.
+Resolvé cancelando en uno de los canales.
+
+Reserva directa: <%= @booking.code %> (<%= status_label(@booking.status) %>)
+Fechas directa:  <%= l @booking.check_in, format: :long %> → <%= l @booking.check_out, format: :long %>
+Evento externo:  <%= @event.starts_on %> → <%= @event.ends_on %>
+
+Ver la reserva: <%= admin_booking_url(@booking) %>

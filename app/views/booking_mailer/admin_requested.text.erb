@@ -1,0 +1,22 @@
+Nueva reserva directa · <%= @booking.code %>
+
+<%= @booking.property.name %> — <%= l @booking.check_in, format: :long %> → <%= l @booking.check_out, format: :long %> (<%= @booking.guests_count %> huéspedes)
+
+<% if @booking.property.airbnb_listing_url.present? -%>
+⏱ BLOQUEÁ ESTAS FECHAS EN AIRBNB AHORA (cierra la ventana de ~2h de doble reserva):
+<%= @booking.property.airbnb_listing_url %>
+
+<% end -%>
+Huésped:   <%= @booking.guest_name %>
+Email:     <%= @booking.guest_email %>
+<% if @booking.guest_phone.present? -%>
+Teléfono:  <%= @booking.guest_phone %>
+<% end -%>
+Total:     <%= money(@booking.total_cents, @booking.currency) %>
+Seña:      <%= money(@booking.deposit_cents, @booking.currency) %>
+<% if @booking.notes.present? -%>
+
+Comentario: <%= @booking.notes %>
+<% end -%>
+
+Ver en el panel: <%= admin_booking_url(@booking) %>

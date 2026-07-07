@@ -1,0 +1,32 @@
+es:
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      long: "%-d de %B de %Y"
+      short: "%-d %b"
+      month_year: "%B %Y"
+    day_names: [domingo, lunes, martes, miércoles, jueves, viernes, sábado]
+    abbr_day_names: [dom, lun, mar, mié, jue, vie, sáb]
+    month_names: [~, enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre]
+    abbr_month_names: [~, ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic]
+    order:
+      - :day
+      - :month
+      - :year
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+      long: "%-d de %B de %Y a las %H:%M"
+      short: "%-d %b %H:%M"
+    am: "am"
+    pm: "pm"
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " y "
+      last_word_connector: " y "
+  helpers:
+    submit:
+      create: "Crear %{model}"
+      update: "Guardar %{model}"
+      submit: "Guardar %{model}"

@@ -1,0 +1,10 @@
+Tu reserva está confirmada ✓
+
+¡Todo listo, <%= @booking.guest_name.split.first %>! Confirmamos tu reserva en <%= @booking.property.name %>.
+
+Código:   <%= @booking.code %>
+Llegada:  <%= l @booking.check_in, format: :long %>
+Salida:   <%= l @booking.check_out, format: :long %>
+Total:    <%= money(@booking.total_cents, @booking.currency) %>
+
+Ver mi reserva: <%= booking_url(@booking.code) %>

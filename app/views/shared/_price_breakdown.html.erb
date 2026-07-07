@@ -1,0 +1,19 @@
+<%# locals: quote %>
+<div class="space-y-2 text-sm">
+  <div class="flex justify-between text-stone-600">
+    <span>Alojamiento · <%= nights_label(quote.nights) %></span>
+    <span><%= money(quote.subtotal_cents, quote.currency) %></span>
+  </div>
+  <div class="flex justify-between text-stone-600">
+    <span>Limpieza</span>
+    <span><%= money(quote.cleaning_fee_cents, quote.currency) %></span>
+  </div>
+  <div class="flex justify-between font-semibold text-stone-900 border-t border-stone-200 pt-2">
+    <span>Total</span>
+    <span><%= money(quote.total_cents, quote.currency) %></span>
+  </div>
+  <div class="flex justify-between text-emerald-800">
+    <span>Seña para reservar (50%)</span>
+    <span><%= money(quote.deposit_cents, quote.currency) %></span>
+  </div>
+</div>

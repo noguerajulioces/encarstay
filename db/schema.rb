@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_07_184220) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_07_190608) do
   create_table "blocks", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.date "ends_on", null: false
@@ -85,6 +85,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_07_184220) do
   create_table "properties", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.string "address_area"
+    t.string "airbnb_listing_url"
     t.integer "base_price_cents", default: 0, null: false
     t.integer "bathrooms", default: 1, null: false
     t.integer "bedrooms", default: 1, null: false

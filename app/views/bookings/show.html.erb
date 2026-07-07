@@ -1,0 +1,51 @@
+<% content_for :title, "Reserva #{@booking.code}" %>
+
+<div class="max-w-2xl mx-auto">
+  <% if @booking.pending? %>
+    <div class="rounded-2xl bg-emerald-50 border border-emerald-200 p-6 text-center">
+      <div class="mx-auto h-12 w-12 rounded-full bg-emerald-600 text-white flex items-center justify-center text-2xl">✓</div>
+      <h1 class="mt-3 text-2xl font-semibold text-stone-900">¡Recibimos tu solicitud!</h1>
+      <p class="text-stone-600 mt-1">Te contactamos para coordinar la seña y confirmar la reserva.</p>
+    </div>
+  <% end %>
+
+  <div class="mt-6 rounded-2xl border border-stone-200 bg-white overflow-hidden">
+    <div class="bg-stone-900 text-white px-6 py-4 flex items-center justify-between">
+      <div>
+        <p class="text-stone-400 text-xs">Código de reserva</p>
+        <p class="text-xl font-bold tracking-wider"><%= @booking.code %></p>
+      </div>
+      <span class="text-xs font-medium px-3 py-1 rounded-full <%= status_badge_classes(@booking.status) %>">
+        <%= status_label(@booking.status) %>
+      </span>
+    </div>
+
+    <div class="p-6 space-y-4">
+      <div>
+        <h2 class="font-semibold text-stone-900"><%= @booking.property.name %></h2>
+        <p class="text-sm text-stone-500"><%= @booking.property.address_area %></p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4 text-sm">
+        <div><p class="text-stone-500">Llegada</p><p class="font-medium text-stone-900"><%= l @booking.check_in, format: :long %></p></div>
+        <div><p class="text-stone-500">Salida</p><p class="font-medium text-stone-900"><%= l @booking.check_out, format: :long %></p></div>
+        <div><p class="text-stone-500">Huéspedes</p><p class="font-medium text-stone-900"><%= @booking.guests_count %></p></div>
+      </div>
+
+      <div class="pt-4 border-t border-stone-100 space-y-2 text-sm">
+        <div class="flex justify-between text-stone-600"><span>Alojamiento · <%= nights_label(@booking.nights) %></span><span><%= money(@booking.subtotal_cents, @booking.currency) %></span></div>
+        <div class="flex justify-between text-stone-600"><span>Limpieza</span><span><%= money(@booking.cleaning_fee_cents, @booking.currency) %></span></div>
+        <div class="flex justify-between font-semibold text-stone-900 border-t border-stone-200 pt-2"><span>Total</span><span><%= money(@booking.total_cents, @booking.currency) %></span></div>
+        <div class="flex justify-between text-emerald-800"><span>Seña (50%)</span><span><%= money(@booking.deposit_cents, @booking.currency) %></span></div>
+      </div>
+
+      <% if @booking.cancelled? %>
+        <div class="rounded-lg bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 text-sm">Esta reserva fue cancelada.</div>
+      <% end %>
+    </div>
+  </div>
+
+  <p class="text-center text-sm text-stone-500 mt-6">
+    ¿Dudas? Escribinos y mencioná tu código <strong><%= @booking.code %></strong>.
+  </p>
+</div>

@@ -1,0 +1,10 @@
+<% content_for :title, "Propiedades" %>
+
+<h1 class="text-2xl font-semibold text-stone-900">Nuestras propiedades</h1>
+<p class="text-stone-500 mt-1">Elegí una para ver fotos, disponibilidad y precios.</p>
+
+<div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <% @properties.each do |property| %>
+    <%= render "shared/property_card", property: property %>
+  <% end %>
+</div>

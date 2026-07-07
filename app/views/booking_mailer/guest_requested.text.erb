@@ -1,0 +1,14 @@
+¡Recibimos tu solicitud, <%= @booking.guest_name.split.first %>!
+
+Tu solicitud está pendiente de confirmación. Te contactamos para coordinar la
+seña (50%) y confirmar tu reserva.
+
+Código:     <%= @booking.code %>
+Propiedad:  <%= @booking.property.name %>
+Llegada:    <%= l @booking.check_in, format: :long %>
+Salida:     <%= l @booking.check_out, format: :long %>
+Huéspedes:  <%= @booking.guests_count %>
+Total:      <%= money(@booking.total_cents, @booking.currency) %>
+Seña (50%): <%= money(@booking.deposit_cents, @booking.currency) %>
+
+Ver estado: <%= booking_url(@booking.code) %>

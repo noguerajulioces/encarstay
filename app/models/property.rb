@@ -11,6 +11,8 @@ class Property < ApplicationRecord
   has_many :external_events, through: :calendar_sources
 
   scope :active, -> { where(active: true) }
+  scope :accommodating, ->(guests) { where("capacity >= ?", guests.to_i) }
+  scope :alphabetically, -> { order(:name) }
 
   before_validation :set_slug, on: :create
 
@@ -34,6 +36,42 @@ class Property < ApplicationRecord
     with_lock do
       bookings.create!(attributes)
     end
+  end
+
+  def quote(check_in, check_out)
+    Quote.new(self, check_in, check_out)
+  end
+
+  # The set of nights taken off the market between two dates — used to paint the
+  # availability calendar. Half-open, so a check-out day is not counted occupied.
+  def occupied_dates(from = Date.current, to = Date.current + 4.months)
+    spans  = bookings.occupying.pluck(:check_in, :check_out)
+    spans += blocks.pluck(:starts_on, :ends_on)
+    spans += external_events.pluck(:starts_on, :ends_on)
+
+    spans.each_with_object(Set.new) do |(starts_on, ends_on), dates|
+      (starts_on...ends_on).each { |date| dates << date if date >= from && date < to }
+    end
+  end
+
+  def cover_photo
+    photos.detect { |photo| photo.image.attached? }
+  end
+
+  # The nightly rate in effect on a given date: the covering seasonal rate, or the
+  # base price when no season applies.
+  def rate_for(date)
+    seasonal_rates.covering(date).order(:starts_on).pick(:price_per_night_cents) || base_price_cents
+  end
+
+  # The minimum stay in effect on a given date: the covering season may raise it
+  # above the property's floor.
+  def min_nights_on(date)
+    [ seasonal_rates.covering(date).order(:starts_on).pick(:min_nights), min_nights ].compact.max
+  end
+
+  def to_param
+    slug
   end
 
   private

@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: "Reservá Directo <reservas@example.com>"
   layout "mailer"
 end
