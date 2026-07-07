@@ -1,5 +1,9 @@
 class SeasonalRate < ApplicationRecord
+  include Monetizable
+
   belongs_to :property
+
+  monetize :price_per_night
 
   scope :covering, ->(date) { where("starts_on <= ? AND ends_on >= ?", date, date) }
 

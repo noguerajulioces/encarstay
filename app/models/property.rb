@@ -1,5 +1,9 @@
 class Property < ApplicationRecord
+  include Monetizable
+
   CURRENCIES = %w[ PYG USD ].freeze
+
+  monetize :base_price, :cleaning_fee
 
   has_secure_token :calendar_token
 

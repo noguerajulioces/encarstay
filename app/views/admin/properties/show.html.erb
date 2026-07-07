@@ -1,0 +1,111 @@
+<% content_for :title, @property.name %>
+<nav class="text-sm text-stone-500 mb-4"><%= link_to "← Propiedades", admin_properties_path, class: "hover:text-emerald-700" %></nav>
+
+<div class="flex items-start justify-between flex-wrap gap-3">
+  <div>
+    <h1 class="text-2xl font-semibold text-stone-900"><%= @property.name %></h1>
+    <p class="text-stone-500"><%= @property.address_area %> · <%= money(@property.base_price_cents, @property.currency) %>/noche · <%= @property.active? ? "activa" : "inactiva" %></p>
+  </div>
+  <div class="flex gap-2">
+    <%= link_to "Editar", edit_admin_property_path(@property), class: "rounded-lg border border-stone-300 text-stone-700 text-sm px-4 py-2 hover:bg-stone-50" %>
+    <%= link_to "Ver en el sitio ↗", property_path(@property), target: "_blank", rel: "noopener", class: "rounded-lg border border-stone-300 text-stone-700 text-sm px-4 py-2 hover:bg-stone-50" %>
+  </div>
+</div>
+
+<%# --- Outgoing iCal feed --- %>
+<div class="mt-5 rounded-xl bg-white border border-stone-200 p-5">
+  <h2 class="font-semibold text-stone-900">Feed iCal de salida</h2>
+  <p class="text-sm text-stone-500 mt-1">Pegá esta URL en Airbnb → “Importar calendario” del anuncio.</p>
+  <div class="mt-2 flex gap-2" data-controller="clipboard">
+    <input readonly data-clipboard-target="source" value="<%= calendar_feed_url(calendar_token: @property.calendar_token, slug: @property.slug) %>"
+           class="flex-1 rounded-lg border-stone-300 border px-3 py-2 text-sm bg-stone-50 font-mono" />
+    <button data-action="clipboard#copy" class="rounded-lg bg-stone-900 text-white text-sm px-4 py-2 cursor-pointer">Copiar</button>
+  </div>
+</div>
+
+<div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <%# --- Photos --- %>
+  <section class="rounded-xl bg-white border border-stone-200 p-5">
+    <h2 class="font-semibold text-stone-900 mb-3">Fotos</h2>
+    <% if @property.photos.any? %>
+      <div class="grid grid-cols-3 gap-2">
+        <% @property.photos.each do |photo| %>
+          <% next unless photo.image.attached? %>
+          <div class="relative group aspect-square rounded-lg overflow-hidden">
+            <%= image_tag photo.image.variant(resize_to_fill: [ 200, 200 ]), class: "h-full w-full object-cover" %>
+            <%= button_to "✕", admin_property_photo_path(@property, photo), method: :delete,
+                  data: { turbo_confirm: "¿Eliminar foto?" },
+                  class: "absolute top-1 right-1 h-6 w-6 rounded-full bg-black/60 text-white text-xs opacity-0 group-hover:opacity-100 cursor-pointer" %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-sm text-stone-400">Sin fotos. Subilas desde “Editar”.</p>
+    <% end %>
+  </section>
+
+  <%# --- Seasonal rates --- %>
+  <section class="rounded-xl bg-white border border-stone-200 p-5">
+    <h2 class="font-semibold text-stone-900 mb-3">Tarifas por temporada</h2>
+    <% if @property.seasonal_rates.any? %>
+      <ul class="divide-y divide-stone-100 mb-3">
+        <% @property.seasonal_rates.order(:starts_on).each do |rate| %>
+          <li class="py-2 flex items-center justify-between text-sm">
+            <div>
+              <p class="font-medium text-stone-900"><%= rate.name %></p>
+              <p class="text-stone-500"><%= l rate.starts_on, format: :short %> → <%= l rate.ends_on, format: :short %> · <%= money(rate.price_per_night_cents, @property.currency) %>/noche<%= " · mín #{rate.min_nights}n" if rate.min_nights %></p>
+            </div>
+            <%= button_to "✕", admin_property_seasonal_rate_path(@property, rate), method: :delete, class: "text-stone-400 hover:text-rose-600 cursor-pointer" %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <%= form_with url: admin_property_seasonal_rates_path(@property), method: :post, class: "grid grid-cols-2 gap-2 text-sm border-t border-stone-100 pt-3" do |form| %>
+      <%= form.text_field :name, placeholder: "Temporada alta", required: true, class: "col-span-2 rounded-lg border-stone-300 border px-3 py-2" %>
+      <%= form.date_field :starts_on, required: true, class: "rounded-lg border-stone-300 border px-3 py-2" %>
+      <%= form.date_field :ends_on, required: true, class: "rounded-lg border-stone-300 border px-3 py-2" %>
+      <%= form.number_field :price_per_night, placeholder: "Precio/noche", required: true, class: "rounded-lg border-stone-300 border px-3 py-2" %>
+      <%= form.number_field :min_nights, placeholder: "Mín. noches", min: 1, class: "rounded-lg border-stone-300 border px-3 py-2" %>
+      <%= form.submit "Agregar tarifa", class: "col-span-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-4 py-2 cursor-pointer" %>
+    <% end %>
+  </section>
+</div>
+
+<%# --- Calendar sources (Airbnb import) --- %>
+<section class="mt-6 rounded-xl bg-white border border-stone-200 p-5">
+  <h2 class="font-semibold text-stone-900 mb-1">Calendarios que importamos</h2>
+  <p class="text-sm text-stone-500 mb-3">La URL iCal del anuncio de Airbnb (u otro canal). Se importa cada 30 min.</p>
+
+  <% @property.calendar_sources.each do |source| %>
+    <div class="border border-stone-200 rounded-lg p-3 mb-3">
+      <div class="flex items-center justify-between gap-2 flex-wrap">
+        <div class="min-w-0">
+          <p class="font-medium text-stone-900"><%= source.name %>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full <%= source.last_status == 'ok' ? 'bg-emerald-100 text-emerald-800' : (source.last_status ? 'bg-rose-100 text-rose-700' : 'bg-stone-100 text-stone-500') %>">
+              <%= source.last_status || "sin sincronizar" %>
+            </span>
+          </p>
+          <p class="text-xs text-stone-500 truncate max-w-md font-mono"><%= source.ical_url %></p>
+          <p class="text-xs text-stone-400"><%= source.external_events.count %> eventos · última: <%= source.last_synced_at ? l(source.last_synced_at, format: :short) : "nunca" %></p>
+        </div>
+        <div class="flex gap-2 shrink-0">
+          <%= button_to "Sincronizar ahora", admin_property_calendar_source_sync_path(@property, source), method: :post, class: "rounded-lg bg-stone-900 text-white text-xs px-3 py-2 cursor-pointer" %>
+          <%= button_to "✕", admin_property_calendar_source_path(@property, source), method: :delete, data: { turbo_confirm: "¿Eliminar esta fuente y sus eventos?" }, class: "rounded-lg border border-stone-300 text-stone-500 text-xs px-3 py-2 cursor-pointer" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%= form_with url: admin_property_calendar_sources_path(@property), method: :post, class: "flex gap-2 flex-wrap sm:flex-nowrap" do |form| %>
+    <%= form.text_field :name, value: "Airbnb", class: "w-full sm:w-32 rounded-lg border-stone-300 border px-3 py-2 text-sm" %>
+    <%= form.url_field :ical_url, placeholder: "https://www.airbnb.com/calendar/ical/...", required: true, class: "flex-1 rounded-lg border-stone-300 border px-3 py-2 text-sm" %>
+    <%= form.submit "Agregar", class: "rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-sm font-medium px-4 py-2 cursor-pointer" %>
+  <% end %>
+</section>
+
+<div class="mt-6">
+  <%= button_to "Eliminar propiedad", admin_property_path(@property), method: :delete,
+        data: { turbo_confirm: "¿Eliminar #{@property.name}? Se borran sus reservas y datos." },
+        class: "text-sm text-rose-600 hover:underline cursor-pointer bg-transparent" %>
+</div>

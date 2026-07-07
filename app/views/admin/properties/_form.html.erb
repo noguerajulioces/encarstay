@@ -1,0 +1,63 @@
+<%= form_with model: [ :admin, property ], class: "space-y-5" do |form| %>
+  <% if property.errors.any? %>
+    <div class="rounded-lg bg-rose-50 border border-rose-200 text-rose-800 px-4 py-3 text-sm">
+      <ul class="list-disc list-inside">
+        <% property.errors.full_messages.each { |message| %><li><%= message %></li><% } %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="rounded-xl bg-white border border-stone-200 p-5 space-y-4">
+    <div>
+      <%= form.label :name, "Nombre", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= form.text_field :name, required: true, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %>
+    </div>
+    <div>
+      <%= form.label :description, "Descripción", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= form.text_area :description, rows: 4, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %>
+    </div>
+    <div>
+      <%= form.label :address_area, "Zona / localidad", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= form.text_field :address_area, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %>
+    </div>
+  </div>
+
+  <div class="rounded-xl bg-white border border-stone-200 p-5 grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <div><%= form.label :capacity, "Capacidad", class: "block text-sm font-medium text-stone-700 mb-1" %><%= form.number_field :capacity, min: 1, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %></div>
+    <div><%= form.label :bedrooms, "Dormitorios", class: "block text-sm font-medium text-stone-700 mb-1" %><%= form.number_field :bedrooms, min: 0, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %></div>
+    <div><%= form.label :beds, "Camas", class: "block text-sm font-medium text-stone-700 mb-1" %><%= form.number_field :beds, min: 0, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %></div>
+    <div><%= form.label :bathrooms, "Baños", class: "block text-sm font-medium text-stone-700 mb-1" %><%= form.number_field :bathrooms, min: 0, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %></div>
+  </div>
+
+  <div class="rounded-xl bg-white border border-stone-200 p-5 grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <div>
+      <%= form.label :currency, "Moneda", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= form.select :currency, Property::CURRENCIES, {}, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %>
+    </div>
+    <div><%= form.label :base_price, "Precio/noche", class: "block text-sm font-medium text-stone-700 mb-1" %><%= form.text_field :base_price, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %></div>
+    <div><%= form.label :cleaning_fee, "Limpieza", class: "block text-sm font-medium text-stone-700 mb-1" %><%= form.text_field :cleaning_fee, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %></div>
+    <div><%= form.label :min_nights, "Mín. noches", class: "block text-sm font-medium text-stone-700 mb-1" %><%= form.number_field :min_nights, min: 1, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %></div>
+  </div>
+
+  <div class="rounded-xl bg-white border border-stone-200 p-5 space-y-4">
+    <div>
+      <%= form.label :airbnb_listing_url, "URL del calendario del anuncio en Airbnb (para bloqueo manual)", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= form.url_field :airbnb_listing_url, placeholder: "https://www.airbnb.com/hosting/listings/...", class: "w-full rounded-lg border-stone-300 border px-3 py-2" %>
+    </div>
+    <label class="flex items-center gap-2 text-sm text-stone-700">
+      <%= form.check_box :active, class: "rounded border-stone-300" %> Activa (visible en el sitio)
+    </label>
+  </div>
+
+  <% if property.persisted? %>
+    <div class="rounded-xl bg-white border border-stone-200 p-5">
+      <%= form.label :photos, "Agregar fotos", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= file_field_tag "photos[]", multiple: true, accept: "image/*", class: "text-sm" %>
+    </div>
+  <% end %>
+
+  <div class="flex gap-3">
+    <%= form.submit property.persisted? ? "Guardar cambios" : "Crear propiedad", class: "rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-5 py-2.5 cursor-pointer" %>
+    <%= link_to "Cancelar", property.persisted? ? admin_property_path(property) : admin_properties_path, class: "rounded-lg border border-stone-300 text-stone-700 px-5 py-2.5" %>
+  </div>
+<% end %>

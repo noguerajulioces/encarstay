@@ -14,20 +14,21 @@ Rails.application.routes.draw do
     root "dashboard#show"
     resource :session, only: %i[ new create destroy ]
 
-    resources :bookings, only: %i[ index show ] do
+    resources :bookings, only: %i[ index show new create ] do
       resource :confirmation, only: :create
       resource :cancellation, only: :create
     end
 
     resources :properties do
-      resources :seasonal_rates, except: :show
-      resources :calendar_sources, except: :show do
+      resources :seasonal_rates, only: %i[ create destroy ]
+      resources :photos, only: :destroy
+      resources :calendar_sources, only: %i[ create update destroy ] do
         resource :sync, only: :create
       end
     end
 
     resources :blocks, only: %i[ create destroy ]
-    resource :calendar, only: :show
+    resource :calendar, only: :show, controller: "calendar"
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

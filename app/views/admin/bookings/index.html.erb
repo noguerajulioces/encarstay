@@ -1,0 +1,47 @@
+<% content_for :title, "Reservas" %>
+
+<div class="flex items-center justify-between flex-wrap gap-3">
+  <h1 class="text-2xl font-semibold text-stone-900">Reservas</h1>
+
+  <%= form_with url: admin_bookings_path, method: :get, class: "flex gap-2 text-sm" do %>
+    <%= select_tag :status,
+          options_for_select([ ["Todos los estados", ""], ["Pendiente", "pending"], ["Confirmada", "confirmed"], ["Completada", "completed"], ["Cancelada", "cancelled"] ], params[:status]),
+          onchange: "this.form.requestSubmit()", class: "rounded-lg border-stone-300 border px-3 py-2" %>
+    <%= select_tag :property_id,
+          options_from_collection_for_select(@properties, :id, :name, params[:property_id]).prepend("<option value=''>Todas</option>".html_safe),
+          onchange: "this.form.requestSubmit()", class: "rounded-lg border-stone-300 border px-3 py-2" %>
+  <% end %>
+</div>
+
+<div class="mt-5 rounded-xl bg-white border border-stone-200 overflow-hidden">
+  <% if @bookings.empty? %>
+    <p class="p-6 text-sm text-stone-400 text-center">No hay reservas con esos filtros.</p>
+  <% else %>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="bg-stone-50 text-stone-500 text-left">
+          <tr>
+            <th class="px-4 py-3 font-medium">Código</th>
+            <th class="px-4 py-3 font-medium">Huésped</th>
+            <th class="px-4 py-3 font-medium">Propiedad</th>
+            <th class="px-4 py-3 font-medium">Fechas</th>
+            <th class="px-4 py-3 font-medium text-right">Total</th>
+            <th class="px-4 py-3 font-medium">Estado</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-stone-100">
+          <% @bookings.each do |booking| %>
+            <tr class="hover:bg-stone-50 cursor-pointer" onclick="window.location='<%= admin_booking_path(booking) %>'">
+              <td class="px-4 py-3 font-mono text-stone-500"><%= booking.code %></td>
+              <td class="px-4 py-3 font-medium text-stone-900"><%= booking.guest_name %></td>
+              <td class="px-4 py-3 text-stone-600"><%= booking.property.name %></td>
+              <td class="px-4 py-3 text-stone-600"><%= l booking.check_in, format: :short %> → <%= l booking.check_out, format: :short %></td>
+              <td class="px-4 py-3 text-right text-stone-900"><%= money(booking.total_cents, booking.currency) %></td>
+              <td class="px-4 py-3"><span class="text-xs font-medium px-2 py-1 rounded-full <%= status_badge_classes(booking.status) %>"><%= status_label(booking.status) %></span></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>

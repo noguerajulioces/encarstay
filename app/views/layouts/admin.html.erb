@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+  <head>
+    <title><%= content_for(:title) ? "#{content_for(:title)} · Panel" : "Panel · Reservá Directo" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="noindex">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="h-full bg-stone-100 text-stone-800 antialiased">
+    <% if Current.user %>
+      <div class="flex min-h-full">
+        <%# Sidebar %>
+        <aside class="hidden md:flex md:w-60 flex-col bg-stone-900 text-stone-300 shrink-0">
+          <div class="h-16 flex items-center gap-2 px-5 text-white font-semibold border-b border-stone-800">
+            <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-600">R</span> Panel
+          </div>
+          <nav class="flex-1 p-3 space-y-1 text-sm">
+            <% nav = [["Dashboard", admin_root_path], ["Calendario", admin_calendar_path], ["Reservas", admin_bookings_path], ["Propiedades", admin_properties_path]] %>
+            <% nav.each do |label, path| %>
+              <%= link_to label, path, class: "block rounded-lg px-3 py-2 #{current_page?(path) ? 'bg-stone-800 text-white' : 'hover:bg-stone-800/60'}" %>
+            <% end %>
+          </nav>
+          <div class="p-3 border-t border-stone-800 text-xs">
+            <p class="px-3 text-stone-400 truncate"><%= Current.user.email %></p>
+            <%= button_to "Cerrar sesión", admin_session_path, method: :delete, class: "mt-2 w-full text-left rounded-lg px-3 py-2 hover:bg-stone-800/60 cursor-pointer" %>
+          </div>
+        </aside>
+
+        <div class="flex-1 min-w-0 flex flex-col">
+          <header class="md:hidden h-14 bg-stone-900 text-white flex items-center justify-between px-4">
+            <span class="font-semibold">Panel</span>
+            <div class="flex gap-3 text-sm">
+              <%= link_to "Reservas", admin_bookings_path %>
+              <%= link_to "Calendario", admin_calendar_path %>
+              <%= link_to "Propiedades", admin_properties_path %>
+            </div>
+          </header>
+
+          <% if notice.present? %><div class="bg-emerald-50 border-b border-emerald-200 text-emerald-800 px-6 py-2 text-sm"><%= notice %></div><% end %>
+          <% if alert.present? %><div class="bg-rose-50 border-b border-rose-200 text-rose-800 px-6 py-2 text-sm"><%= alert %></div><% end %>
+
+          <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-6xl w-full"><%= yield %></main>
+        </div>
+      </div>
+    <% else %>
+      <div class="min-h-full flex items-center justify-center p-5">
+        <% if alert.present? %><div class="fixed top-5 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 px-4 py-2 text-sm"><%= alert %></div><% end %>
+        <% if notice.present? %><div class="fixed top-5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-2 text-sm"><%= notice %></div><% end %>
+        <%= yield %>
+      </div>
+    <% end %>
+  </body>
+</html>
