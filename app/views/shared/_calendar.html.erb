@@ -1,6 +1,7 @@
-<%# locals: property, occupied, months (default 2) %>
+<%# locals: property, occupied, months (default 2), selectable (default false) %>
 <% months ||= 2 %>
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<% selectable = false unless defined?(selectable) %>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6 <%= "select-none touch-manipulation" if selectable %>">
   <% months.times do |offset| %>
     <% month = Date.current.beginning_of_month + offset.months %>
     <div>
@@ -16,6 +17,12 @@
             <span class="py-1.5 text-stone-300"><%= day.day %></span>
           <% elsif occupied.include?(day) %>
             <span class="py-1.5 rounded bg-stone-100 text-stone-400 line-through"><%= day.day %></span>
+          <% elsif selectable %>
+            <button type="button"
+                    data-date="<%= day.iso8601 %>"
+                    data-date-range-target="day"
+                    data-action="pointerdown->date-range#down pointerenter->date-range#enter"
+                    class="py-1.5 rounded cursor-pointer transition-colors bg-emerald-50 text-emerald-800 hover:bg-emerald-100"><%= day.day %></button>
           <% else %>
             <span class="py-1.5 rounded bg-emerald-50 text-emerald-800"><%= day.day %></span>
           <% end %>
@@ -24,7 +31,10 @@
     </div>
   <% end %>
 </div>
-<div class="flex gap-4 mt-4 text-xs text-stone-500">
+<div class="flex flex-wrap gap-4 mt-4 text-xs text-stone-500">
   <span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded bg-emerald-50 border border-emerald-200"></span> Disponible</span>
   <span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded bg-stone-100 border border-stone-200"></span> Ocupado</span>
+  <% if selectable %>
+    <span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded bg-emerald-700"></span> Tu estadía</span>
+  <% end %>
 </div>

@@ -11,5 +11,6 @@ class PropertiesController < ApplicationController
     @quote = @property.quote(@check_in, @check_out)
     @available = @quote.valid? && @property.available?(@check_in, @check_out)
     @occupied_dates = @property.occupied_dates
+    @min_nights_overrides = @property.min_nights_overrides
   end
 end

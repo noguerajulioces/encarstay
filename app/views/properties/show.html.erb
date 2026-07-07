@@ -50,7 +50,11 @@
   </div>
 <% end %>
 
-<div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8"
+     data-controller="date-range"
+     data-date-range-occupied-value="<%= @occupied_dates.map(&:iso8601).to_json %>"
+     data-date-range-min-nights-value="<%= @property.min_nights %>"
+     data-date-range-min-nights-overrides-value="<%= @min_nights_overrides.to_json %>">
   <%# --- Details --- %>
   <div class="lg:col-span-2">
     <h1 class="text-3xl font-bold text-stone-900"><%= @property.name %></h1>
@@ -70,7 +74,12 @@
 
     <div class="mt-8">
       <h2 class="text-xl font-semibold text-stone-900 mb-3">Disponibilidad</h2>
-      <%= render "shared/calendar", property: @property, occupied: @occupied_dates, months: 2 %>
+      <p class="text-sm text-stone-500 mb-3">Elegí las fechas en el calendario: tocá la llegada y la salida, o arrastrá de una fecha a otra.</p>
+      <%= render "shared/calendar", property: @property, occupied: @occupied_dates, months: 2, selectable: true %>
+      <div class="mt-3 flex items-center gap-3 text-sm" data-date-range-target="controls" hidden>
+        <span class="font-medium text-stone-700" data-date-range-target="summary"></span>
+        <button type="button" data-action="date-range#clear" class="text-stone-500 underline underline-offset-2 hover:text-stone-700 cursor-pointer">Limpiar</button>
+      </div>
     </div>
   </div>
 
@@ -82,22 +91,22 @@
         <span class="text-stone-500 text-sm">/ noche</span>
       </p>
 
-      <%= form_with url: property_path(@property), method: :get, data: { turbo_frame: "quote", turbo_action: "advance" }, class: "mt-4 space-y-3" do |form| %>
+      <%= form_with url: property_path(@property), method: :get, data: { turbo_frame: "quote", turbo_action: "advance", date_range_target: "form" }, class: "mt-4 space-y-3" do |form| %>
         <div class="grid grid-cols-2 gap-2">
           <div>
             <%= form.label :check_in, "Llegada", class: "block text-xs font-medium text-stone-500 mb-1" %>
-            <%= form.date_field :check_in, value: @check_in, min: Date.current, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %>
+            <%= form.date_field :check_in, value: @check_in, min: Date.current, data: { date_range_target: "checkIn", action: "change->date-range#syncFromInputs" }, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %>
           </div>
           <div>
             <%= form.label :check_out, "Salida", class: "block text-xs font-medium text-stone-500 mb-1" %>
-            <%= form.date_field :check_out, value: @check_out, min: Date.current + 1, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %>
+            <%= form.date_field :check_out, value: @check_out, min: Date.current + 1, data: { date_range_target: "checkOut", action: "change->date-range#syncFromInputs" }, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %>
           </div>
         </div>
         <div>
           <%= form.label :guests, "Huéspedes", class: "block text-xs font-medium text-stone-500 mb-1" %>
-          <%= form.number_field :guests, value: @guests, min: 1, max: @property.capacity, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %>
+          <%= form.number_field :guests, value: @guests, min: 1, max: @property.capacity, data: { action: "change->date-range#refresh" }, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %>
         </div>
-        <%= form.submit "Ver precio", class: "w-full rounded-lg border border-emerald-700 text-emerald-800 font-medium px-4 py-2.5 hover:bg-emerald-50 cursor-pointer" %>
+        <%= form.submit "Ver precio", data: { date_range_target: "submit" }, hidden: @quote.valid?, class: "w-full rounded-lg border border-emerald-700 text-emerald-800 font-medium px-4 py-2.5 hover:bg-emerald-50 cursor-pointer" %>
       <% end %>
 
       <%= turbo_frame_tag "quote" do %>

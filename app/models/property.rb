@@ -58,6 +58,18 @@ class Property < ApplicationRecord
     end
   end
 
+  # Per-date minimum stay for the availability window, listing only the days a
+  # season raises above the property's floor — the base covers everything else.
+  # Keyed by ISO date so the calendar picker can enforce it as you select.
+  def min_nights_overrides(from = Date.current, to = Date.current + 4.months)
+    seasonal_rates.where("ends_on >= ? AND starts_on < ?", from, to).each_with_object({}) do |rate, map|
+      next unless rate.min_nights.to_i > min_nights
+
+      span = ([ rate.starts_on, from ].max)..([ rate.ends_on, to - 1 ].min)
+      span.each { |date| map[date.iso8601] = [ map[date.iso8601].to_i, rate.min_nights ].max }
+    end
+  end
+
   def cover_photo
     photos.detect { |photo| photo.image.attached? }
   end
