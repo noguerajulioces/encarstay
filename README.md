@@ -1,99 +1,104 @@
-# Encar Stays — Reservas
+# Encar Stays — Bookings
 
-Sistema de **reservas directas** para alquileres temporales: catálogo público
-multilingüe (ES/EN/PT) donde los huéspedes buscan por fechas, ven un presupuesto y
-reservan sin intermediarios, más un panel de administración y sincronización de
-calendarios con Airbnb vía iCal.
+[![CI](https://github.com/noguerajulioces/encarstay/actions/workflows/ci.yml/badge.svg)](https://github.com/noguerajulioces/encarstay/actions/workflows/ci.yml)
+![Ruby](https://img.shields.io/badge/Ruby-4.0.3-CC342D?logo=ruby&logoColor=white)
+![Rails](https://img.shields.io/badge/Rails-8.1-CC0000?logo=rubyonrails&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)
+![Hotwire](https://img.shields.io/badge/Hotwire-Turbo%20%2B%20Stimulus-5CD8E5?logoColor=black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38BDF8?logo=tailwindcss&logoColor=white)
 
-> Documentación completa (dominio, presupuestos, flujos):
-> **[docs/DOCUMENTACION.md](docs/DOCUMENTACION.md)**
-> · Esquema de **base de datos** con diagramas: **[docs/DATABASE.md](docs/DATABASE.md)**
+A **direct-booking** system for short-term rentals: a multilingual public catalogue
+(ES/EN/PT) where guests search by date, see a quote, and book without intermediaries,
+plus an admin panel and two-way calendar sync with Airbnb over iCal.
+
+> Full documentation (domain, quotes, flows):
+> **[docs/DOCUMENTATION.md](docs/DOCUMENTATION.md)**
+> · **Database** schema with diagrams: **[docs/DATABASE.md](docs/DATABASE.md)**
 
 ## Stack
 
 Ruby 4.0.3 · Rails 8.1 · SQLite · Hotwire (Turbo + Stimulus) · Tailwind ·
-Propshaft · Solid Queue/Cache/Cable · Kamal para despliegue.
+Propshaft · Solid Queue/Cache/Cable · Kamal for deployment.
 
-## Puesta en marcha
+## Getting started
 
-Requisitos: **Ruby 4.0.3** (ver `.ruby-version`) y SQLite.
+Requirements: **Ruby 4.0.3** (see `.ruby-version`) and SQLite.
 
 ```bash
-bin/setup      # instala gems, prepara la base y arranca la app
+bin/setup      # installs gems, prepares the database, and boots the app
 ```
 
-O paso a paso:
+Or step by step:
 
 ```bash
 bundle install
-bin/rails db:prepare   # crea, migra y siembra la base (idempotente)
-bin/dev                # arranca servidor + watcher de Tailwind (Procfile.dev)
+bin/rails db:prepare   # creates, migrates, and seeds the database (idempotent)
+bin/dev                # boots the server + Tailwind watcher (Procfile.dev)
 ```
 
-La app queda en http://localhost:3000. El panel de administración está en
-`/admin`.
+The app runs at http://localhost:3000. The admin panel lives at `/admin`.
 
-**Administrador de desarrollo** (creado por `db/seeds.rb`):
+**Development admin** (created by `db/seeds.rb`):
 
 ```
 email:    admin@reservas.test
 password: password
 ```
 
-## Configuración
+## Configuration
 
-- **Base de datos:** SQLite en `storage/`. Producción usa bases separadas para la
-  app, cache, cola de jobs y cable (`config/database.yml`).
-- **Idiomas:** `es` por defecto (sin prefijo), `en` (`/en`), `pt` (`/pt`).
-  Traducciones de UI en `config/locales/`.
-- **Moneda:** PYG por defecto, USD soportado. Los importes se guardan en centavos.
-- **Emails:** ver `app/mailers/booking_mailer.rb` (remitente por defecto en
+- **Database:** SQLite in `storage/`. Production uses separate databases for the
+  app, cache, job queue, and cable (`config/database.yml`).
+- **Languages:** `es` by default (no prefix), `en` (`/en`), `pt` (`/pt`).
+  UI translations live in `config/locales/`.
+- **Currency:** PYG by default, USD supported. Amounts are stored in cents.
+- **Emails:** see `app/mailers/booking_mailer.rb` (default sender in
   `ApplicationMailer`).
 
-## Servicios en segundo plano
+## Background services
 
-Jobs con **Solid Queue** (Active Job). Tareas programadas en
-`config/recurring.yml`, principalmente la importación de calendarios de Airbnb cada
-30 minutos. En desarrollo se ejecutan con el proceso web; en producción con el
-supervisor de Solid Queue.
+Jobs run on **Solid Queue** (Active Job). Scheduled tasks live in
+`config/recurring.yml`, mainly the Airbnb calendar import every 30 minutes. In
+development they run inside the web process; in production under the Solid Queue
+supervisor.
 
-## Tests y calidad
+## Tests and quality
 
 ```bash
-bin/rails test              # suite de tests (test/)
-bundle exec rubocop         # estilo (rubocop-rails-omakase)
-bundle exec brakeman        # análisis de seguridad
-bundle exec bundler-audit   # auditoría de dependencias
+bin/rails test              # test suite (test/)
+bundle exec rubocop         # style (rubocop-rails-omakase)
+bundle exec brakeman        # security analysis
+bundle exec bundler-audit   # dependency audit
 ```
 
-## Despliegue
+## Deployment
 
-Con **Kamal** (Docker). Configuración en `config/deploy.yml` y `.kamal/`:
+With **Kamal** (Docker). Configuration in `config/deploy.yml` and `.kamal/`:
 
 ```bash
 bin/kamal deploy
 ```
 
-## Estructura
+## Structure
 
 ```
 app/
-  models/            Property, Booking, Quote (presupuesto), SeasonalRate, Block,
+  models/            Property, Booking, Quote, SeasonalRate, Block,
                      CalendarSource, ExternalEvent, GuideEntry, Category, User…
   models/concerns/   OccupiesDates, Monetizable, Translatable
-  controllers/       público (properties, bookings, searches…) y admin/
-  jobs/              importación de calendarios iCal
-  mailers/           notificaciones de reserva
-db/schema.rb         esquema de la base de datos
-config/routes.rb     rutas públicas (multilingües) y de admin
-docs/                documentación del proyecto
+  controllers/       public (properties, bookings, searches…) and admin/
+  jobs/              iCal calendar import
+  mailers/           booking notifications
+db/schema.rb         database schema
+config/routes.rb     public (multilingual) and admin routes
+docs/                project documentation
 ```
 
-## Documentación
+## Documentation
 
-- **[docs/DOCUMENTACION.md](docs/DOCUMENTACION.md)** — arquitectura, conceptos de
-  dominio, sistema de **presupuestos**, flujo de reserva, sincronización con
-  Airbnb, panel de administración e i18n.
-- **[docs/DATABASE.md](docs/DATABASE.md)** — esquema de **base de datos** con
-  diagramas gráficos (entidad-relación y flujos) y detalle de cada tabla.
-# encarstay
+- **[docs/DOCUMENTATION.md](docs/DOCUMENTATION.md)** — architecture, domain
+  concepts, the **quote** pricing system, booking flow, Airbnb sync, admin panel,
+  and i18n.
+- **[docs/DATABASE.md](docs/DATABASE.md)** — **database** schema with graphical
+  diagrams (entity-relationship and flows) and a column-by-column breakdown of
+  every table.

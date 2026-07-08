@@ -1,12 +1,11 @@
-# Base de datos — Encar Stays
+# Database — Encar Stays
 
-Esquema de la base de datos (SQLite). Fuente de verdad:
-[db/schema.rb](../db/schema.rb). Todos los importes se guardan en **centavos**
-(`*_cents`, unidades menores). Las columnas `*_es` / `*_en` / `*_pt` son contenido
-traducible. Los rangos de fechas de ocupación son **semiabiertos** `[from, to)`:
-el día de salida queda libre.
+The database schema (SQLite). Source of truth: [db/schema.rb](../db/schema.rb). All
+amounts are stored in **cents** (`*_cents`, minor units). The `*_es` / `*_en` /
+`*_pt` columns are translatable content. Occupancy date ranges are **half-open**
+`[from, to)`: the check-out day stays free.
 
-## Diagrama de entidades y relaciones
+## Entity-relationship diagram
 
 ```mermaid
 erDiagram
@@ -25,6 +24,8 @@ erDiagram
         integer cleaning_fee_cents
         integer min_nights
         string  currency
+        decimal latitude
+        decimal longitude
         string  calendar_token UK
         string  airbnb_listing_url
     }
@@ -111,229 +112,231 @@ erDiagram
         integer position
     }
 
-    PROPERTY ||--o{ PHOTO : "tiene"
-    PROPERTY ||--o{ SEASONAL_RATE : "tarifica"
-    PROPERTY ||--o{ BLOCK : "bloquea"
-    PROPERTY ||--o{ BOOKING : "recibe"
-    PROPERTY ||--o{ CALENDAR_SOURCE : "sincroniza"
-    CALENDAR_SOURCE ||--o{ EXTERNAL_EVENT : "importa"
-    CATEGORY ||--o{ GUIDE_ENTRY : "agrupa"
-    GUIDE_ENTRY ||--o{ PROPERTY_RECOMMENDATION : "recomienda"
-    PROPERTY ||--o{ PROPERTY_RECOMMENDATION : "es recomendada"
+    PROPERTY ||--o{ PHOTO : "has"
+    PROPERTY ||--o{ SEASONAL_RATE : "prices"
+    PROPERTY ||--o{ BLOCK : "blocks"
+    PROPERTY ||--o{ BOOKING : "receives"
+    PROPERTY ||--o{ CALENDAR_SOURCE : "syncs"
+    CALENDAR_SOURCE ||--o{ EXTERNAL_EVENT : "imports"
+    CATEGORY ||--o{ GUIDE_ENTRY : "groups"
+    GUIDE_ENTRY ||--o{ PROPERTY_RECOMMENDATION : "recommends"
+    PROPERTY ||--o{ PROPERTY_RECOMMENDATION : "is recommended"
 ```
 
-## Flujo: qué ocupa el calendario de una propiedad
+## Flow: what occupies a property's calendar
 
-Tres fuentes distintas quitan fechas del mercado. `Property#available?` está libre
-solo cuando **ninguna** solapa la estadía.
+Three distinct sources take dates off the market. `Property#available?` is free only
+when **none** of them overlap the stay.
 
 ```mermaid
 flowchart TD
     P([Property])
 
     B["BOOKING<br/>status: pending / confirmed"]
-    K["BLOCK<br/>bloqueo manual del admin"]
-    S["CALENDAR_SOURCE<br/>feed iCal de Airbnb"]
-    E["EXTERNAL_EVENT<br/>reserva importada"]
+    K["BLOCK<br/>manual admin block"]
+    S["CALENDAR_SOURCE<br/>Airbnb iCal feed"]
+    E["EXTERNAL_EVENT<br/>imported booking"]
 
     P --> B
     P --> K
     P --> S
-    S -->|importa cada 30 min| E
+    S -->|imports every 30 min| E
 
-    B --> OCC{{"¿Solapa la estadía?<br/>overlapping(check_in, check_out)"}}
+    B --> OCC{{"Overlaps the stay?<br/>overlapping(check_in, check_out)"}}
     K --> OCC
     E --> OCC
 
-    OCC -->|alguna solapa| BUSY["❌ Ocupada"]
-    OCC -->|ninguna solapa| FREE["✅ Disponible"]
+    OCC -->|any overlaps| BUSY["❌ Occupied"]
+    OCC -->|none overlap| FREE["✅ Available"]
 ```
 
-## Flujo: del presupuesto a la reserva
+## Flow: from quote to booking
 
 ```mermaid
 flowchart LR
-    Q["Quote<br/>(no se persiste)"]
-    Q -->|"rate_for(noche) × noches"| SUB[subtotal_cents]
+    Q["Quote<br/>(not persisted)"]
+    Q -->|"rate_for(night) × nights"| SUB[subtotal_cents]
     Q -->|cleaning_fee| CLE[cleaning_fee_cents]
     SUB --> TOT[total_cents]
     CLE --> TOT
-    TOT -->|"ceil(total / 2)"| DEP["deposit_cents<br/>(seña)"]
+    TOT -->|"ceil(total / 2)"| DEP["deposit_cents<br/>(down payment)"]
 
     TOT -.->|"before_validation :price"| BK[(BOOKING)]
     SUB -.-> BK
     CLE -.-> BK
-    BK -->|se congela al crear| DONE["code RES-XXXX<br/>status: pending"]
+    BK -->|frozen at creation| DONE["code RES-XXXX<br/>status: pending"]
 ```
 
-> El presupuesto (`Quote`) se calcula al vuelo y **no** tiene tabla. Sus importes
-> solo se graban cuando se convierten en un `Booking`, y a partir de ahí quedan
-> congelados: cambiar tarifas de la propiedad no re-cotiza reservas existentes.
+> The quote (`Quote`) is calculated on the fly and has **no** table. Its amounts are
+> only recorded when they turn into a `Booking`, and from then on they stay frozen:
+> changing a property's rates does not re-quote existing bookings.
 
 ---
 
-## Tablas
+## Tables
 
-### `properties` — Propiedades
+### `properties` — Properties
 
-El agregado central. Cada propiedad es un alojamiento con su propio calendario,
-precios y token de sincronización.
+The central aggregate. Each property is a rental with its own calendar, pricing, and
+sync token.
 
-| Columna | Tipo | Notas |
+| Column | Type | Notes |
 |---|---|---|
-| `name` | string | Requerido. |
-| `slug` | string | Único. Autogenerado desde `name` (`parameterize`). URL param. |
-| `active` | boolean | `true`. Solo las activas se listan/reservan. |
+| `name` | string | Required. |
+| `slug` | string | Unique. Auto-generated from `name` (`parameterize`). URL param. |
+| `active` | boolean | `true`. Only active ones are listed/booked. |
 | `description` | text | |
-| `address_area` | string | Zona/barrio. |
-| `capacity` | integer | 2. Máx. huéspedes. |
+| `address_area` | string | Area/neighborhood. |
+| `latitude` / `longitude` | decimal(10,6) | Optional. Map pin + straight-line distance to attractions. |
+| `capacity` | integer | 2. Max guests. |
 | `bedrooms` / `beds` / `bathrooms` | integer | 1 / 1 / 1. |
-| `base_price_cents` | integer | 0. Tarifa por noche por defecto. |
-| `cleaning_fee_cents` | integer | 0. Tarifa de limpieza única. |
-| `currency` | string | `PYG`. Inclusión en `%w[PYG USD]`. |
-| `min_nights` | integer | 2. Mínimo de noches base. |
-| `calendar_token` | string | Único. Token secreto del feed iCal saliente (`has_secure_token`). |
-| `airbnb_listing_url` | string | Enlace al anuncio de Airbnb. |
+| `base_price_cents` | integer | 0. Default per-night rate. |
+| `cleaning_fee_cents` | integer | 0. One-time cleaning fee. |
+| `currency` | string | `PYG`. Inclusion in `%w[PYG USD]`. |
+| `min_nights` | integer | 2. Base minimum nights. |
+| `calendar_token` | string | Unique. Secret token for the outbound iCal feed (`has_secure_token`). |
+| `airbnb_listing_url` | string | Link to the Airbnb listing. |
 
-Índices únicos: `slug`, `calendar_token`.
+Unique indexes: `slug`, `calendar_token`.
 
-### `bookings` — Reservas
+### `bookings` — Bookings
 
-Solicitud de un huésped. Ocupa fechas mientras su estado es `pending` o
-`confirmed`. Los importes se congelan al crearse.
+A guest's request. Occupies dates while its status is `pending` or `confirmed`.
+Amounts are frozen at creation.
 
-| Columna | Tipo | Notas |
+| Column | Type | Notes |
 |---|---|---|
 | `property_id` | integer | FK. |
-| `code` | string | Único. `RES-XXXX` alfanumérico, generado al crear. Clave pública de la reserva. |
-| `status` | string | enum: `pending` · `confirmed` · `completed` · `cancelled`. Def. `pending`. |
-| `source` | string | enum: `direct` · `manual`. Def. `direct`. |
-| `check_in` / `check_out` | date | Requeridos. Rango semiabierto. |
-| `guest_name` / `guest_email` | string | Requeridos. |
+| `code` | string | Unique. Alphanumeric `RES-XXXX`, generated on create. The booking's public key. |
+| `status` | string | enum: `pending` · `confirmed` · `completed` · `cancelled`. Default `pending`. |
+| `source` | string | enum: `direct` · `manual`. Default `direct`. |
+| `check_in` / `check_out` | date | Required. Half-open range. |
+| `guest_name` / `guest_email` | string | Required. |
 | `guest_phone` | string | |
-| `guests_count` | integer | 1. Validado contra `capacity`. |
-| `subtotal_cents` / `cleaning_fee_cents` / `total_cents` | integer | 0. Precio congelado del presupuesto. |
+| `guests_count` | integer | 1. Validated against `capacity`. |
+| `subtotal_cents` / `cleaning_fee_cents` / `total_cents` | integer | 0. Frozen quote price. |
 | `currency` | string | `PYG`. |
-| `locale` | string | `es`. Idioma en que reservó → sus emails salen en ese idioma. |
+| `locale` | string | `es`. Language they booked in → their emails go out in that language. |
 | `notes` | text | |
-| `confirmed_at` / `cancelled_at` | datetime | Sellos de transición de estado. |
+| `confirmed_at` / `cancelled_at` | datetime | State-transition timestamps. |
 
-Índices: `code` (único), `property_id`, y compuesto `(property_id, status, check_in, check_out)` para consultas de solapamiento.
+Indexes: `code` (unique), `property_id`, and a composite `(property_id, status, check_in, check_out)` for overlap queries.
 
-**Validaciones clave:** salida posterior a entrada, dentro de capacidad, cumple
-mínimo de noches, y **fechas disponibles** (solo al crear). La creación pasa por
-`Property#book!`, que envuelve el re-chequeo de disponibilidad y el insert en un
-`with_lock` para evitar que dos huéspedes ganen las mismas fechas en una carrera.
+**Key validations:** check-out after check-in, within capacity, meets the minimum
+nights, and **available dates** (on create only). Creation goes through
+`Property#book!`, which wraps the availability re-check and the insert in a
+`with_lock` to prevent two guests from winning the same dates in a race.
 
-### `seasonal_rates` — Tarifas de temporada
+### `seasonal_rates` — Seasonal rates
 
-Sobrescriben el precio base (y opcionalmente el mínimo de noches) en un rango.
+Override the base price (and optionally the minimum nights) over a range.
 
-| Columna | Tipo | Notas |
+| Column | Type | Notes |
 |---|---|---|
 | `property_id` | integer | FK. |
-| `name` | string | Requerido (ej. "Temporada alta"). |
-| `starts_on` / `ends_on` | date | Requeridos. Rango **inclusivo** en ambos extremos (`covering`). |
+| `name` | string | Required (e.g. "High season"). |
+| `starts_on` / `ends_on` | date | Required. **Inclusive** range on both ends (`covering`). |
 | `price_per_night_cents` | integer | 0. |
-| `min_nights` | integer | Nullable. Sube el mínimo si es mayor al de la propiedad. |
+| `min_nights` | integer | Nullable. Raises the minimum if greater than the property's. |
 
-Scope `covering(fecha)`: `starts_on <= fecha AND ends_on >= fecha`.
+Scope `covering(date)`: `starts_on <= date AND ends_on >= date`.
 
-### `blocks` — Bloqueos manuales
+### `blocks` — Manual blocks
 
-Fechas cerradas por el admin (mantenimiento, uso propio, etc.). Ocupan mercado.
+Dates closed by the admin (maintenance, personal use, etc.). They occupy the market.
 
-| Columna | Tipo | Notas |
+| Column | Type | Notes |
 |---|---|---|
 | `property_id` | integer | FK. |
-| `starts_on` / `ends_on` | date | Requeridos. Semiabierto `[from, to)`. |
-| `reason` | string | Opcional; aparece como resumen en el feed iCal saliente. |
+| `starts_on` / `ends_on` | date | Required. Half-open `[from, to)`. |
+| `reason` | string | Optional; appears as the summary in the outbound iCal feed. |
 
-### `calendar_sources` — Fuentes de calendario
+### `calendar_sources` — Calendar sources
 
-URL iCal de un calendario externo (típicamente Airbnb) a importar.
+The iCal URL of an external calendar (typically Airbnb) to import.
 
-| Columna | Tipo | Notas |
+| Column | Type | Notes |
 |---|---|---|
 | `property_id` | integer | FK. |
 | `name` | string | `Airbnb`. |
-| `ical_url` | string | Requerido. URL del `.ics`. |
+| `ical_url` | string | Required. URL of the `.ics`. |
 | `active` | boolean | `true`. |
-| `last_synced_at` | datetime | Última importación. |
-| `last_status` | string | `ok` o `error: …`. Alimenta las alertas del dashboard. |
+| `last_synced_at` | datetime | Last import. |
+| `last_status` | string | `ok` or `error: …`. Feeds the dashboard alerts. |
 
-Scope `stale`: activa y sin sincronizar hace más de 2 horas.
+Scope `stale`: active and not synced for more than 2 hours.
 
-### `external_events` — Eventos importados
+### `external_events` — Imported events
 
-Reservas ajenas traídas de una fuente iCal. Ocupan mercado igual que un booking.
+Third-party bookings pulled from an iCal source. They occupy the market just like a
+booking.
 
-| Columna | Tipo | Notas |
+| Column | Type | Notes |
 |---|---|---|
 | `calendar_source_id` | integer | FK. |
-| `uid` | string | Requerido. Único por fuente (upsert por UID). |
-| `starts_on` / `ends_on` | date | Requeridos. Semiabierto. |
+| `uid` | string | Required. Unique per source (upsert by UID). |
+| `starts_on` / `ends_on` | date | Required. Half-open. |
 | `summary` | string | |
-| `raw_payload` | text | El VEVENT original en iCal. |
+| `raw_payload` | text | The original iCal VEVENT. |
 
-Índice único `(calendar_source_id, uid)`.
+Unique index `(calendar_source_id, uid)`.
 
-### `photos` — Fotos
+### `photos` — Photos
 
-| Columna | Tipo | Notas |
+| Column | Type | Notes |
 |---|---|---|
 | `property_id` | integer | FK. |
 | `caption` | string | |
-| `position` | integer | 0. Orden de galería. |
+| `position` | integer | 0. Gallery order. |
 
-La imagen en sí es un adjunto de **Active Storage** (`has_one_attached :image`),
-no una columna.
+The image itself is an **Active Storage** attachment (`has_one_attached :image`), not
+a column.
 
-### `guide_entries` — Guía local (atracciones y eventos)
+### `guide_entries` — Local guide (attractions and events)
 
-Contenido editorial multilingüe para promocionar la zona y cruzar con propiedades.
+Multilingual editorial content to promote the area and cross-link with properties.
 
-| Columna | Tipo | Notas |
+| Column | Type | Notes |
 |---|---|---|
-| `kind` | string | `attraction` (por defecto) o `event`. |
-| `category_id` | integer | FK opcional. |
-| `slug` | string | Único. Autogenerado desde `title_es`. |
-| `title_*` / `summary_*` / `description_*` / `schedule_note_*` | string/text | `_es` / `_en` / `_pt`. `title_es` requerido. |
+| `kind` | string | `attraction` (default) or `event`. |
+| `category_id` | integer | Optional FK. |
+| `slug` | string | Unique. Auto-generated from `title_es`. |
+| `title_*` / `summary_*` / `description_*` / `schedule_note_*` | string/text | `_es` / `_en` / `_pt`. `title_es` required. |
 | `published` / `featured` | boolean | `false`. |
 | `area` / `address` | string | |
-| `latitude` / `longitude` | decimal(10,6) | Mapa. |
+| `latitude` / `longitude` | decimal(10,6) | Map. |
 | `external_url` | string | |
-| `starts_at` / `ends_at` | datetime | Requerido `starts_at` si `kind = event`. |
+| `starts_at` / `ends_at` | datetime | `starts_at` required if `kind = event`. |
 | `recurring` | boolean | `false`. |
 | `position` | integer | 0. |
 
-Portada vía Active Storage (`has_one_attached :cover_image`).
+Cover image via Active Storage (`has_one_attached :cover_image`).
 
-### `categories` — Categorías de la guía
+### `categories` — Guide categories
 
-| Columna | Tipo | Notas |
+| Column | Type | Notes |
 |---|---|---|
-| `slug` | string | Único. Autogenerado desde `name_es`. |
-| `name_*` | string | `_es` / `_en` / `_pt`. `name_es` requerido. |
+| `slug` | string | Unique. Auto-generated from `name_es`. |
+| `name_*` | string | `_es` / `_en` / `_pt`. `name_es` required. |
 | `icon` | string | |
 | `position` | integer | 0. |
 
-### `property_recommendations` — Recomendaciones (N:M)
+### `property_recommendations` — Recommendations (N:M)
 
-Une `GuideEntry` con `Property` para cross-promoción curada. Único
-`(guide_entry_id, property_id)`, con `position` para el orden.
+Joins `GuideEntry` with `Property` for curated cross-promotion. Unique
+`(guide_entry_id, property_id)`, with `position` for ordering.
 
-### `users` — Administradores
+### `users` — Admins
 
-| Columna | Tipo | Notas |
+| Column | Type | Notes |
 |---|---|---|
-| `email` | string | Único, requerido. |
-| `name` | string | Requerido. |
+| `email` | string | Unique, required. |
+| `name` | string | Required. |
 | `password_digest` | string | `has_secure_password` (bcrypt). |
 
-### Tablas de infraestructura
+### Infrastructure tables
 
 - `active_storage_attachments` / `active_storage_blobs` / `active_storage_variant_records`
-  — adjuntos (fotos de propiedades, portadas de guía).
-- Bases SQLite separadas en producción para Solid **Queue** (jobs), **Cache** y
-  **Cable** (ver [config/database.yml](../config/database.yml)).
+  — attachments (property photos, guide cover images).
+- Separate SQLite databases in production for Solid **Queue** (jobs), **Cache**, and
+  **Cable** (see [config/database.yml](../config/database.yml)).
