@@ -35,7 +35,9 @@ module Reservas
     #
     config.time_zone = "America/Asuncion"
     config.i18n.default_locale = :es
-    config.i18n.available_locales = %i[ es ]
+    config.i18n.available_locales = %i[ es en pt ]
+    # Fall back to Spanish for any key a translation happens to miss.
+    config.i18n.fallbacks = [ :es ]
 
     # Don't generate system test files.
     config.generators.system_tests = nil

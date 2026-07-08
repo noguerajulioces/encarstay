@@ -13,10 +13,11 @@ class BookingsController < ApplicationController
     @property = Property.active.find(booking_params[:property_id])
     return redirect_to(root_path) if spam?
 
-    @booking = @property.book!(booking_params.except(:property_id))
+    # Remember the language the guest booked in so their emails match it later.
+    @booking = @property.book!(booking_params.except(:property_id).merge(locale: I18n.locale))
     BookingMailer.with(booking: @booking).guest_requested.deliver_later
     BookingMailer.with(booking: @booking).admin_requested.deliver_later
-    redirect_to booking_path(@booking.code), notice: "¡Recibimos tu solicitud! Te escribimos para confirmar."
+    redirect_to booking_path(@booking.code), notice: t("booking.flash_received")
   rescue ActiveRecord::RecordInvalid => error
     @booking = error.record
     @quote = @property.quote(@booking.check_in, @booking.check_out)

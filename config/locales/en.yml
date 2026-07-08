@@ -1,31 +1,209 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  date:
+    formats:
+      default: "%m/%d/%Y"
+      long: "%B %-d, %Y"
+      short: "%b %-d"
+      month_year: "%B %Y"
+    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    order:
+      - :month
+      - :day
+      - :year
+  time:
+    formats:
+      default: "%m/%d/%Y %H:%M"
+      long: "%B %-d, %Y at %H:%M"
+      short: "%b %-d %H:%M"
+    am: "am"
+    pm: "pm"
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " and "
+      last_word_connector: ", and "
+  helpers:
+    submit:
+      create: "Create %{model}"
+      update: "Save %{model}"
+      submit: "Save %{model}"
+
+  activerecord:
+    attributes:
+      booking:
+        check_in: "Check-in"
+        check_out: "Check-out"
+        guests_count: "Guests"
+        guest_name: "Name"
+        guest_email: "Email"
+        guest_phone: "Phone"
+        notes: "Comments"
+    errors:
+      models:
+        booking:
+          attributes:
+            check_out:
+              after_check_in: "must be after the check-in"
+            guests_count:
+              over_capacity: "is over the property's capacity"
+            base:
+              min_nights: "The minimum stay is %{count} nights"
+              dates_unavailable: "The dates are no longer available"
+
+  site:
+    name: "Reservá Directo"
+    title_suffix: "Reservá Directo"
+    default_title: "Reservá Directo — cabins and houses, no commission"
+    default_description: "Book direct, no middlemen. Check real-time availability and reserve houses and cabins for your next stay in Paraguay."
+    og_locale: "en_US"
+
+  units:
+    per_night: "/ night"
+    guests:
+      one: "%{count} guest"
+      other: "%{count} guests"
+    nights:
+      one: "%{count} night"
+      other: "%{count} nights"
+
+  layout:
+    nav_properties: "Properties"
+    nav_my_booking: "My booking"
+    language: "Language"
+    footer_rights: "© %{year} Reservá Directo — book direct, no middlemen."
+    footer_lookup: "Check your booking status"
+
+  home:
+    org_description: "Book houses and cabins in Paraguay directly, no middlemen."
+    hero_kicker: "Book direct, no commission"
+    hero_title: "Houses and cabins for your next getaway"
+    hero_subtitle: "Pick your dates and check real-time availability. You book directly with us — the same place, no middlemen."
+    properties_title: "Our properties"
+    properties_subtitle: "Pick one to see photos, availability and prices."
+
+  search_form:
+    check_in: "Check-in"
+    check_out: "Check-out"
+    guests: "Guests"
+    submit: "Search availability"
+
+  search:
+    title: "Availability"
+    prompt: "Choose a check-in and check-out date to see availability."
+    none_title: "No availability for those dates"
+    none_subtitle: "Try other dates or fewer guests."
+    results_count:
+      one: "%{count} property available"
+      other: "%{count} properties available"
+    up_to_guests: "up to %{count} guests"
+    total_summary: "Total %{nights} + cleaning"
+    view_and_book: "View and book"
+
+  properties:
+    index_title: "Our properties"
+    index_subtitle: "Pick one to see photos, availability and prices."
+
+  property:
+    photo_alt: "%{name} — photo %{index}"
+    guests: "guests"
+    bedrooms: "bedrooms"
+    beds: "beds"
+    bathrooms: "bathrooms"
+    min_stay: "Minimum stay"
+    min_stay_nights: "nights"
+    availability: "Availability"
+    calendar_help: "Pick your dates right on the calendar: tap the check-in and check-out, or drag from one date to another."
+    clear: "Clear"
+    arrival: "Check-in"
+    departure: "Check-out"
+    guests_label: "Guests"
+    see_price: "See price"
+    book: "Book now"
+    not_available: "Not available for those dates."
+    pick_dates: "Pick dates to see the total price and book."
+
+  calendar:
+    weekday_initials: [M, T, W, T, F, S, S]
+    available: "Available"
+    occupied: "Booked"
+    your_stay: "Your stay"
+    night_word: "night"
+    nights_word: "nights"
+    choose_exit: "Choose the check-out date"
+    choose_exit_min: "Choose the check-out (minimum %{count} nights)"
+    no_free_nights: "There aren't %{count} free nights from that date"
+
+  price:
+    lodging: "Lodging"
+    cleaning: "Cleaning"
+    total: "Total"
+    deposit: "Deposit to book (50%)"
+    deposit_short: "Deposit (50%)"
+
+  booking:
+    status:
+      pending: "Pending"
+      confirmed: "Confirmed"
+      completed: "Completed"
+      cancelled: "Cancelled"
+    flash_received: "We got your request! We'll email you to confirm."
+    new_title: "Complete your request"
+    new_subtitle: "We check availability and confirm by email or WhatsApp."
+    honeypot: "Do not fill in"
+    guest_name: "Full name"
+    email: "Email"
+    phone: "Phone / WhatsApp"
+    notes: "Comments (optional)"
+    disclaimer_html: "On submit, your request stays <strong>pending</strong>. We'll contact you to arrange the deposit (50%) and confirm the booking. No charge is made at this step."
+    submit: "Send request"
+    arrival: "Check-in"
+    departure: "Check-out"
+    guests: "Guests"
+    received_title: "We got your request!"
+    received_subtitle: "We'll contact you to arrange the deposit and confirm the booking."
+    code_label: "Booking code"
+    cancelled_notice: "This booking was cancelled."
+    coordinate_whatsapp: "Arrange over WhatsApp"
+    mention_code_html: "Mention your code <strong>%{code}</strong>."
+
+  reservation_lookup:
+    title: "Already have a booking?"
+    subtitle: "Check the status with your code (for example, RES-8F3K)."
+    submit: "Check"
+
+  whatsapp:
+    label: "WhatsApp"
+    aria: "Message us on WhatsApp"
+    default_message: "Hi, I'd like to ask about a booking."
+    booking_message: "Hi, I'm asking about my booking %{code} at %{property}."
+
+  mailer:
+    guest_requested:
+      subject: "We got your request · %{code}"
+      heading: "We got your request, %{name}!"
+      intro_html: "Thanks for booking directly with us. Your request is <strong>pending confirmation</strong>. We'll contact you to arrange the deposit (50%) and confirm your booking."
+      intro_text: "Your request is pending confirmation. We'll contact you to arrange the deposit (50%) and confirm your booking."
+      code: "Code"
+      property: "Property"
+      arrival: "Check-in"
+      departure: "Check-out"
+      guests: "Guests"
+      total: "Total"
+      deposit: "Deposit (50%)"
+      cta: "View my booking status"
+      status_link: "View status"
+      footer_html: "Any questions, just reply to this email mentioning your code %{code}."
+    confirmed:
+      subject: "Your booking %{code} is confirmed ✓"
+      heading: "Your booking is confirmed ✓"
+      intro_html: "All set, %{name}! We confirmed your booking at <strong>%{property}</strong>. See you there."
+      intro_text: "All set, %{name}! We confirmed your booking at %{property}."
+      code: "Code"
+      arrival: "Check-in"
+      departure: "Check-out"
+      total: "Total"
+      cta: "View my booking"
+      cta_text: "View my booking"

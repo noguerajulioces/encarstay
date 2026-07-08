@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <%# Each page is listed once per locale, cross-linked with xhtml:alternate so
+      search engines index the right language version. %>
+  <%
+    locales = I18n.available_locales
+    param   = ->(loc) { loc == I18n.default_locale ? nil : loc }
+    pages   = [
+      { url: ->(loc) { root_url(locale: param.call(loc)) },       changefreq: "daily",  priority: "1.0" },
+      { url: ->(loc) { properties_url(locale: param.call(loc)) }, changefreq: "daily",  priority: "0.8" }
+    ]
+    @properties.each do |property|
+      pages << {
+        url: ->(loc) { property_url(property, locale: param.call(loc)) },
+        changefreq: "weekly", priority: "0.7", lastmod: property.updated_at.to_date.iso8601
+      }
+    end
+  %>
+  <% locales.each do |loc| %>
+    <% pages.each do |page| %>
   <url>
-    <loc><%= root_url %></loc>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <loc><%= page[:url].call(loc) %></loc>
+    <% locales.each do |alt| %>
+    <xhtml:link rel="alternate" hreflang="<%= alt %>" href="<%= page[:url].call(alt) %>"/>
+    <% end %>
+    <% if page[:lastmod] %><lastmod><%= page[:lastmod] %></lastmod><% end %>
+    <changefreq><%= page[:changefreq] %></changefreq>
+    <priority><%= page[:priority] %></priority>
   </url>
-  <url>
-    <loc><%= properties_url %></loc>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <% @properties.each do |property| %>
-  <url>
-    <loc><%= property_url(property) %></loc>
-    <lastmod><%= property.updated_at.to_date.iso8601 %></lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
+    <% end %>
   <% end %>
 </urlset>

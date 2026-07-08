@@ -1,13 +1,13 @@
 <div id="buscar-reserva" class="rounded-2xl bg-emerald-900 text-white p-6 sm:p-8">
-  <h2 class="text-xl font-semibold">¿Ya tenés una reserva?</h2>
-  <p class="text-emerald-100 text-sm mt-1">Consultá el estado con tu código (por ejemplo, RES-8F3K).</p>
+  <h2 class="text-xl font-semibold"><%= t("reservation_lookup.title") %></h2>
+  <p class="text-emerald-100 text-sm mt-1"><%= t("reservation_lookup.subtitle") %></p>
 
   <form data-controller="redirect" data-redirect-template-value="<%= booking_path(":code") %>"
         data-action="submit->redirect#go" class="mt-4 flex flex-col sm:flex-row gap-3">
     <input type="text" data-redirect-target="input" placeholder="RES-XXXX"
            class="flex-1 rounded-lg px-4 py-2.5 text-stone-900 uppercase placeholder:normal-case placeholder:text-stone-400" />
     <button type="submit" class="rounded-lg bg-white text-emerald-900 font-medium px-5 py-2.5 hover:bg-emerald-50">
-      Consultar
+      <%= t("reservation_lookup.submit") %>
     </button>
   </form>
 </div>

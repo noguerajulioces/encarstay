@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_07_190608) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_07_235119) do
   create_table "blocks", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.date "ends_on", null: false
@@ -35,6 +35,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_07_190608) do
     t.string "guest_name", null: false
     t.string "guest_phone"
     t.integer "guests_count", default: 1, null: false
+    t.string "locale", default: "es", null: false
     t.text "notes"
     t.integer "property_id", null: false
     t.string "source", default: "direct", null: false

@@ -1,13 +1,12 @@
-<h1 style="color:#1c1917;">Tu reserva está confirmada ✓</h1>
+<h1 style="color:#1c1917;"><%= t("mailer.confirmed.heading") %></h1>
 
-<p>¡Todo listo, <%= @booking.guest_name.split.first %>! Confirmamos tu reserva en
-<strong><%= @booking.property.name %></strong>. Te esperamos.</p>
+<p><%= t("mailer.confirmed.intro_html", name: @booking.guest_name.split.first, property: @booking.property.name).html_safe %></p>
 
 <table style="width:100%;border-collapse:collapse;margin:20px 0;">
-  <tr><td style="padding:6px 0;color:#78716c;">Código</td><td style="padding:6px 0;text-align:right;font-weight:bold;"><%= @booking.code %></td></tr>
-  <tr><td style="padding:6px 0;color:#78716c;">Llegada</td><td style="padding:6px 0;text-align:right;"><%= l @booking.check_in, format: :long %></td></tr>
-  <tr><td style="padding:6px 0;color:#78716c;">Salida</td><td style="padding:6px 0;text-align:right;"><%= l @booking.check_out, format: :long %></td></tr>
-  <tr><td style="padding:6px 0;color:#78716c;">Total</td><td style="padding:6px 0;text-align:right;font-weight:bold;"><%= money(@booking.total_cents, @booking.currency) %></td></tr>
+  <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.confirmed.code") %></td><td style="padding:6px 0;text-align:right;font-weight:bold;"><%= @booking.code %></td></tr>
+  <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.confirmed.arrival") %></td><td style="padding:6px 0;text-align:right;"><%= l @booking.check_in, format: :long %></td></tr>
+  <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.confirmed.departure") %></td><td style="padding:6px 0;text-align:right;"><%= l @booking.check_out, format: :long %></td></tr>
+  <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.confirmed.total") %></td><td style="padding:6px 0;text-align:right;font-weight:bold;"><%= money(@booking.total_cents, @booking.currency) %></td></tr>
 </table>
 
-<p><a href="<%= booking_url(@booking.code) %>" style="display:inline-block;background:#047857;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;">Ver mi reserva</a></p>
+<p><a href="<%= booking_url(@booking.code, locale: @locale_param) %>" style="display:inline-block;background:#047857;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;"><%= t("mailer.confirmed.cta") %></a></p>

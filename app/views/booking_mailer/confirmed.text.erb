@@ -1,10 +1,10 @@
-Tu reserva está confirmada ✓
+<%= t("mailer.confirmed.heading") %>
 
-¡Todo listo, <%= @booking.guest_name.split.first %>! Confirmamos tu reserva en <%= @booking.property.name %>.
+<%= t("mailer.confirmed.intro_text", name: @booking.guest_name.split.first, property: @booking.property.name) %>
 
-Código:   <%= @booking.code %>
-Llegada:  <%= l @booking.check_in, format: :long %>
-Salida:   <%= l @booking.check_out, format: :long %>
-Total:    <%= money(@booking.total_cents, @booking.currency) %>
+<%= t("mailer.confirmed.code") %>:   <%= @booking.code %>
+<%= t("mailer.confirmed.arrival") %>:  <%= l @booking.check_in, format: :long %>
+<%= t("mailer.confirmed.departure") %>:  <%= l @booking.check_out, format: :long %>
+<%= t("mailer.confirmed.total") %>:    <%= money(@booking.total_cents, @booking.currency) %>
 
-Ver mi reserva: <%= booking_url(@booking.code) %>
+<%= t("mailer.confirmed.cta_text") %>: <%= booking_url(@booking.code, locale: @locale_param) %>

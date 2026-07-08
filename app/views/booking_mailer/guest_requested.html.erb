@@ -1,18 +1,17 @@
-<h1 style="color:#1c1917;">¡Recibimos tu solicitud, <%= @booking.guest_name.split.first %>!</h1>
+<h1 style="color:#1c1917;"><%= t("mailer.guest_requested.heading", name: @booking.guest_name.split.first) %></h1>
 
-<p>Gracias por reservar directo con nosotros. Tu solicitud está <strong>pendiente de confirmación</strong>.
-Te vamos a contactar para coordinar la seña (50%) y confirmar tu reserva.</p>
+<p><%= t("mailer.guest_requested.intro_html").html_safe %></p>
 
 <table style="width:100%;border-collapse:collapse;margin:20px 0;">
-  <tr><td style="padding:6px 0;color:#78716c;">Código</td><td style="padding:6px 0;text-align:right;font-weight:bold;"><%= @booking.code %></td></tr>
-  <tr><td style="padding:6px 0;color:#78716c;">Propiedad</td><td style="padding:6px 0;text-align:right;"><%= @booking.property.name %></td></tr>
-  <tr><td style="padding:6px 0;color:#78716c;">Llegada</td><td style="padding:6px 0;text-align:right;"><%= l @booking.check_in, format: :long %></td></tr>
-  <tr><td style="padding:6px 0;color:#78716c;">Salida</td><td style="padding:6px 0;text-align:right;"><%= l @booking.check_out, format: :long %></td></tr>
-  <tr><td style="padding:6px 0;color:#78716c;">Huéspedes</td><td style="padding:6px 0;text-align:right;"><%= @booking.guests_count %></td></tr>
-  <tr><td style="padding:12px 0;border-top:1px solid #e7e5e4;font-weight:bold;">Total</td><td style="padding:12px 0;border-top:1px solid #e7e5e4;text-align:right;font-weight:bold;"><%= money(@booking.total_cents, @booking.currency) %></td></tr>
-  <tr><td style="padding:6px 0;color:#047857;">Seña (50%)</td><td style="padding:6px 0;text-align:right;color:#047857;"><%= money(@booking.deposit_cents, @booking.currency) %></td></tr>
+  <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.guest_requested.code") %></td><td style="padding:6px 0;text-align:right;font-weight:bold;"><%= @booking.code %></td></tr>
+  <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.guest_requested.property") %></td><td style="padding:6px 0;text-align:right;"><%= @booking.property.name %></td></tr>
+  <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.guest_requested.arrival") %></td><td style="padding:6px 0;text-align:right;"><%= l @booking.check_in, format: :long %></td></tr>
+  <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.guest_requested.departure") %></td><td style="padding:6px 0;text-align:right;"><%= l @booking.check_out, format: :long %></td></tr>
+  <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.guest_requested.guests") %></td><td style="padding:6px 0;text-align:right;"><%= @booking.guests_count %></td></tr>
+  <tr><td style="padding:12px 0;border-top:1px solid #e7e5e4;font-weight:bold;"><%= t("mailer.guest_requested.total") %></td><td style="padding:12px 0;border-top:1px solid #e7e5e4;text-align:right;font-weight:bold;"><%= money(@booking.total_cents, @booking.currency) %></td></tr>
+  <tr><td style="padding:6px 0;color:#047857;"><%= t("mailer.guest_requested.deposit") %></td><td style="padding:6px 0;text-align:right;color:#047857;"><%= money(@booking.deposit_cents, @booking.currency) %></td></tr>
 </table>
 
-<p><a href="<%= booking_url(@booking.code) %>" style="display:inline-block;background:#047857;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;">Ver estado de mi reserva</a></p>
+<p><a href="<%= booking_url(@booking.code, locale: @locale_param) %>" style="display:inline-block;background:#047857;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;"><%= t("mailer.guest_requested.cta") %></a></p>
 
-<p style="color:#78716c;font-size:14px;">Cualquier duda, respondé este email mencionando tu código <%= @booking.code %>.</p>
+<p style="color:#78716c;font-size:14px;"><%= t("mailer.guest_requested.footer_html", code: @booking.code) %></p>

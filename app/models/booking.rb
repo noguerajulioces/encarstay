@@ -17,6 +17,7 @@ class Booking < ApplicationRecord
   validates :guest_name, :guest_email, presence: true
   validates :check_in, :check_out, presence: true
   validates :guests_count, numericality: { greater_than_or_equal_to: 1 }
+  validates :locale, inclusion: { in: I18n.available_locales.map(&:to_s) }
   validate :check_out_after_check_in
   validate :within_capacity
   validate :meets_minimum_nights
@@ -60,27 +61,25 @@ class Booking < ApplicationRecord
 
     def check_out_after_check_in
       return if check_in.blank? || check_out.blank?
-      errors.add(:check_out, "debe ser posterior al check-in") if check_out <= check_in
+      errors.add(:check_out, :after_check_in) if check_out <= check_in
     end
 
     def within_capacity
       return if property.blank? || guests_count.blank?
-      errors.add(:guests_count, "supera la capacidad de la propiedad") if guests_count > property.capacity
+      errors.add(:guests_count, :over_capacity) if guests_count > property.capacity
     end
 
     def meets_minimum_nights
       return if property.blank? || check_in.blank? || check_out.blank? || check_out <= check_in
 
       minimum = property.min_nights_on(check_in)
-      errors.add(:base, "La estadía mínima es de #{minimum} noches") if nights < minimum
+      errors.add(:base, :min_nights, count: minimum) if nights < minimum
     end
 
     def dates_available
       return if property.blank? || check_in.blank? || check_out.blank?
       return if check_out <= check_in
 
-      unless property.available?(check_in, check_out)
-        errors.add(:base, "Las fechas ya no están disponibles")
-      end
+      errors.add(:base, :dates_unavailable) unless property.available?(check_in, check_out)
     end
 end

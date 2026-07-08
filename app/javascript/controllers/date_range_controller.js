@@ -13,7 +13,7 @@ import { Controller } from "@hotwired/stimulus"
 // and the picker keeps waiting for a different check-in.
 export default class extends Controller {
   static targets = ["day", "checkIn", "checkOut", "form", "controls", "summary", "submit"]
-  static values = { occupied: Array, minNights: Number, minNightsOverrides: Object }
+  static values = { occupied: Array, minNights: Number, minNightsOverrides: Object, locale: String, labels: Object }
 
   connect() {
     this.occupied = new Set(this.occupiedValue)
@@ -157,19 +157,24 @@ export default class extends Controller {
   renderControls(lo, range) {
     if (this.hasControlsTarget) this.controlsTarget.hidden = !this.start
     if (!this.hasSummaryTarget) return
+    const labels = this.labelsValue
     if (range && range.valid) {
       const nights = this.nightsBetween(lo, range.hi)
+      const word = nights === 1 ? labels.nightWord : labels.nightsWord
       this.summaryTarget.textContent =
-        `${nights} ${nights === 1 ? "noche" : "noches"} · ${this.format(lo)} → ${this.format(range.hi)}`
+        `${nights} ${word} · ${this.format(lo)} → ${this.format(range.hi)}`
     } else if (range) {
-      this.summaryTarget.textContent = `No hay ${range.min} noches libres desde esa fecha`
+      this.summaryTarget.textContent = this.fill(labels.noFreeNights, range.min)
     } else if (lo) {
       const min = this.minNightsFor(lo)
-      this.summaryTarget.textContent =
-        min > 1 ? `Elegí la salida (mínimo ${min} noches)` : "Elegí la fecha de salida"
+      this.summaryTarget.textContent = min > 1 ? this.fill(labels.chooseExitMin, min) : labels.chooseExit
     } else {
       this.summaryTarget.textContent = ""
     }
+  }
+
+  fill(template, count) {
+    return (template || "").replace("%{count}", count)
   }
 
   paint(button, state) {
@@ -226,9 +231,12 @@ export default class extends Controller {
     return Math.round((this.toMillis(hi) - this.toMillis(lo)) / 86400000)
   }
 
+  // Locale-aware short date ("3 jul", "Jul 3", "3 de jul.") via the browser's
+  // own formatter, so each language reads naturally.
   format(iso) {
-    const months = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
-    const [, m, d] = iso.split("-").map(Number)
-    return `${d} ${months[m - 1]}`
+    const [y, m, d] = iso.split("-").map(Number)
+    return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString(this.localeValue || "es", {
+      day: "numeric", month: "short", timeZone: "UTC"
+    })
   }
 }

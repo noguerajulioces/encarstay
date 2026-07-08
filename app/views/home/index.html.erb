@@ -2,27 +2,26 @@
   <%= json_ld({
     "@context" => "https://schema.org",
     "@type" => "Organization",
-    "name" => "Reservá Directo",
+    "name" => t("site.name"),
     "url" => root_url,
-    "description" => "Reservas directas de casas y cabañas en Paraguay, sin intermediarios."
+    "description" => t("home.org_description")
   }) %>
   <%= json_ld({
     "@context" => "https://schema.org",
     "@type" => "WebSite",
-    "name" => "Reservá Directo",
+    "name" => t("site.name"),
     "url" => root_url
   }) %>
 <% end %>
 
 <section class="rounded-3xl bg-gradient-to-br from-emerald-800 to-emerald-950 text-white px-6 py-12 sm:px-12 sm:py-16">
   <div class="max-w-2xl">
-    <p class="text-emerald-300 font-medium">Reservá directo, sin comisiones</p>
+    <p class="text-emerald-300 font-medium"><%= t("home.hero_kicker") %></p>
     <h1 class="mt-2 text-3xl sm:text-4xl font-bold leading-tight">
-      Casas y cabañas para tu próxima escapada
+      <%= t("home.hero_title") %>
     </h1>
     <p class="mt-3 text-emerald-100">
-      Elegí fechas y consultá disponibilidad real. Reservás directo con nosotros —
-      el mismo lugar, sin intermediarios.
+      <%= t("home.hero_subtitle") %>
     </p>
   </div>
 
@@ -32,8 +31,8 @@
 </section>
 
 <section class="mt-12">
-  <h2 class="text-2xl font-semibold text-stone-900">Nuestras propiedades</h2>
-  <p class="text-stone-500 mt-1">Elegí una para ver fotos, disponibilidad y precios.</p>
+  <h2 class="text-2xl font-semibold text-stone-900"><%= t("home.properties_title") %></h2>
+  <p class="text-stone-500 mt-1"><%= t("home.properties_subtitle") %></p>
 
   <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     <% @properties.each do |property| %>

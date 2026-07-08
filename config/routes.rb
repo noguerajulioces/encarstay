@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
   # --- Public site ---
-  root "home#index"
+  # Spanish (the default) lives at the root; English and Portuguese are prefixed
+  # (/en, /pt). The optional (:locale) segment is constrained so only those two
+  # ever prefix a URL — "es" stays unprefixed.
+  scope "(:locale)", locale: /en|pt/ do
+    root "home#index"
 
-  resource :search, only: :show
-  resources :properties, only: %i[ index show ], param: :slug
-  resources :bookings, only: %i[ new create show ], param: :code
+    resource :search, only: :show
+    resources :properties, only: %i[ index show ], param: :slug
+    resources :bookings, only: %i[ new create show ], param: :code
+  end
 
   # Outgoing iCal feed consumed by Airbnb ("Import calendar"). Tokenized per property.
   get "calendars/:calendar_token/:slug", to: "calendars#show", as: :calendar_feed, defaults: { format: "ics" }

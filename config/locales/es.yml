@@ -30,3 +30,189 @@ es:
       create: "Crear %{model}"
       update: "Guardar %{model}"
       submit: "Guardar %{model}"
+
+  errors:
+    messages:
+      blank: "no puede estar en blanco"
+      present: "debe estar en blanco"
+      inclusion: "no está incluido en la lista"
+      not_a_number: "no es un número"
+      greater_than_or_equal_to: "debe ser mayor o igual a %{count}"
+      taken: "ya está en uso"
+
+  activerecord:
+    attributes:
+      booking:
+        check_in: "Llegada"
+        check_out: "Salida"
+        guests_count: "Huéspedes"
+        guest_name: "Nombre"
+        guest_email: "Email"
+        guest_phone: "Teléfono"
+        notes: "Comentarios"
+    errors:
+      models:
+        booking:
+          attributes:
+            check_out:
+              after_check_in: "debe ser posterior al check-in"
+            guests_count:
+              over_capacity: "supera la capacidad de la propiedad"
+            base:
+              min_nights: "La estadía mínima es de %{count} noches"
+              dates_unavailable: "Las fechas ya no están disponibles"
+
+  site:
+    name: "Reservá Directo"
+    title_suffix: "Reservá Directo"
+    default_title: "Reservá Directo — casas y cabañas sin comisiones"
+    default_description: "Reservá directo, sin intermediarios. Consultá disponibilidad real y reservá casas y cabañas para tu próxima estadía en Paraguay."
+    og_locale: "es_PY"
+
+  units:
+    per_night: "/ noche"
+    guests:
+      one: "%{count} huésped"
+      other: "%{count} huéspedes"
+    nights:
+      one: "%{count} noche"
+      other: "%{count} noches"
+
+  layout:
+    nav_properties: "Propiedades"
+    nav_my_booking: "Mi reserva"
+    language: "Idioma"
+    footer_rights: "© %{year} Reservá Directo — reservas sin intermediarios."
+    footer_lookup: "Consultá el estado de tu reserva"
+
+  home:
+    org_description: "Reservas directas de casas y cabañas en Paraguay, sin intermediarios."
+    hero_kicker: "Reservá directo, sin comisiones"
+    hero_title: "Casas y cabañas para tu próxima escapada"
+    hero_subtitle: "Elegí fechas y consultá disponibilidad real. Reservás directo con nosotros — el mismo lugar, sin intermediarios."
+    properties_title: "Nuestras propiedades"
+    properties_subtitle: "Elegí una para ver fotos, disponibilidad y precios."
+
+  search_form:
+    check_in: "Llegada"
+    check_out: "Salida"
+    guests: "Huéspedes"
+    submit: "Buscar disponibilidad"
+
+  search:
+    title: "Disponibilidad"
+    prompt: "Elegí una fecha de llegada y otra de salida para ver disponibilidad."
+    none_title: "No hay disponibilidad para esas fechas"
+    none_subtitle: "Probá con otras fechas o menos huéspedes."
+    results_count:
+      one: "%{count} propiedad disponible"
+      other: "%{count} propiedades disponibles"
+    up_to_guests: "hasta %{count} huéspedes"
+    total_summary: "Total %{nights} + limpieza"
+    view_and_book: "Ver y reservar"
+
+  properties:
+    index_title: "Nuestras propiedades"
+    index_subtitle: "Elegí una para ver fotos, disponibilidad y precios."
+
+  property:
+    photo_alt: "%{name} — foto %{index}"
+    guests: "huéspedes"
+    bedrooms: "dormitorios"
+    beds: "camas"
+    bathrooms: "baños"
+    min_stay: "Estadía mínima"
+    min_stay_nights: "noches"
+    availability: "Disponibilidad"
+    calendar_help: "Elegí las fechas en el calendario: tocá la llegada y la salida, o arrastrá de una fecha a otra."
+    clear: "Limpiar"
+    arrival: "Llegada"
+    departure: "Salida"
+    guests_label: "Huéspedes"
+    see_price: "Ver precio"
+    book: "Reservar"
+    not_available: "No disponible para esas fechas."
+    pick_dates: "Elegí fechas para ver el precio total y reservar."
+
+  calendar:
+    weekday_initials: [L, M, M, J, V, S, D]
+    available: "Disponible"
+    occupied: "Ocupado"
+    your_stay: "Tu estadía"
+    night_word: "noche"
+    nights_word: "noches"
+    choose_exit: "Elegí la fecha de salida"
+    choose_exit_min: "Elegí la salida (mínimo %{count} noches)"
+    no_free_nights: "No hay %{count} noches libres desde esa fecha"
+
+  price:
+    lodging: "Alojamiento"
+    cleaning: "Limpieza"
+    total: "Total"
+    deposit: "Seña para reservar (50%)"
+    deposit_short: "Seña (50%)"
+
+  booking:
+    status:
+      pending: "Pendiente"
+      confirmed: "Confirmada"
+      completed: "Completada"
+      cancelled: "Cancelada"
+    flash_received: "¡Recibimos tu solicitud! Te escribimos para confirmar."
+    new_title: "Completá tu solicitud"
+    new_subtitle: "Revisamos disponibilidad y te confirmamos por email o WhatsApp."
+    honeypot: "No completar"
+    guest_name: "Nombre y apellido"
+    email: "Email"
+    phone: "Teléfono / WhatsApp"
+    notes: "Comentarios (opcional)"
+    disclaimer_html: "Al enviar, tu solicitud queda <strong>pendiente</strong>. Te contactamos para coordinar la seña (50%) y confirmar la reserva. No se realiza ningún cobro en este paso."
+    submit: "Enviar solicitud"
+    arrival: "Llegada"
+    departure: "Salida"
+    guests: "Huéspedes"
+    received_title: "¡Recibimos tu solicitud!"
+    received_subtitle: "Te contactamos para coordinar la seña y confirmar la reserva."
+    code_label: "Código de reserva"
+    cancelled_notice: "Esta reserva fue cancelada."
+    coordinate_whatsapp: "Coordinar por WhatsApp"
+    mention_code_html: "Mencioná tu código <strong>%{code}</strong>."
+
+  reservation_lookup:
+    title: "¿Ya tenés una reserva?"
+    subtitle: "Consultá el estado con tu código (por ejemplo, RES-8F3K)."
+    submit: "Consultar"
+
+  whatsapp:
+    label: "WhatsApp"
+    aria: "Escribinos por WhatsApp"
+    default_message: "Hola, quiero consultar por una reserva."
+    booking_message: "Hola, consulto por mi reserva %{code} en %{property}."
+
+  mailer:
+    guest_requested:
+      subject: "Recibimos tu solicitud · %{code}"
+      heading: "¡Recibimos tu solicitud, %{name}!"
+      intro_html: "Gracias por reservar directo con nosotros. Tu solicitud está <strong>pendiente de confirmación</strong>. Te vamos a contactar para coordinar la seña (50%) y confirmar tu reserva."
+      intro_text: "Tu solicitud está pendiente de confirmación. Te contactamos para coordinar la seña (50%) y confirmar tu reserva."
+      code: "Código"
+      property: "Propiedad"
+      arrival: "Llegada"
+      departure: "Salida"
+      guests: "Huéspedes"
+      total: "Total"
+      deposit: "Seña (50%)"
+      cta: "Ver estado de mi reserva"
+      status_link: "Ver estado"
+      footer_html: "Cualquier duda, respondé este email mencionando tu código %{code}."
+    confirmed:
+      subject: "Tu reserva %{code} está confirmada ✓"
+      heading: "Tu reserva está confirmada ✓"
+      intro_html: "¡Todo listo, %{name}! Confirmamos tu reserva en <strong>%{property}</strong>. Te esperamos."
+      intro_text: "¡Todo listo, %{name}! Confirmamos tu reserva en %{property}."
+      code: "Código"
+      arrival: "Llegada"
+      departure: "Salida"
+      total: "Total"
+      cta: "Ver mi reserva"
+      cta_text: "Ver mi reserva"

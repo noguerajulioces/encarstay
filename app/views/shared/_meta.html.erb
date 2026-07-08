@@ -1,16 +1,22 @@
-<% title = content_for(:title).present? ? "#{content_for(:title)} · Reservá Directo" : "Reservá Directo — casas y cabañas sin comisiones" %>
-<% description = content_for(:description).presence || "Reservá directo, sin intermediarios. Consultá disponibilidad real y reservá casas y cabañas para tu próxima estadía en Paraguay." %>
+<% title = content_for(:title).present? ? "#{content_for(:title)} · #{t('site.title_suffix')}" : t("site.default_title") %>
+<% description = content_for(:description).presence || t("site.default_description") %>
 
 <title><%= title %></title>
 <meta name="description" content="<%= strip_tags(description).squish.truncate(160) %>">
 <link rel="canonical" href="<%= canonical_url %>">
 <meta name="robots" content="index, follow, max-image-preview:large">
 
-<meta property="og:site_name" content="Reservá Directo">
+<%# Tell search engines about the other-language versions of this page. %>
+<% I18n.available_locales.each do |loc| %>
+  <link rel="alternate" hreflang="<%= loc %>" href="<%= full_url_for_locale(loc) %>">
+<% end %>
+<link rel="alternate" hreflang="x-default" href="<%= full_url_for_locale(I18n.default_locale) %>">
+
+<meta property="og:site_name" content="<%= t('site.name') %>">
 <meta property="og:type" content="<%= content_for(:og_type).presence || 'website' %>">
 <meta property="og:title" content="<%= title %>">
 <meta property="og:description" content="<%= strip_tags(description).squish.truncate(160) %>">
 <meta property="og:url" content="<%= canonical_url %>">
-<meta property="og:locale" content="es_PY">
+<meta property="og:locale" content="<%= t('site.og_locale') %>">
 <% if content_for?(:og_image) %><meta property="og:image" content="<%= content_for(:og_image) %>"><% end %>
 <meta name="twitter:card" content="<%= content_for?(:og_image) ? 'summary_large_image' : 'summary' %>">

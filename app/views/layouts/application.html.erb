@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full">
+<html lang="<%= I18n.locale %>" class="h-full">
   <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,11 +21,19 @@
       <div class="mx-auto max-w-6xl px-5 h-16 flex items-center justify-between">
         <%= link_to root_path, class: "flex items-center gap-2 font-semibold text-lg text-emerald-800" do %>
           <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-700 text-white">R</span>
-          Reservá Directo
+          <%= t("site.name") %>
         <% end %>
-        <nav class="flex items-center gap-6 text-sm">
-          <%= link_to "Propiedades", properties_path, class: "text-stone-600 hover:text-emerald-800" %>
-          <%= link_to "Mi reserva", root_path(anchor: "buscar-reserva"), class: "text-stone-600 hover:text-emerald-800" %>
+        <nav class="flex items-center gap-4 sm:gap-6 text-sm">
+          <%= link_to t("layout.nav_properties"), properties_path, class: "text-stone-600 hover:text-emerald-800" %>
+          <%= link_to t("layout.nav_my_booking"), root_path(anchor: "buscar-reserva"), class: "hidden sm:inline text-stone-600 hover:text-emerald-800" %>
+          <div class="flex items-center gap-0.5" aria-label="<%= t('layout.language') %>">
+            <% I18n.available_locales.each do |loc| %>
+              <%= link_to loc.to_s.upcase, path_for_locale(loc),
+                    lang: loc, hreflang: loc,
+                    "aria-current": (loc == I18n.locale ? "true" : nil),
+                    class: "px-1.5 py-1 rounded #{loc == I18n.locale ? 'font-semibold text-emerald-800' : 'text-stone-400 hover:text-emerald-800'}" %>
+            <% end %>
+          </div>
         </nav>
       </div>
     </header>
@@ -42,8 +50,8 @@
 
     <footer class="border-t border-stone-200 bg-white mt-12">
       <div class="mx-auto max-w-6xl px-5 py-8 text-sm text-stone-500 flex flex-col sm:flex-row justify-between gap-3">
-        <p>© <%= Date.current.year %> Reservá Directo — reservas sin intermediarios.</p>
-        <p><%= link_to "Consultá el estado de tu reserva", root_path(anchor: "buscar-reserva"), class: "text-emerald-700 hover:underline" %></p>
+        <p><%= t("layout.footer_rights", year: Date.current.year) %></p>
+        <p><%= link_to t("layout.footer_lookup"), root_path(anchor: "buscar-reserva"), class: "text-emerald-700 hover:underline" %></p>
       </div>
     </footer>
   </body>

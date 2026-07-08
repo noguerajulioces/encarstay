@@ -21,7 +21,27 @@ module ApplicationHelper
   end
 
   def nights_label(count)
-    "#{count} #{count == 1 ? 'noche' : 'noches'}"
+    t("units.nights", count: count)
+  end
+
+  def guests_label(count)
+    t("units.guests", count: count)
+  end
+
+  # The current page's path rebuilt for another locale — used by the language
+  # switcher and hreflang tags. Works off the raw path (not url_for) so it holds
+  # up on any page, including non-GET renders. The default locale stays unprefixed.
+  def path_for_locale(target)
+    segments = request.path.split("/")
+    segments.delete_at(1) if I18n.available_locales.map(&:to_s).include?(segments[1]) && segments[1] != I18n.default_locale.to_s
+    stripped = segments.join("/")
+    prefix = target.to_sym == I18n.default_locale ? "" : "/#{target}"
+    path = "#{prefix}#{stripped}".sub(%r{\A/\z}, "").presence || "/"
+    request.query_string.present? ? "#{path}?#{request.query_string}" : path
+  end
+
+  def full_url_for_locale(target)
+    "#{request.base_url}#{path_for_locale(target)}"
   end
 
   def whatsapp_number
@@ -49,7 +69,6 @@ module ApplicationHelper
   end
 
   def status_label(status)
-    { "pending" => "Pendiente", "confirmed" => "Confirmada",
-      "completed" => "Completada", "cancelled" => "Cancelada" }.fetch(status.to_s, status.to_s)
+    t("booking.status.#{status}", default: status.to_s)
   end
 end

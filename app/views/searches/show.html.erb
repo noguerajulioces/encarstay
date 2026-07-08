@@ -1,4 +1,4 @@
-<% content_for :title, "Disponibilidad" %>
+<% content_for :title, t("search.title") %>
 
 <div class="bg-white rounded-2xl p-4 sm:p-5 border border-stone-200">
   <%= render "shared/search_form", search: @search %>
@@ -7,20 +7,20 @@
 <div class="mt-8">
   <% if !@search.valid_range? %>
     <div class="rounded-xl bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 text-sm">
-      Elegí una fecha de llegada y otra de salida para ver disponibilidad.
+      <%= t("search.prompt") %>
     </div>
   <% elsif @results.empty? %>
     <div class="text-center py-12">
-      <h2 class="text-xl font-semibold text-stone-900">No hay disponibilidad para esas fechas</h2>
-      <p class="text-stone-500 mt-1">Probá con otras fechas o menos huéspedes.</p>
+      <h2 class="text-xl font-semibold text-stone-900"><%= t("search.none_title") %></h2>
+      <p class="text-stone-500 mt-1"><%= t("search.none_subtitle") %></p>
     </div>
   <% else %>
     <h2 class="text-2xl font-semibold text-stone-900">
-      <%= pluralize(@results.size, "propiedad disponible", "propiedades disponibles") %>
+      <%= t("search.results_count", count: @results.size) %>
     </h2>
     <p class="text-stone-500 mt-1">
       <%= l @search.check_in, format: :long %> → <%= l @search.check_out, format: :long %> ·
-      <%= nights_label(@search.nights) %> · <%= pluralize(@search.guests, "huésped", "huéspedes") %>
+      <%= nights_label(@search.nights) %> · <%= guests_label(@search.guests) %>
     </p>
 
     <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -37,12 +37,12 @@
           <% end %>
           <div class="p-4 flex-1 flex flex-col">
             <h3 class="font-semibold text-stone-900"><%= property.name %></h3>
-            <p class="text-sm text-stone-500"><%= property.address_area %> · hasta <%= property.capacity %> huéspedes</p>
+            <p class="text-sm text-stone-500"><%= property.address_area %> · <%= t("search.up_to_guests", count: property.capacity) %></p>
             <div class="mt-3 pt-3 border-t border-stone-100">
-              <p class="text-sm text-stone-500">Total <%= nights_label(@search.nights) %> + limpieza</p>
+              <p class="text-sm text-stone-500"><%= t("search.total_summary", nights: nights_label(@search.nights)) %></p>
               <p class="text-lg font-semibold text-stone-900"><%= money(quote.total_cents, quote.currency) %></p>
             </div>
-            <%= link_to "Ver y reservar",
+            <%= link_to t("search.view_and_book"),
                   new_booking_path(property_slug: property.slug, check_in: @search.check_in, check_out: @search.check_out, guests: @search.guests),
                   class: "mt-4 block text-center rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-4 py-2.5" %>
           </div>

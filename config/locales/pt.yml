@@ -1,0 +1,218 @@
+pt:
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      long: "%-d de %B de %Y"
+      short: "%-d de %b"
+      month_year: "%B de %Y"
+    day_names: [domingo, segunda-feira, terça-feira, quarta-feira, quinta-feira, sexta-feira, sábado]
+    abbr_day_names: [dom, seg, ter, qua, qui, sex, sáb]
+    month_names: [~, janeiro, fevereiro, março, abril, maio, junho, julho, agosto, setembro, outubro, novembro, dezembro]
+    abbr_month_names: [~, jan, fev, mar, abr, mai, jun, jul, ago, set, out, nov, dez]
+    order:
+      - :day
+      - :month
+      - :year
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+      long: "%-d de %B de %Y às %H:%M"
+      short: "%-d de %b %H:%M"
+    am: "am"
+    pm: "pm"
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " e "
+      last_word_connector: " e "
+  helpers:
+    submit:
+      create: "Criar %{model}"
+      update: "Salvar %{model}"
+      submit: "Salvar %{model}"
+
+  errors:
+    messages:
+      blank: "não pode ficar em branco"
+      present: "deve ficar em branco"
+      inclusion: "não está incluído na lista"
+      not_a_number: "não é um número"
+      greater_than_or_equal_to: "deve ser maior ou igual a %{count}"
+      taken: "já está em uso"
+
+  activerecord:
+    attributes:
+      booking:
+        check_in: "Chegada"
+        check_out: "Saída"
+        guests_count: "Hóspedes"
+        guest_name: "Nome"
+        guest_email: "Email"
+        guest_phone: "Telefone"
+        notes: "Comentários"
+    errors:
+      models:
+        booking:
+          attributes:
+            check_out:
+              after_check_in: "deve ser posterior ao check-in"
+            guests_count:
+              over_capacity: "excede a capacidade da propriedade"
+            base:
+              min_nights: "A estadia mínima é de %{count} noites"
+              dates_unavailable: "As datas não estão mais disponíveis"
+
+  site:
+    name: "Reservá Directo"
+    title_suffix: "Reservá Directo"
+    default_title: "Reservá Directo — casas e cabanas sem comissão"
+    default_description: "Reserve direto, sem intermediários. Confira a disponibilidade real e reserve casas e cabanas para a sua próxima estadia no Paraguai."
+    og_locale: "pt_BR"
+
+  units:
+    per_night: "/ noite"
+    guests:
+      one: "%{count} hóspede"
+      other: "%{count} hóspedes"
+    nights:
+      one: "%{count} noite"
+      other: "%{count} noites"
+
+  layout:
+    nav_properties: "Propriedades"
+    nav_my_booking: "Minha reserva"
+    language: "Idioma"
+    footer_rights: "© %{year} Reservá Directo — reserve direto, sem intermediários."
+    footer_lookup: "Confira o status da sua reserva"
+
+  home:
+    org_description: "Reserve casas e cabanas no Paraguai diretamente, sem intermediários."
+    hero_kicker: "Reserve direto, sem comissão"
+    hero_title: "Casas e cabanas para a sua próxima escapada"
+    hero_subtitle: "Escolha as datas e confira a disponibilidade real. Você reserva direto com a gente — o mesmo lugar, sem intermediários."
+    properties_title: "Nossas propriedades"
+    properties_subtitle: "Escolha uma para ver fotos, disponibilidade e preços."
+
+  search_form:
+    check_in: "Chegada"
+    check_out: "Saída"
+    guests: "Hóspedes"
+    submit: "Buscar disponibilidade"
+
+  search:
+    title: "Disponibilidade"
+    prompt: "Escolha uma data de chegada e outra de saída para ver a disponibilidade."
+    none_title: "Sem disponibilidade para essas datas"
+    none_subtitle: "Tente outras datas ou menos hóspedes."
+    results_count:
+      one: "%{count} propriedade disponível"
+      other: "%{count} propriedades disponíveis"
+    up_to_guests: "até %{count} hóspedes"
+    total_summary: "Total %{nights} + limpeza"
+    view_and_book: "Ver e reservar"
+
+  properties:
+    index_title: "Nossas propriedades"
+    index_subtitle: "Escolha uma para ver fotos, disponibilidade e preços."
+
+  property:
+    photo_alt: "%{name} — foto %{index}"
+    guests: "hóspedes"
+    bedrooms: "quartos"
+    beds: "camas"
+    bathrooms: "banheiros"
+    min_stay: "Estadia mínima"
+    min_stay_nights: "noites"
+    availability: "Disponibilidade"
+    calendar_help: "Escolha as datas direto no calendário: toque na chegada e na saída, ou arraste de uma data até a outra."
+    clear: "Limpar"
+    arrival: "Chegada"
+    departure: "Saída"
+    guests_label: "Hóspedes"
+    see_price: "Ver preço"
+    book: "Reservar"
+    not_available: "Indisponível para essas datas."
+    pick_dates: "Escolha as datas para ver o preço total e reservar."
+
+  calendar:
+    weekday_initials: [S, T, Q, Q, S, S, D]
+    available: "Disponível"
+    occupied: "Ocupado"
+    your_stay: "Sua estadia"
+    night_word: "noite"
+    nights_word: "noites"
+    choose_exit: "Escolha a data de saída"
+    choose_exit_min: "Escolha a saída (mínimo %{count} noites)"
+    no_free_nights: "Não há %{count} noites livres a partir dessa data"
+
+  price:
+    lodging: "Hospedagem"
+    cleaning: "Limpeza"
+    total: "Total"
+    deposit: "Sinal para reservar (50%)"
+    deposit_short: "Sinal (50%)"
+
+  booking:
+    status:
+      pending: "Pendente"
+      confirmed: "Confirmada"
+      completed: "Concluída"
+      cancelled: "Cancelada"
+    flash_received: "Recebemos o seu pedido! Vamos escrever para confirmar."
+    new_title: "Complete o seu pedido"
+    new_subtitle: "Verificamos a disponibilidade e confirmamos por email ou WhatsApp."
+    honeypot: "Não preencher"
+    guest_name: "Nome e sobrenome"
+    email: "Email"
+    phone: "Telefone / WhatsApp"
+    notes: "Comentários (opcional)"
+    disclaimer_html: "Ao enviar, o seu pedido fica <strong>pendente</strong>. Entramos em contato para combinar o sinal (50%) e confirmar a reserva. Nenhuma cobrança é feita nesta etapa."
+    submit: "Enviar pedido"
+    arrival: "Chegada"
+    departure: "Saída"
+    guests: "Hóspedes"
+    received_title: "Recebemos o seu pedido!"
+    received_subtitle: "Entramos em contato para combinar o sinal e confirmar a reserva."
+    code_label: "Código da reserva"
+    cancelled_notice: "Esta reserva foi cancelada."
+    coordinate_whatsapp: "Combinar pelo WhatsApp"
+    mention_code_html: "Mencione o seu código <strong>%{code}</strong>."
+
+  reservation_lookup:
+    title: "Já tem uma reserva?"
+    subtitle: "Confira o status com o seu código (por exemplo, RES-8F3K)."
+    submit: "Consultar"
+
+  whatsapp:
+    label: "WhatsApp"
+    aria: "Fale com a gente no WhatsApp"
+    default_message: "Olá, quero tirar uma dúvida sobre uma reserva."
+    booking_message: "Olá, estou perguntando sobre a minha reserva %{code} em %{property}."
+
+  mailer:
+    guest_requested:
+      subject: "Recebemos o seu pedido · %{code}"
+      heading: "Recebemos o seu pedido, %{name}!"
+      intro_html: "Obrigado por reservar direto com a gente. O seu pedido está <strong>pendente de confirmação</strong>. Vamos entrar em contato para combinar o sinal (50%) e confirmar a sua reserva."
+      intro_text: "O seu pedido está pendente de confirmação. Entramos em contato para combinar o sinal (50%) e confirmar a sua reserva."
+      code: "Código"
+      property: "Propriedade"
+      arrival: "Chegada"
+      departure: "Saída"
+      guests: "Hóspedes"
+      total: "Total"
+      deposit: "Sinal (50%)"
+      cta: "Ver o status da minha reserva"
+      status_link: "Ver status"
+      footer_html: "Qualquer dúvida, responda este email mencionando o seu código %{code}."
+    confirmed:
+      subject: "A sua reserva %{code} está confirmada ✓"
+      heading: "A sua reserva está confirmada ✓"
+      intro_html: "Tudo pronto, %{name}! Confirmamos a sua reserva em <strong>%{property}</strong>. Esperamos por você."
+      intro_text: "Tudo pronto, %{name}! Confirmamos a sua reserva em %{property}."
+      code: "Código"
+      arrival: "Chegada"
+      departure: "Saída"
+      total: "Total"
+      cta: "Ver a minha reserva"
+      cta_text: "Ver a minha reserva"
