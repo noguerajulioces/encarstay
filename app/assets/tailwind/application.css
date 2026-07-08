@@ -34,7 +34,7 @@
   --color-sand-900: #262320;
   --color-sand-950: #1a1712;
 
-  /* Tipografía de marca */
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  /* Tipografía de marca — sans geométrica única (estilo Airbnb Cereal) */
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
 }
