@@ -1,0 +1,51 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "7c60acf0159d35dcceabe53174f8095e2e569aa0cb195550c49d52c28ac2fa85",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/events_controller.rb",
+      "line": 19,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "scope.where(\"title_#{(I18n.locale or I18n.default_locale)} LIKE :q OR summary_#{(I18n.locale or I18n.default_locale)} LIKE :q\", :q => (\"%#{query}%\"))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "EventsController",
+        "method": "search"
+      },
+      "user_input": "I18n.locale",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": "False positive: the interpolated column suffix is not user input. `loc` is whitelisted against I18n.available_locales (es/en/pt) before the query, so only fixed column names title_es/en/pt are ever used. The query value is bound via :q."
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "baabebe17e2d11943a070a7162c1c0b970df553cfc0dd843000d20b9e1694c1b",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/controllers/attractions_controller.rb",
+      "line": 19,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "scope.where(\"title_#{(I18n.locale or I18n.default_locale)} LIKE :q OR summary_#{(I18n.locale or I18n.default_locale)} LIKE :q\", :q => (\"%#{query}%\"))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "AttractionsController",
+        "method": "search"
+      },
+      "user_input": "I18n.locale",
+      "confidence": "Weak",
+      "cwe_id": [
+        89
+      ],
+      "note": "False positive: the interpolated column suffix is not user input. `loc` is whitelisted against I18n.available_locales (es/en/pt) before the query, so only fixed column names title_es/en/pt are ever used. The query value is bound via :q."
+    }
+  ],
+  "brakeman_version": "8.0.5"
+}
