@@ -2,8 +2,9 @@
 
 The database schema (SQLite). Source of truth: [db/schema.rb](../db/schema.rb). All
 amounts are stored in **cents** (`*_cents`, minor units). The `*_es` / `*_en` /
-`*_pt` columns are translatable content. Occupancy date ranges are **half-open**
-`[from, to)`: the check-out day stays free.
+`*_pt` columns are translatable content; blog article bodies are **Action Text** rich
+text (`action_text_rich_texts`), one record per locale. Occupancy date ranges are
+**half-open** `[from, to)`: the check-out day stays free.
 
 ## Entity-relationship diagram
 
@@ -112,6 +113,17 @@ erDiagram
         integer position
     }
 
+    POST {
+        integer  category_id FK
+        string   slug UK
+        string   title_es
+        string   excerpt_es
+        string   meta_description_es
+        boolean  published
+        boolean  featured
+        datetime published_at
+    }
+
     PROPERTY ||--o{ PHOTO : "has"
     PROPERTY ||--o{ SEASONAL_RATE : "prices"
     PROPERTY ||--o{ BLOCK : "blocks"
@@ -119,6 +131,7 @@ erDiagram
     PROPERTY ||--o{ CALENDAR_SOURCE : "syncs"
     CALENDAR_SOURCE ||--o{ EXTERNAL_EVENT : "imports"
     CATEGORY ||--o{ GUIDE_ENTRY : "groups"
+    CATEGORY ||--o{ POST : "groups"
     GUIDE_ENTRY ||--o{ PROPERTY_RECOMMENDATION : "recommends"
     PROPERTY ||--o{ PROPERTY_RECOMMENDATION : "is recommended"
 ```
@@ -326,6 +339,26 @@ Cover image via Active Storage (`has_one_attached :cover_image`).
 Joins `GuideEntry` with `Property` for curated cross-promotion. Unique
 `(guide_entry_id, property_id)`, with `position` for ordering.
 
+### `posts` — Blog articles
+
+Multilingual SEO content about Encarnación. Slug and per-locale text columns mirror
+`guide_entries`; the article body is Action Text (see infrastructure tables), not a
+column.
+
+| Column | Type | Notes |
+|---|---|---|
+| `category_id` | integer | Optional FK. |
+| `slug` | string | Unique. Auto-generated from `title_es`. URL param. |
+| `title_*` / `excerpt_*` / `meta_description_*` | string | `_es` / `_en` / `_pt`. `title_es` required. |
+| `published` / `featured` | boolean | `false`. Only `published` posts are public. |
+| `published_at` | datetime | Set when first published; drives ordering and JSON-LD `datePublished`. |
+| `position` | integer | 0. |
+
+Unique index `slug`; composite index `(published, published_at)`. Cover image via
+Active Storage (`has_one_attached :cover_image`). The body is three Action Text records
+(`body_es` / `body_en` / `body_pt`); `Post#body` returns the current locale's, falling
+back to Spanish.
+
 ### `users` — Admins
 
 | Column | Type | Notes |
@@ -337,6 +370,8 @@ Joins `GuideEntry` with `Property` for curated cross-promotion. Unique
 ### Infrastructure tables
 
 - `active_storage_attachments` / `active_storage_blobs` / `active_storage_variant_records`
-  — attachments (property photos, guide cover images).
+  — attachments (property photos, guide and blog cover images).
+- `action_text_rich_texts` — rich-text bodies for blog posts (`Post#body_es` /
+  `body_en` / `body_pt`), polymorphic on the record + a `name` per locale.
 - Separate SQLite databases in production for Solid **Queue** (jobs), **Cache**, and
   **Cable** (see [config/database.yml](../config/database.yml)).
