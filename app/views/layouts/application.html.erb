@@ -22,15 +22,9 @@
 
   <body class="h-full bg-sand-50 text-sand-800 antialiased font-sans selection:bg-brand-200 selection:text-brand-900">
     <header class="sticky top-0 z-30 border-b border-sand-200/80 bg-sand-50/85 backdrop-blur-md">
-      <div class="mx-auto max-w-6xl px-5 h-16 flex items-center justify-between gap-4">
-        <%= link_to root_path, class: "group flex items-center gap-2.5 shrink-0", "aria-label": t("site.name") do %>
-          <span class="inline-grid h-9 w-9 place-items-center rounded-xl bg-brand-700 text-brand-50 shadow-sm transition-transform group-hover:-rotate-6">
-            <%= icon :home, klass: "h-5 w-5" %>
-          </span>
-          <span class="leading-none">
-            <span class="block font-display text-lg font-semibold text-brand-900 tracking-tight">Encar</span>
-            <span class="block text-[0.58rem] font-semibold tracking-[0.38em] text-brand-500 uppercase">Stays</span>
-          </span>
+      <div class="mx-auto max-w-6xl px-5 h-20 flex items-center justify-between gap-4">
+        <%= link_to root_path, class: "shrink-0 transition-opacity hover:opacity-80", "aria-label": t("site.name") do %>
+          <%= image_tag "encar-stays-logo.png", alt: t("site.name"), width: 140, height: 160, class: "h-14 w-auto sm:h-16" %>
         <% end %>
 
         <nav class="flex items-center gap-4 sm:gap-6 text-sm">
@@ -63,15 +57,7 @@
     <footer class="mt-20 bg-brand-950 text-sand-300">
       <div class="mx-auto max-w-6xl px-5 py-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div class="lg:col-span-2 max-w-sm">
-          <div class="flex items-center gap-2.5">
-            <span class="inline-grid h-9 w-9 place-items-center rounded-xl bg-brand-600 text-brand-50">
-              <%= icon :home, klass: "h-5 w-5" %>
-            </span>
-            <span class="leading-none">
-              <span class="block font-display text-lg font-semibold text-white tracking-tight">Encar</span>
-              <span class="block text-[0.58rem] font-semibold tracking-[0.38em] text-brand-300 uppercase">Stays</span>
-            </span>
-          </div>
+          <%= image_tag "encar-stays-logo.png", alt: t("site.name"), width: 175, height: 200, class: "h-20 w-auto" %>
           <p class="mt-4 text-sm leading-relaxed text-sand-400"><%= t("layout.footer_blurb") %></p>
           <p class="mt-4 flex items-center gap-1.5 text-sm text-sand-400"><%= icon :pin, klass: "h-4 w-4 text-brand-400" %> <%= t("layout.footer_location") %></p>
         </div>
