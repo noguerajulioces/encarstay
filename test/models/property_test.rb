@@ -65,6 +65,42 @@ class PropertyTest < ActiveSupport::TestCase
     assert properties(:bosque).available?(@in, @out)
   end
 
+  # --- Coordinates & distance ---
+
+  test "coordinates? is false without both lat and lng" do
+    assert_not @property.coordinates?
+    @property.latitude = -27.33
+    assert_not @property.coordinates?, "needs both latitude and longitude"
+    @property.longitude = -55.86
+    assert @property.coordinates?
+  end
+
+  test "distance_km_to returns nil when the property has no coordinates" do
+    assert_nil @property.distance_km_to(-27.33, -55.86)
+  end
+
+  test "distance_km_to returns nil when the target point is blank" do
+    @property.update!(latitude: -27.33, longitude: -55.86)
+    assert_nil @property.distance_km_to(nil, -55.86)
+    assert_nil @property.distance_km_to(-27.33, nil)
+  end
+
+  test "distance to the same point is zero" do
+    @property.update!(latitude: -27.33, longitude: -55.86)
+    assert_in_delta 0.0, @property.distance_km_to(-27.33, -55.86), 0.001
+  end
+
+  test "one degree of latitude is about 111 km" do
+    @property.update!(latitude: 0, longitude: 0)
+    assert_in_delta 111.19, @property.distance_km_to(1, 0), 0.5
+  end
+
+  test "distance matches a known Encarnación landmark separation" do
+    # Costanera ≈ (-27.336, -55.872), Playa San José ≈ (-27.325, -55.865): ~1.4 km apart.
+    @property.update!(latitude: -27.336, longitude: -55.872)
+    assert_in_delta 1.4, @property.distance_km_to(-27.325, -55.865), 0.3
+  end
+
   # --- Race protection ---
 
   test "book! rejects a stay that overlaps an existing one" do

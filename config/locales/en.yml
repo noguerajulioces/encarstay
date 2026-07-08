@@ -179,6 +179,9 @@ en:
     pick_dates: "Pick dates to see the total price and book."
     nearby_guide: "Things to do nearby"
     nearby_guide_subtitle: "Must-see events and places a step from your stay."
+    location: "Location"
+    location_subtitle: "Where you'll stay and what's nearby."
+    km_away: "~%{km} km"
 
   calendar:
     weekday_initials: [M, T, W, T, F, S, S]

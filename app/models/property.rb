@@ -76,6 +76,29 @@ class Property < ApplicationRecord
     photos.detect { |photo| photo.image.attached? }
   end
 
+  def coordinates?
+    latitude.present? && longitude.present?
+  end
+
+  # Great-circle distance in kilometres between this property and a point, via the
+  # haversine formula. Straight-line, not a street route — enough to say "~1.2 km
+  # from the Costanera" without needing a routing service.
+  def distance_km_to(lat, lng)
+    return nil unless coordinates? && lat.present? && lng.present?
+
+    lat1 = latitude.to_f
+    lng1 = longitude.to_f
+    lat2 = lat.to_f
+    lng2 = lng.to_f
+
+    rad = Math::PI / 180
+    dlat = (lat2 - lat1) * rad
+    dlng = (lng2 - lng1) * rad
+    a = (Math.sin(dlat / 2)**2) +
+        (Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * (Math.sin(dlng / 2)**2))
+    6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+  end
+
   # The nightly rate in effect on a given date: the covering seasonal rate, or the
   # base price when no season applies.
   def rate_for(date)

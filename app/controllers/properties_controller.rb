@@ -14,5 +14,14 @@ class PropertiesController < ApplicationController
     @min_nights_overrides = @property.min_nights_overrides
     @nearby_guide = @property.guide_entries.published.limit(4)
     @nearby_guide = GuideEntry.attractions.published.featured.ordered.limit(4) if @nearby_guide.empty?
+
+    if @property.coordinates?
+      @attraction_distances =
+        GuideEntry.attractions.published
+          .where.not(latitude: nil, longitude: nil)
+          .map { |entry| [ entry, @property.distance_km_to(entry.latitude, entry.longitude) ] }
+          .sort_by(&:last)
+          .first(5)
+    end
   end
 end

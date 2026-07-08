@@ -188,6 +188,9 @@ es:
     pick_dates: "Elegí fechas para ver el precio total y reservar."
     nearby_guide: "Qué hacer cerca"
     nearby_guide_subtitle: "Eventos y lugares imperdibles a un paso de tu alojamiento."
+    location: "Ubicación"
+    location_subtitle: "Dónde te vas a alojar y qué tenés cerca."
+    km_away: "~%{km} km"
 
   calendar:
     weekday_initials: [L, M, M, J, V, S, D]

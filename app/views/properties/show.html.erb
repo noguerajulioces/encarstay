@@ -103,6 +103,31 @@
       </div>
     </div>
 
+    <%# --- Ubicación --- %>
+    <% if @property.coordinates? %>
+      <div class="mt-10">
+        <h2 class="font-display text-xl font-semibold text-brand-900"><%= t("property.location") %></h2>
+        <p class="mt-1 mb-4 text-sm text-sand-500"><%= t("property.location_subtitle") %></p>
+        <%= render "shared/map", title: @property.name, latitude: @property.latitude, longitude: @property.longitude, address: @property.address_area %>
+
+        <% if @attraction_distances.present? %>
+          <ul class="mt-4 divide-y divide-sand-200 overflow-hidden rounded-2xl border border-sand-200 bg-white">
+            <% @attraction_distances.each do |entry, km| %>
+              <li>
+                <%= link_to guide_entry_path(entry), class: "group flex items-center justify-between gap-3 px-4 py-3 transition hover:bg-sand-50" do %>
+                  <span class="flex min-w-0 items-center gap-2">
+                    <span class="text-brand-500"><%= icon :pin, klass: "h-4 w-4" %></span>
+                    <span class="truncate text-sm font-medium text-brand-900 group-hover:text-brand-700"><%= entry.title %></span>
+                  </span>
+                  <span class="shrink-0 text-sm font-semibold text-sand-500"><%= t("property.km_away", km: number_with_precision(km, precision: 1, strip_insignificant_zeros: true)) %></span>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+    <% end %>
+
     <%# --- Qué hacer cerca --- %>
     <% if @nearby_guide.any? %>
       <div class="mt-10">

@@ -72,7 +72,7 @@
 
     <div>
       <h2 class="mb-3 font-display text-xl font-semibold text-brand-900"><%= t("guide.location") %></h2>
-      <%= render "shared/map", entry: @attraction %>
+      <%= render "shared/map", title: @attraction.title, latitude: @attraction.latitude, longitude: @attraction.longitude, address: @attraction.address.presence || @attraction.area %>
     </div>
   </div>
 

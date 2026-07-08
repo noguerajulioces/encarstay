@@ -51,8 +51,8 @@ class Admin::PropertiesController < Admin::BaseController
     end
 
     def property_params
-      params.require(:property).permit(:name, :description, :address_area, :capacity, :bedrooms,
-        :beds, :bathrooms, :base_price_cents, :currency, :cleaning_fee_cents, :min_nights,
-        :active, :airbnb_listing_url)
+      params.require(:property).permit(:name, :description, :address_area, :latitude, :longitude,
+        :capacity, :bedrooms, :beds, :bathrooms, :base_price_cents, :currency, :cleaning_fee_cents,
+        :min_nights, :active, :airbnb_listing_url)
     end
 end
