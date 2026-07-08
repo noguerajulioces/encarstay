@@ -14,40 +14,45 @@
   }) %>
 <% end %>
 
-<%# ===== Hero ===== %>
-<section class="relative overflow-hidden text-white"
-         style="background:
-           radial-gradient(1100px 480px at 12% -12%, rgba(194,154,114,0.50), transparent 60%),
-           radial-gradient(900px 520px at 105% 0%, rgba(214,179,147,0.32), transparent 55%),
-           linear-gradient(160deg, #3a2c20 0%, #2a2018 55%, #201811 100%);">
-  <div class="pointer-events-none absolute inset-0 opacity-[0.06]"
-       style="background-image: radial-gradient(currentColor 1px, transparent 1px); background-size: 22px 22px;"></div>
-  <div class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand-400/20 blur-3xl"></div>
+<%# ===== Hero (split: texto + acuarela de Encarnación) ===== %>
+<section class="relative overflow-hidden bg-sand-50">
+  <div class="pointer-events-none absolute -left-32 top-0 h-80 w-80 rounded-full bg-brand-200/30 blur-3xl"></div>
+  <div class="pointer-events-none absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-brand-300/20 blur-3xl"></div>
 
-  <div class="relative mx-auto max-w-6xl px-5 pb-28 pt-16 sm:pb-32 sm:pt-24">
-    <p class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-brand-200 backdrop-blur">
-      <%= icon :compass, klass: "h-4 w-4" %> <%= t("home.hero_kicker") %>
-    </p>
-    <h1 class="mt-5 max-w-3xl font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl">
-      <%= t("home.hero_title") %>
-    </h1>
-    <p class="mt-5 max-w-xl text-lg leading-relaxed text-sand-200">
-      <%= t("home.hero_subtitle") %>
-    </p>
+  <div class="relative mx-auto grid max-w-6xl items-center gap-10 px-5 pb-24 pt-12 sm:pt-16 lg:grid-cols-2 lg:gap-14">
+    <%# Texto %>
+    <div class="order-2 lg:order-1">
+      <p class="inline-flex items-center gap-2 rounded-full border border-sand-200 bg-white/70 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-brand-600 backdrop-blur">
+        <%= icon :compass, klass: "h-4 w-4" %> <%= t("home.hero_kicker") %>
+      </p>
+      <h1 class="mt-5 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-brand-900 sm:text-6xl">
+        <%= t("home.hero_title") %>
+      </h1>
+      <p class="mt-5 max-w-xl text-lg leading-relaxed text-sand-600">
+        <%= t("home.hero_subtitle") %>
+      </p>
 
-    <div class="mt-9 flex flex-wrap gap-x-6 gap-y-2 text-sm text-sand-200">
-      <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-brand-300" %> <%= t("home.trust_direct") %></span>
-      <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-brand-300" %> <%= t("home.trust_no_fees") %></span>
-      <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-brand-300" %> <%= t("home.trust_local") %></span>
+      <div class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-sand-600">
+        <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-brand-500" %> <%= t("home.trust_direct") %></span>
+        <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-brand-500" %> <%= t("home.trust_no_fees") %></span>
+        <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-brand-500" %> <%= t("home.trust_local") %></span>
+      </div>
+    </div>
+
+    <%# Acuarela %>
+    <div class="order-1 lg:order-2">
+      <div class="overflow-hidden rounded-3xl shadow-[0_30px_60px_-30px_rgba(94,72,50,0.5)] ring-1 ring-sand-900/5">
+        <%= image_tag "header.webp", alt: t("home.hero_image_alt"),
+              width: 1100, height: 600, loading: "eager", fetchpriority: "high",
+              class: "aspect-[11/6] w-full object-cover" %>
+      </div>
     </div>
   </div>
 </section>
 
 <%# ===== Search (overlapping the hero) ===== %>
-<div class="relative z-10 mx-auto -mt-14 max-w-5xl px-5 sm:-mt-16">
-  <div class="rounded-3xl bg-white/10 p-2 backdrop-blur md:bg-transparent md:p-0">
-    <%= render "shared/search_form", search: @search %>
-  </div>
+<div class="relative z-10 mx-auto -mt-6 max-w-5xl px-5 sm:-mt-10">
+  <%= render "shared/search_form", search: @search %>
 </div>
 
 <%# ===== Explorá la ciudad (categorías) ===== %>

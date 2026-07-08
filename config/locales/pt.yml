@@ -97,6 +97,7 @@ pt:
     hero_kicker: "Sua base em Encarnación"
     hero_title: "Hospede-se em Encarnación e viva a cidade"
     hero_subtitle: "Escolha as datas e confira a disponibilidade real. Reserve direto com a gente — sem intermediários, sem comissão."
+    hero_image_alt: "Aquarela de Encarnación: a ponte San Roque González, a orla e a cidade ao entardecer"
     trust_direct: "Reserva direta com o anfitrião"
     trust_no_fees: "Sem comissão, sem intermediários"
     trust_local: "Anfitrião local em Encarnación"
@@ -172,6 +173,10 @@ pt:
 
   property:
     photo_alt: "%{name} — foto %{index}"
+    show_all_photos: "Mostrar todas as fotos"
+    close: "Fechar"
+    prev_photo: "Foto anterior"
+    next_photo: "Próxima foto"
     guests: "hóspedes"
     bedrooms: "quartos"
     beds: "camas"

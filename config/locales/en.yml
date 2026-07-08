@@ -88,6 +88,7 @@ en:
     hero_kicker: "Your base in Encarnación"
     hero_title: "Stay in Encarnación and live the city"
     hero_subtitle: "Pick your dates and check real-time availability. Book directly with us — no middlemen, no commission."
+    hero_image_alt: "Watercolor of Encarnación: the San Roque González bridge, the riverside and the city at sunset"
     trust_direct: "Book directly with the host"
     trust_no_fees: "No commission, no middlemen"
     trust_local: "Local host in Encarnación"
@@ -163,6 +164,10 @@ en:
 
   property:
     photo_alt: "%{name} — photo %{index}"
+    show_all_photos: "Show all photos"
+    close: "Close"
+    prev_photo: "Previous photo"
+    next_photo: "Next photo"
     guests: "guests"
     bedrooms: "bedrooms"
     beds: "beds"
