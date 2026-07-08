@@ -7,13 +7,27 @@
     locales = I18n.available_locales
     param   = ->(loc) { loc == I18n.default_locale ? nil : loc }
     pages   = [
-      { url: ->(loc) { root_url(locale: param.call(loc)) },       changefreq: "daily",  priority: "1.0" },
-      { url: ->(loc) { properties_url(locale: param.call(loc)) }, changefreq: "daily",  priority: "0.8" }
+      { url: ->(loc) { root_url(locale: param.call(loc)) },        changefreq: "daily",  priority: "1.0" },
+      { url: ->(loc) { properties_url(locale: param.call(loc)) },  changefreq: "daily",  priority: "0.8" },
+      { url: ->(loc) { attractions_url(locale: param.call(loc)) }, changefreq: "weekly", priority: "0.8" },
+      { url: ->(loc) { events_url(locale: param.call(loc)) },      changefreq: "weekly", priority: "0.8" }
     ]
     @properties.each do |property|
       pages << {
         url: ->(loc) { property_url(property, locale: param.call(loc)) },
         changefreq: "weekly", priority: "0.7", lastmod: property.updated_at.to_date.iso8601
+      }
+    end
+    @attractions.each do |attraction|
+      pages << {
+        url: ->(loc) { attraction_url(attraction, locale: param.call(loc)) },
+        changefreq: "monthly", priority: "0.7", lastmod: attraction.updated_at.to_date.iso8601
+      }
+    end
+    @events.each do |event|
+      pages << {
+        url: ->(loc) { event_url(event, locale: param.call(loc)) },
+        changefreq: "weekly", priority: "0.6", lastmod: event.updated_at.to_date.iso8601
       }
     end
   %>

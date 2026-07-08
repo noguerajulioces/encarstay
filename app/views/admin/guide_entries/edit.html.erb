@@ -1,0 +1,39 @@
+<% content_for :title, @guide_entry.title_es %>
+
+<div class="max-w-3xl space-y-8">
+  <div class="flex items-start justify-between gap-4">
+    <div>
+      <p class="text-xs font-medium uppercase tracking-wide text-brand-500"><%= @guide_entry.event? ? "Evento" : "Lugar" %></p>
+      <h1 class="text-2xl font-semibold text-sand-900"><%= @guide_entry.title_es %></h1>
+    </div>
+    <div class="flex shrink-0 items-center gap-3 text-sm">
+      <%= link_to "Ver en el sitio ↗", (@guide_entry.event? ? event_path(@guide_entry) : attraction_path(@guide_entry)), target: "_blank", rel: "noopener", class: "text-brand-700 hover:underline" %>
+      <%= button_to "Eliminar", admin_guide_entry_path(@guide_entry), method: :delete, form: { data: { turbo_confirm: "¿Eliminar este contenido?" } }, class: "text-rose-700 hover:underline cursor-pointer" %>
+    </div>
+  </div>
+
+  <%= render "form", guide_entry: @guide_entry %>
+
+  <%# --- Alojamientos recomendados (cross-promoción) --- %>
+  <section class="rounded-xl bg-white border border-sand-200 p-5">
+    <h2 class="font-semibold text-sand-900">Alojamientos recomendados</h2>
+    <p class="mt-1 text-sm text-sand-500">Se muestran en esta página para convertir visitas en reservas. Si no elegís ninguno, se muestran todos los activos.</p>
+
+    <div class="mt-4 space-y-2">
+      <% @guide_entry.property_recommendations.includes(:property).each do |rec| %>
+        <div class="flex items-center justify-between rounded-lg border border-sand-200 px-3 py-2">
+          <span class="text-sm text-sand-800"><%= rec.property.name %> <span class="text-sand-400">· <%= rec.property.address_area %></span></span>
+          <%= button_to "Quitar", admin_guide_entry_property_recommendation_path(@guide_entry, rec), method: :delete, class: "text-xs text-rose-700 hover:underline cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+
+    <% available = @properties - @guide_entry.recommended_properties %>
+    <% if available.any? %>
+      <%= form_with url: admin_guide_entry_property_recommendations_path(@guide_entry), method: :post, class: "mt-4 flex gap-2" do %>
+        <%= select_tag :property_id, options_from_collection_for_select(available, :id, :name), class: "flex-1 rounded-lg border-sand-300 border px-3 py-2 text-sm" %>
+        <%= submit_tag "Agregar", class: "rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-medium px-4 py-2 cursor-pointer" %>
+      <% end %>
+    <% end %>
+  </section>
+</div>

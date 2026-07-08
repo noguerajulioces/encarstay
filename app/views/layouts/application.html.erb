@@ -3,6 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#74593d">
     <meta name="turbo-refresh-method" content="morph">
     <meta name="turbo-refresh-scroll" content="preserve">
     <%= render "shared/meta" %>
@@ -12,26 +13,37 @@
     <%= yield :head %>
 
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Outfit:wght@300;400;500;600;700&display=swap">
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="h-full bg-stone-50 text-stone-800 antialiased">
-    <header class="border-b border-stone-200 bg-white/80 backdrop-blur sticky top-0 z-30">
-      <div class="mx-auto max-w-6xl px-5 h-16 flex items-center justify-between">
-        <%= link_to root_path, class: "flex items-center gap-2 font-semibold text-lg text-emerald-800" do %>
-          <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-700 text-white">R</span>
-          <%= t("site.name") %>
+  <body class="h-full bg-sand-50 text-sand-800 antialiased font-sans selection:bg-brand-200 selection:text-brand-900">
+    <header class="sticky top-0 z-30 border-b border-sand-200/80 bg-sand-50/85 backdrop-blur-md">
+      <div class="mx-auto max-w-6xl px-5 h-16 flex items-center justify-between gap-4">
+        <%= link_to root_path, class: "group flex items-center gap-2.5 shrink-0", "aria-label": t("site.name") do %>
+          <span class="inline-grid h-9 w-9 place-items-center rounded-xl bg-brand-700 text-brand-50 shadow-sm transition-transform group-hover:-rotate-6">
+            <%= icon :home, klass: "h-5 w-5" %>
+          </span>
+          <span class="leading-none">
+            <span class="block font-display text-lg font-semibold text-brand-900 tracking-tight">Encar</span>
+            <span class="block text-[0.58rem] font-semibold tracking-[0.38em] text-brand-500 uppercase">Stays</span>
+          </span>
         <% end %>
+
         <nav class="flex items-center gap-4 sm:gap-6 text-sm">
-          <%= link_to t("layout.nav_properties"), properties_path, class: "text-stone-600 hover:text-emerald-800" %>
-          <%= link_to t("layout.nav_my_booking"), root_path(anchor: "buscar-reserva"), class: "hidden sm:inline text-stone-600 hover:text-emerald-800" %>
-          <div class="flex items-center gap-0.5" aria-label="<%= t('layout.language') %>">
+          <%= link_to t("layout.nav_properties"), properties_path, class: "font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
+          <%= link_to t("layout.nav_attractions"), attractions_path, class: "hidden sm:inline font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
+          <%= link_to t("layout.nav_events"), events_path, class: "hidden sm:inline font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
+          <%= link_to t("layout.nav_my_booking"), root_path(anchor: "buscar-reserva"), class: "hidden md:inline font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
+          <div class="flex items-center rounded-full border border-sand-200 bg-white/60 p-0.5" aria-label="<%= t('layout.language') %>">
             <% I18n.available_locales.each do |loc| %>
               <%= link_to loc.to_s.upcase, path_for_locale(loc),
                     lang: loc, hreflang: loc,
                     "aria-current": (loc == I18n.locale ? "true" : nil),
-                    class: "px-1.5 py-1 rounded #{loc == I18n.locale ? 'font-semibold text-emerald-800' : 'text-stone-400 hover:text-emerald-800'}" %>
+                    class: "px-2 py-0.5 rounded-full text-xs font-semibold transition-colors #{loc == I18n.locale ? 'bg-brand-700 text-white' : 'text-sand-400 hover:text-brand-800'}" %>
             <% end %>
           </div>
         </nav>
@@ -42,16 +54,54 @@
       <%= render "shared/flash_messages" %>
     </div>
 
-    <main class="mx-auto max-w-6xl px-5 py-8 min-h-[70vh]">
+    <main class="min-h-[70vh]">
       <%= yield %>
     </main>
 
     <%= render "shared/whatsapp" %>
 
-    <footer class="border-t border-stone-200 bg-white mt-12">
-      <div class="mx-auto max-w-6xl px-5 py-8 text-sm text-stone-500 flex flex-col sm:flex-row justify-between gap-3">
-        <p><%= t("layout.footer_rights", year: Date.current.year) %></p>
-        <p><%= link_to t("layout.footer_lookup"), root_path(anchor: "buscar-reserva"), class: "text-emerald-700 hover:underline" %></p>
+    <footer class="mt-20 bg-brand-950 text-sand-300">
+      <div class="mx-auto max-w-6xl px-5 py-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="lg:col-span-2 max-w-sm">
+          <div class="flex items-center gap-2.5">
+            <span class="inline-grid h-9 w-9 place-items-center rounded-xl bg-brand-600 text-brand-50">
+              <%= icon :home, klass: "h-5 w-5" %>
+            </span>
+            <span class="leading-none">
+              <span class="block font-display text-lg font-semibold text-white tracking-tight">Encar</span>
+              <span class="block text-[0.58rem] font-semibold tracking-[0.38em] text-brand-300 uppercase">Stays</span>
+            </span>
+          </div>
+          <p class="mt-4 text-sm leading-relaxed text-sand-400"><%= t("layout.footer_blurb") %></p>
+          <p class="mt-4 flex items-center gap-1.5 text-sm text-sand-400"><%= icon :pin, klass: "h-4 w-4 text-brand-400" %> <%= t("layout.footer_location") %></p>
+        </div>
+
+        <div>
+          <h3 class="text-xs font-semibold uppercase tracking-widest text-brand-300"><%= t("layout.footer_explore") %></h3>
+          <ul class="mt-4 space-y-2.5 text-sm">
+            <li><%= link_to t("layout.nav_properties"), properties_path, class: "text-sand-300 hover:text-white transition-colors" %></li>
+            <li><%= link_to t("layout.nav_attractions"), attractions_path, class: "text-sand-300 hover:text-white transition-colors" %></li>
+            <li><%= link_to t("layout.nav_events"), events_path, class: "text-sand-300 hover:text-white transition-colors" %></li>
+            <li><%= link_to t("layout.footer_lookup"), root_path(anchor: "buscar-reserva"), class: "text-sand-300 hover:text-white transition-colors" %></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-xs font-semibold uppercase tracking-widest text-brand-300"><%= t("layout.footer_contact") %></h3>
+          <ul class="mt-4 space-y-2.5 text-sm">
+            <li>
+              <%= link_to whatsapp_url(t("whatsapp.default_message")), target: "_blank", rel: "noopener",
+                    class: "inline-flex items-center gap-2 text-sand-300 hover:text-white transition-colors" do %>
+                <span class="inline-block h-2 w-2 rounded-full bg-[#25D366]"></span> WhatsApp
+              <% end %>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-white/10">
+        <div class="mx-auto max-w-6xl px-5 py-5 text-xs text-sand-500">
+          <p><%= t("layout.footer_rights", year: Date.current.year) %></p>
+        </div>
       </div>
     </footer>
   </body>

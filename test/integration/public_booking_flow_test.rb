@@ -12,7 +12,7 @@ class PublicBookingFlowTest < ActionDispatch::IntegrationTest
   test "home lists the active properties" do
     get root_path
     assert_response :success
-    assert_select "h1", /escapada/i
+    assert_select "h1", /Encarnación/i
     assert_match @property.name, response.body
   end
 

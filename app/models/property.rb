@@ -13,6 +13,8 @@ class Property < ApplicationRecord
   has_many :blocks, dependent: :destroy
   has_many :calendar_sources, dependent: :destroy
   has_many :external_events, through: :calendar_sources
+  has_many :property_recommendations, dependent: :destroy
+  has_many :guide_entries, through: :property_recommendations
 
   scope :active, -> { where(active: true) }
   scope :accommodating, ->(guests) { where("capacity >= ?", guests.to_i) }

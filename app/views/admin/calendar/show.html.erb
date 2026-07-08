@@ -1,36 +1,36 @@
 <% content_for :title, "Calendario" %>
 
 <div class="flex items-center justify-between flex-wrap gap-3">
-  <h1 class="text-2xl font-semibold text-stone-900">Calendario</h1>
+  <h1 class="text-2xl font-semibold text-sand-900">Calendario</h1>
   <div class="flex items-center gap-2">
-    <%= link_to "←", admin_calendar_path(month: (@month - 1.month).strftime("%Y-%m")), class: "rounded-lg border border-stone-300 px-3 py-1.5 hover:bg-white" %>
-    <span class="font-medium text-stone-700 capitalize w-40 text-center"><%= l @month, format: :month_year %></span>
-    <%= link_to "→", admin_calendar_path(month: (@month + 1.month).strftime("%Y-%m")), class: "rounded-lg border border-stone-300 px-3 py-1.5 hover:bg-white" %>
-    <%= link_to "Hoy", admin_calendar_path, class: "rounded-lg border border-stone-300 px-3 py-1.5 hover:bg-white text-sm" %>
+    <%= link_to "←", admin_calendar_path(month: (@month - 1.month).strftime("%Y-%m")), class: "rounded-lg border border-sand-300 px-3 py-1.5 hover:bg-white" %>
+    <span class="font-medium text-sand-700 capitalize w-40 text-center"><%= l @month, format: :month_year %></span>
+    <%= link_to "→", admin_calendar_path(month: (@month + 1.month).strftime("%Y-%m")), class: "rounded-lg border border-sand-300 px-3 py-1.5 hover:bg-white" %>
+    <%= link_to "Hoy", admin_calendar_path, class: "rounded-lg border border-sand-300 px-3 py-1.5 hover:bg-white text-sm" %>
   </div>
 </div>
 
 <%# --- Grid --- %>
-<div class="mt-4 rounded-xl bg-white border border-stone-200 overflow-x-auto">
+<div class="mt-4 rounded-xl bg-white border border-sand-200 overflow-x-auto">
   <table class="border-collapse text-xs">
     <thead>
       <tr>
-        <th class="sticky left-0 z-10 bg-white text-left px-3 py-2 font-medium text-stone-500 min-w-[10rem]">Propiedad</th>
+        <th class="sticky left-0 z-10 bg-white text-left px-3 py-2 font-medium text-sand-500 min-w-[10rem]">Propiedad</th>
         <% @days.each do |day| %>
-          <th class="px-0 py-2 w-7 text-center font-normal <%= 'text-emerald-700 font-semibold' if day == Date.current %> <%= 'text-stone-400' if day.saturday? || day.sunday? %>"><%= day.day %></th>
+          <th class="px-0 py-2 w-7 text-center font-normal <%= 'text-brand-700 font-semibold' if day == Date.current %> <%= 'text-sand-400' if day.saturday? || day.sunday? %>"><%= day.day %></th>
         <% end %>
       </tr>
     </thead>
     <tbody>
       <% @properties.each do |property| %>
-        <tr class="border-t border-stone-100">
-          <td class="sticky left-0 z-10 bg-white px-3 py-2 font-medium text-stone-800 min-w-[10rem] truncate"><%= link_to property.name, admin_property_path(property), class: "hover:text-emerald-700" %></td>
+        <tr class="border-t border-sand-100">
+          <td class="sticky left-0 z-10 bg-white px-3 py-2 font-medium text-sand-800 min-w-[10rem] truncate"><%= link_to property.name, admin_property_path(property), class: "hover:text-brand-700" %></td>
           <% @days.each do |day| %>
             <% cell = @occupancy[property][day] %>
             <% if cell.nil? %>
-              <td class="h-8 border-l border-stone-50 bg-white" title="<%= l day, format: :long %> · libre"></td>
+              <td class="h-8 border-l border-sand-50 bg-white" title="<%= l day, format: :long %> · libre"></td>
             <% else %>
-              <% colors = { "direct" => "bg-emerald-500", "manual" => "bg-sky-500", "external" => "bg-orange-400", "block" => "bg-stone-400" } %>
+              <% colors = { "direct" => "bg-brand-500", "manual" => "bg-sky-500", "external" => "bg-orange-400", "block" => "bg-sand-400" } %>
               <% title = { "direct" => "Reserva directa", "manual" => "Reserva manual", "external" => "Airbnb", "block" => "Bloqueo" }[cell[:type]] %>
               <% if cell[:record].is_a?(Booking) %>
                 <td class="h-8 border-l border-white/40 <%= colors[cell[:type]] %>" title="<%= title %>: <%= cell[:record].guest_name %>">
@@ -50,48 +50,48 @@
 </div>
 
 <%# --- Legend --- %>
-<div class="mt-3 flex flex-wrap gap-4 text-xs text-stone-500">
-  <span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded bg-emerald-500"></span> Directa</span>
+<div class="mt-3 flex flex-wrap gap-4 text-xs text-sand-500">
+  <span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded bg-brand-500"></span> Directa</span>
   <span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded bg-sky-500"></span> Manual</span>
   <span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded bg-orange-400"></span> Airbnb</span>
-  <span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded bg-stone-400"></span> Bloqueo</span>
+  <span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded bg-sand-400"></span> Bloqueo</span>
 </div>
 
 <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
   <%# --- Manual block --- %>
-  <section class="rounded-xl bg-white border border-stone-200 p-5">
-    <h2 class="font-semibold text-stone-900 mb-1">Bloquear fechas</h2>
-    <p class="text-sm text-stone-500 mb-3">Para mantenimiento o uso personal. También sale en el feed iCal.</p>
+  <section class="rounded-xl bg-white border border-sand-200 p-5">
+    <h2 class="font-semibold text-sand-900 mb-1">Bloquear fechas</h2>
+    <p class="text-sm text-sand-500 mb-3">Para mantenimiento o uso personal. También sale en el feed iCal.</p>
     <%= form_with url: admin_blocks_path, method: :post, class: "space-y-3 text-sm" do %>
-      <%= select_tag :property_id, options_from_collection_for_select(@properties, :id, :name), class: "w-full rounded-lg border-stone-300 border px-3 py-2" %>
+      <%= select_tag :property_id, options_from_collection_for_select(@properties, :id, :name), class: "w-full rounded-lg border-sand-300 border px-3 py-2" %>
       <div class="grid grid-cols-2 gap-2">
-        <%= date_field_tag :starts_on, nil, required: true, class: "rounded-lg border-stone-300 border px-3 py-2" %>
-        <%= date_field_tag :ends_on, nil, required: true, class: "rounded-lg border-stone-300 border px-3 py-2" %>
+        <%= date_field_tag :starts_on, nil, required: true, class: "rounded-lg border-sand-300 border px-3 py-2" %>
+        <%= date_field_tag :ends_on, nil, required: true, class: "rounded-lg border-sand-300 border px-3 py-2" %>
       </div>
-      <%= text_field_tag :reason, nil, placeholder: "Motivo (opcional)", class: "w-full rounded-lg border-stone-300 border px-3 py-2" %>
-      <%= submit_tag "Bloquear", class: "rounded-lg bg-stone-900 text-white font-medium px-4 py-2 cursor-pointer" %>
+      <%= text_field_tag :reason, nil, placeholder: "Motivo (opcional)", class: "w-full rounded-lg border-sand-300 border px-3 py-2" %>
+      <%= submit_tag "Bloquear", class: "rounded-lg bg-sand-900 text-white font-medium px-4 py-2 cursor-pointer" %>
     <% end %>
   </section>
 
   <%# --- Active blocks list --- %>
-  <section class="rounded-xl bg-white border border-stone-200 p-5">
+  <section class="rounded-xl bg-white border border-sand-200 p-5">
     <div class="flex items-center justify-between mb-3">
-      <h2 class="font-semibold text-stone-900">Reserva manual</h2>
-      <%= link_to "+ Nueva reserva manual", new_admin_booking_path, class: "text-sm text-emerald-700 hover:underline" %>
+      <h2 class="font-semibold text-sand-900">Reserva manual</h2>
+      <%= link_to "+ Nueva reserva manual", new_admin_booking_path, class: "text-sm text-brand-700 hover:underline" %>
     </div>
     <% upcoming_blocks = Block.where("ends_on >= ?", Date.current).order(:starts_on).includes(:property) %>
-    <h3 class="text-sm font-medium text-stone-500 mt-2 mb-1">Bloqueos vigentes</h3>
+    <h3 class="text-sm font-medium text-sand-500 mt-2 mb-1">Bloqueos vigentes</h3>
     <% if upcoming_blocks.any? %>
-      <ul class="divide-y divide-stone-100 text-sm">
+      <ul class="divide-y divide-sand-100 text-sm">
         <% upcoming_blocks.each do |block| %>
           <li class="py-2 flex items-center justify-between">
-            <span><%= block.property.name %> · <%= l block.starts_on, format: :short %>→<%= l block.ends_on, format: :short %> <span class="text-stone-400"><%= block.reason %></span></span>
-            <%= button_to "✕", admin_block_path(block), method: :delete, class: "text-stone-400 hover:text-rose-600 cursor-pointer" %>
+            <span><%= block.property.name %> · <%= l block.starts_on, format: :short %>→<%= l block.ends_on, format: :short %> <span class="text-sand-400"><%= block.reason %></span></span>
+            <%= button_to "✕", admin_block_path(block), method: :delete, class: "text-sand-400 hover:text-rose-600 cursor-pointer" %>
           </li>
         <% end %>
       </ul>
     <% else %>
-      <p class="text-sm text-stone-400">Sin bloqueos vigentes.</p>
+      <p class="text-sm text-sand-400">Sin bloqueos vigentes.</p>
     <% end %>
   </section>
 </div>

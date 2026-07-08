@@ -1,0 +1,115 @@
+<% content_for :title, @event.title %>
+<% content_for :description, (@event.summary.presence || @event.title).to_s.truncate(150) %>
+<% content_for :og_type, "article" %>
+<% content_for(:og_image, rails_blob_url(@event.cover_image)) if @event.cover_image.attached? %>
+<% content_for :seo do %>
+  <%= json_ld({
+    "@context" => "https://schema.org",
+    "@type" => "Event",
+    "name" => @event.title,
+    "startDate" => @event.starts_at&.iso8601,
+    "endDate" => (@event.ends_at || @event.starts_at)&.iso8601,
+    "eventStatus" => "https://schema.org/EventScheduled",
+    "eventAttendanceMode" => "https://schema.org/OfflineEventAttendanceMode",
+    "description" => (strip_tags(@event.description.to_s).squish.presence || @event.summary),
+    "image" => (@event.cover_image.attached? ? rails_blob_url(@event.cover_image) : nil),
+    "url" => event_url(@event),
+    "location" => {
+      "@type" => "Place",
+      "name" => (@event.address.presence || @event.area.presence || "Encarnación"),
+      "address" => { "@type" => "PostalAddress", "streetAddress" => @event.address.presence, "addressLocality" => "Encarnación", "addressCountry" => "PY" }.compact,
+      "geo" => (@event.latitude.present? && @event.longitude.present? ? { "@type" => "GeoCoordinates", "latitude" => @event.latitude.to_f, "longitude" => @event.longitude.to_f } : nil)
+    }.compact,
+    "organizer" => { "@type" => "Organization", "name" => t("site.name"), "url" => root_url }
+  }.compact) %>
+  <%= json_ld({
+    "@context" => "https://schema.org",
+    "@type" => "BreadcrumbList",
+    "itemListElement" => [
+      { "@type" => "ListItem", "position" => 1, "name" => t("guide.events_title"), "item" => events_url },
+      { "@type" => "ListItem", "position" => 2, "name" => @event.title, "item" => event_url(@event) }
+    ]
+  }) %>
+<% end %>
+<% check_in = @event.starts_at&.to_date %>
+<% check_out = @event.ends_at&.to_date || (check_in ? check_in + 1 : nil) %>
+
+<div class="mx-auto max-w-6xl px-5 pt-6">
+  <nav class="mb-4 flex items-center gap-1.5 text-sm text-sand-500">
+    <%= link_to t("guide.events_title"), events_path, class: "hover:text-brand-700" %>
+    <span class="text-sand-300">/</span>
+    <span class="truncate text-sand-700"><%= @event.title %></span>
+  </nav>
+
+  <div class="relative aspect-[16/10] overflow-hidden rounded-3xl sm:aspect-[16/7]">
+    <% if @event.cover_image.attached? %>
+      <%= image_tag @event.cover_image.variant(resize_to_fill: [ 1600, 700 ]), alt: @event.title, class: "h-full w-full object-cover" %>
+    <% else %>
+      <div class="h-full w-full bg-gradient-to-br from-brand-500 to-brand-900"></div>
+    <% end %>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+    <div class="absolute inset-x-0 bottom-0 p-6 sm:p-10">
+      <div class="flex flex-wrap items-center gap-2">
+        <% if @event.category.present? %>
+          <span class="inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-brand-800">
+            <%= icon(@event.category.icon.presence&.to_sym || :ticket, klass: "h-3.5 w-3.5") %><%= @event.category.name %>
+          </span>
+        <% end %>
+        <% if @event.starts_at %>
+          <span class="inline-flex items-center gap-1 rounded-full bg-brand-700/90 px-2.5 py-1 text-xs font-semibold text-white">
+            <%= icon :calendar, klass: "h-3.5 w-3.5" %><%= l @event.starts_at.to_date, format: :short %>
+          </span>
+        <% end %>
+      </div>
+      <h1 class="mt-3 max-w-3xl font-display text-3xl font-semibold text-white sm:text-5xl"><%= @event.title %></h1>
+    </div>
+  </div>
+</div>
+
+<div class="mx-auto mt-8 grid max-w-6xl gap-10 px-5 pb-8 lg:grid-cols-3">
+  <div class="space-y-8 lg:col-span-2">
+    <div class="flex flex-wrap gap-2">
+      <% if @event.starts_at %>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-3 py-1.5 text-sm text-sand-700">
+          <span class="text-brand-500"><%= icon :calendar, klass: "h-4 w-4" %></span>
+          <%= l @event.starts_at.to_date, format: :long %><% if check_out && check_out != check_in %> – <%= l (@event.ends_at || @event.starts_at).to_date, format: :long %><% end %>
+        </span>
+      <% end %>
+      <% if @event.schedule_note.present? %>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-3 py-1.5 text-sm text-sand-700"><span class="text-brand-500"><%= icon :clock, klass: "h-4 w-4" %></span><%= @event.schedule_note %></span>
+      <% end %>
+      <% if @event.area.present? %>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-3 py-1.5 text-sm text-sand-700"><span class="text-brand-500"><%= icon :pin, klass: "h-4 w-4" %></span><%= @event.area %></span>
+      <% end %>
+    </div>
+
+    <% if @event.description.present? %>
+      <div class="max-w-none whitespace-pre-line text-lg leading-relaxed text-sand-700"><%= @event.description %></div>
+    <% end %>
+
+    <% if @event.external_url.present? %>
+      <%= link_to t("guide.official_link"), @event.external_url, target: "_blank", rel: "noopener",
+            class: "inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:underline" %>
+    <% end %>
+
+    <div>
+      <h2 class="mb-3 font-display text-xl font-semibold text-brand-900"><%= t("guide.location") %></h2>
+      <%= render "shared/map", entry: @event %>
+    </div>
+  </div>
+
+  <aside class="lg:col-span-1">
+    <%= render "shared/guide_sidebar", entry: @event, properties: @properties, check_in: check_in, check_out: check_out %>
+  </aside>
+</div>
+
+<% if @related.any? %>
+  <section class="mx-auto max-w-6xl px-5 pb-8">
+    <h2 class="mb-6 font-display text-2xl font-semibold text-brand-900"><%= t("guide.more_events") %></h2>
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <% @related.each do |event| %>
+        <%= render "shared/guide_entry_card", entry: event %>
+      <% end %>
+    </div>
+  </section>
+<% end %>

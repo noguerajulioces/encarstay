@@ -1,1 +1,40 @@
 @import "tailwindcss";
+
+/* ==========================================================================
+   ENCAR STAYS — Sistema de color de marca (Tailwind v4, CSS-first)
+   Paleta del logo: taupe/mocha cálido + crema.
+   Estos tokens generan utilidades bg-brand-500, text-sand-700, etc.
+   emerald/stone siguen disponibles como defaults de Tailwind y se reservan
+   para semántica (verde = éxito/confirmado; rose = error/no disponible).
+   ========================================================================== */
+@theme {
+  /* Marca — taupe / mocha cálido */
+  --color-brand-50:  #faf6f0;
+  --color-brand-100: #f3e7d8;
+  --color-brand-200: #e7d0ba;
+  --color-brand-300: #d6b393;
+  --color-brand-400: #c29a72;
+  --color-brand-500: #a9855f; /* primario del logo */
+  --color-brand-600: #8e6e4c;
+  --color-brand-700: #74593d; /* CTAs (texto blanco) */
+  --color-brand-800: #5e4832; /* marrón profundo del logo */
+  --color-brand-900: #4a3a29;
+  --color-brand-950: #2a2018;
+
+  /* Sand — neutral cálido (reemplaza a stone) */
+  --color-sand-50:  #faf8f5;
+  --color-sand-100: #f4f1ec;
+  --color-sand-200: #e7e2d9;
+  --color-sand-300: #d6cfc2;
+  --color-sand-400: #b4ab9c;
+  --color-sand-500: #928979;
+  --color-sand-600: #746c5e;
+  --color-sand-700: #5b554a;
+  --color-sand-800: #3d3931;
+  --color-sand-900: #262320;
+  --color-sand-950: #1a1712;
+
+  /* Tipografía de marca */
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+}

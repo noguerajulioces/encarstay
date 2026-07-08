@@ -54,14 +54,15 @@ en:
               dates_unavailable: "The dates are no longer available"
 
   site:
-    name: "Reservá Directo"
-    title_suffix: "Reservá Directo"
-    default_title: "Reservá Directo — cabins and houses, no commission"
-    default_description: "Book direct, no middlemen. Check real-time availability and reserve houses and cabins for your next stay in Paraguay."
+    name: "ENCAR STAYS"
+    title_suffix: "ENCAR STAYS"
+    default_title: "ENCAR STAYS — Stays & city guide in Encarnación"
+    default_description: "Book your stay in Encarnación directly, no middlemen. Real-time availability and a local guide to events and things to do in the city."
     og_locale: "en_US"
 
   units:
     per_night: "/ night"
+    from: "from"
     guests:
       one: "%{count} guest"
       other: "%{count} guests"
@@ -70,19 +71,68 @@ en:
       other: "%{count} nights"
 
   layout:
-    nav_properties: "Properties"
+    nav_properties: "Stays"
+    nav_attractions: "Things to do"
+    nav_events: "Events"
     nav_my_booking: "My booking"
     language: "Language"
-    footer_rights: "© %{year} Reservá Directo — book direct, no middlemen."
+    footer_rights: "© %{year} ENCAR STAYS — direct bookings in Encarnación."
     footer_lookup: "Check your booking status"
+    footer_blurb: "Characterful stays in Encarnación and a local guide to explore the city. Book directly, no middlemen."
+    footer_location: "Encarnación, Paraguay"
+    footer_explore: "Explore"
+    footer_contact: "Contact"
 
   home:
-    org_description: "Book houses and cabins in Paraguay directly, no middlemen."
-    hero_kicker: "Book direct, no commission"
-    hero_title: "Houses and cabins for your next getaway"
-    hero_subtitle: "Pick your dates and check real-time availability. You book directly with us — the same place, no middlemen."
-    properties_title: "Our properties"
+    org_description: "Book stays in Encarnación, Paraguay, directly — no middlemen."
+    hero_kicker: "Your base in Encarnación"
+    hero_title: "Stay in Encarnación and live the city"
+    hero_subtitle: "Pick your dates and check real-time availability. Book directly with us — no middlemen, no commission."
+    trust_direct: "Book directly with the host"
+    trust_no_fees: "No commission, no middlemen"
+    trust_local: "Local host in Encarnación"
+    properties_kicker: "Where to stay"
+    properties_title: "Our stays"
     properties_subtitle: "Pick one to see photos, availability and prices."
+    see_all: "View all"
+    guide_kicker: "Encarnación guide"
+    guide_title: "Explore the city"
+    guide_subtitle: "Events, beaches, culture and food to make the most of your stay."
+    see_guide: "See the guide"
+    explore_kicker: "Things to do"
+    explore_title: "Encarnación highlights"
+    events_kicker: "What's on"
+    events_title: "Upcoming events"
+
+  guide:
+    events_title: "Events in Encarnación"
+    events_subtitle: "The city's calendar: carnival, fairs, music and more."
+    events_kicker: "What's on"
+    events_meta: "Events calendar for Encarnación: carnival, fairs, festivals and activities. Plan your trip and book your stay."
+    attractions_title: "Things to do in Encarnación"
+    attractions_subtitle: "Beaches, riverfront, culture and history to discover the city."
+    attractions_kicker: "City guide"
+    attractions_meta: "Things to do in Encarnación: beaches, riverfront, Jesuit ruins, food and more. A local guide for your trip."
+    all: "All"
+    available: "Available"
+    search_placeholder: "Search the guide…"
+    read_more: "Read more"
+    none_events: "No events right now"
+    none_events_subtitle: "Check back soon: the calendar updates often."
+    none_attractions: "No places yet"
+    none_attractions_subtitle: "We're building the city guide."
+    location: "Location"
+    official_link: "Official site ↗"
+    open_in_maps: "Open in Maps"
+    stay_nearby: "Where to stay"
+    stay_nearby_subtitle: "Book direct nearby and make the most of your visit."
+    see_all_stays: "See all stays"
+    ask_whatsapp: "Ask on WhatsApp"
+    whatsapp_message: "Hi, I'd like to ask about a stay for %{title}."
+    more_events: "More events"
+    more_places: "More places to see"
+    see_all_places: "See the whole guide"
+    see_all_events: "See all events"
 
   search_form:
     check_in: "Check-in"
@@ -103,7 +153,8 @@ en:
     view_and_book: "View and book"
 
   properties:
-    index_title: "Our properties"
+    index_kicker: "Stays"
+    index_title: "Our stays"
     index_subtitle: "Pick one to see photos, availability and prices."
 
   property:
@@ -121,8 +172,13 @@ en:
     departure: "Check-out"
     guests_label: "Guests"
     book: "Book now"
+    view: "View"
+    about: "About this stay"
+    reserve_note: "Nothing is charged now. You arrange the deposit (50%) and confirm over WhatsApp or email."
     not_available: "Not available for those dates."
     pick_dates: "Pick dates to see the total price and book."
+    nearby_guide: "Things to do nearby"
+    nearby_guide_subtitle: "Must-see events and places a step from your stay."
 
   calendar:
     weekday_initials: [M, T, W, T, F, S, S]
@@ -149,6 +205,7 @@ en:
       completed: "Completed"
       cancelled: "Cancelled"
     flash_received: "We got your request! We'll email you to confirm."
+    new_kicker: "Booking request"
     new_title: "Complete your request"
     new_subtitle: "We check availability and confirm by email or WhatsApp."
     honeypot: "Do not fill in"

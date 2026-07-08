@@ -1,0 +1,16 @@
+<%# locals: categories, kind ("events"|"attractions"), active (slug or nil) %>
+<% kind ||= "attractions" %>
+<% active = local_assigns[:active] %>
+<% tile = ->(on) { "group flex items-center gap-2.5 rounded-2xl border px-4 py-3 text-sm font-medium transition #{on ? 'border-brand-400 bg-brand-50 text-brand-800' : 'border-sand-200 bg-white text-sand-700 hover:border-brand-300 hover:shadow-sm'}" } %>
+<div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+  <%= link_to (kind == "events" ? events_path : attractions_path), class: tile.call(active.blank?) do %>
+    <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-brand-100/70 text-brand-600"><%= icon :sparkles, klass: "h-4 w-4" %></span>
+    <%= t("guide.all") %>
+  <% end %>
+  <% categories.each do |category| %>
+    <%= link_to (kind == "events" ? events_path(category: category.slug) : attractions_path(category: category.slug)), class: tile.call(active == category.slug) do %>
+      <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-brand-100/70 text-brand-600 group-hover:bg-brand-100"><%= icon(category.icon.presence&.to_sym || :sparkles, klass: "h-4 w-4") %></span>
+      <span class="truncate"><%= category.name %></span>
+    <% end %>
+  <% end %>
+</div>

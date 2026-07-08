@@ -1,7 +1,7 @@
 <% content_for :title, "Dashboard" %>
 
-<h1 class="text-2xl font-semibold text-stone-900">Hola, <%= Current.user.name.split.first %></h1>
-<p class="text-stone-500">Resumen de hoy, <%= l Date.current, format: :long %>.</p>
+<h1 class="text-2xl font-semibold text-sand-900">Hola, <%= Current.user.name.split.first %></h1>
+<p class="text-sand-500">Resumen de hoy, <%= l Date.current, format: :long %>.</p>
 
 <%# --- Sync alerts (critical) --- %>
 <% if @sync_alerts.any? %>
@@ -17,39 +17,39 @@
 
 <%# --- Stat tiles --- %>
 <div class="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-4">
-  <div class="rounded-xl bg-white border border-stone-200 p-4">
-    <p class="text-3xl font-bold text-stone-900"><%= @pending.size %></p>
-    <p class="text-sm text-stone-500">Pendientes de confirmar</p>
+  <div class="rounded-xl bg-white border border-sand-200 p-4">
+    <p class="text-3xl font-bold text-sand-900"><%= @pending.size %></p>
+    <p class="text-sm text-sand-500">Pendientes de confirmar</p>
   </div>
-  <div class="rounded-xl bg-white border border-stone-200 p-4">
-    <p class="text-3xl font-bold text-stone-900"><%= @arrivals.size %></p>
-    <p class="text-sm text-stone-500">Llegadas (7 días)</p>
+  <div class="rounded-xl bg-white border border-sand-200 p-4">
+    <p class="text-3xl font-bold text-sand-900"><%= @arrivals.size %></p>
+    <p class="text-sm text-sand-500">Llegadas (7 días)</p>
   </div>
-  <div class="rounded-xl bg-white border border-stone-200 p-4">
-    <p class="text-3xl font-bold text-stone-900"><%= @departures.size %></p>
-    <p class="text-sm text-stone-500">Salidas (7 días)</p>
+  <div class="rounded-xl bg-white border border-sand-200 p-4">
+    <p class="text-3xl font-bold text-sand-900"><%= @departures.size %></p>
+    <p class="text-sm text-sand-500">Salidas (7 días)</p>
   </div>
-  <div class="rounded-xl bg-white border border-stone-200 p-4">
-    <p class="text-3xl font-bold text-stone-900"><%= @occupancy %>%</p>
-    <p class="text-sm text-stone-500">Ocupación del mes</p>
+  <div class="rounded-xl bg-white border border-sand-200 p-4">
+    <p class="text-3xl font-bold text-sand-900"><%= @occupancy %>%</p>
+    <p class="text-sm text-sand-500">Ocupación del mes</p>
   </div>
 </div>
 
 <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
   <%# Pending %>
-  <section class="rounded-xl bg-white border border-stone-200 overflow-hidden">
-    <h2 class="px-4 py-3 border-b border-stone-100 font-semibold text-stone-900">Pendientes de confirmar</h2>
+  <section class="rounded-xl bg-white border border-sand-200 overflow-hidden">
+    <h2 class="px-4 py-3 border-b border-sand-100 font-semibold text-sand-900">Pendientes de confirmar</h2>
     <% if @pending.empty? %>
-      <p class="p-4 text-sm text-stone-400">Nada pendiente. 🎉</p>
+      <p class="p-4 text-sm text-sand-400">Nada pendiente. 🎉</p>
     <% else %>
-      <ul class="divide-y divide-stone-100">
+      <ul class="divide-y divide-sand-100">
         <% @pending.each do |booking| %>
-          <li><%= link_to admin_booking_path(booking), class: "flex items-center justify-between px-4 py-3 hover:bg-stone-50" do %>
+          <li><%= link_to admin_booking_path(booking), class: "flex items-center justify-between px-4 py-3 hover:bg-sand-50" do %>
             <div>
-              <p class="text-sm font-medium text-stone-900"><%= booking.guest_name %></p>
-              <p class="text-xs text-stone-500"><%= booking.property.name %> · <%= l booking.check_in, format: :short %>→<%= l booking.check_out, format: :short %></p>
+              <p class="text-sm font-medium text-sand-900"><%= booking.guest_name %></p>
+              <p class="text-xs text-sand-500"><%= booking.property.name %> · <%= l booking.check_in, format: :short %>→<%= l booking.check_out, format: :short %></p>
             </div>
-            <span class="text-xs font-mono text-stone-400"><%= booking.code %></span>
+            <span class="text-xs font-mono text-sand-400"><%= booking.code %></span>
           <% end %></li>
         <% end %>
       </ul>
@@ -57,16 +57,16 @@
   </section>
 
   <%# Arrivals %>
-  <section class="rounded-xl bg-white border border-stone-200 overflow-hidden">
-    <h2 class="px-4 py-3 border-b border-stone-100 font-semibold text-stone-900">Próximas llegadas</h2>
+  <section class="rounded-xl bg-white border border-sand-200 overflow-hidden">
+    <h2 class="px-4 py-3 border-b border-sand-100 font-semibold text-sand-900">Próximas llegadas</h2>
     <% if @arrivals.empty? %>
-      <p class="p-4 text-sm text-stone-400">Sin llegadas esta semana.</p>
+      <p class="p-4 text-sm text-sand-400">Sin llegadas esta semana.</p>
     <% else %>
-      <ul class="divide-y divide-stone-100">
+      <ul class="divide-y divide-sand-100">
         <% @arrivals.each do |booking| %>
           <li class="px-4 py-3 flex items-center justify-between">
-            <div><p class="text-sm font-medium text-stone-900"><%= booking.property.name %></p><p class="text-xs text-stone-500"><%= booking.guest_name %></p></div>
-            <span class="text-sm text-emerald-700 font-medium"><%= l booking.check_in, format: :short %></span>
+            <div><p class="text-sm font-medium text-sand-900"><%= booking.property.name %></p><p class="text-xs text-sand-500"><%= booking.guest_name %></p></div>
+            <span class="text-sm text-brand-700 font-medium"><%= l booking.check_in, format: :short %></span>
           </li>
         <% end %>
       </ul>
@@ -74,16 +74,16 @@
   </section>
 
   <%# Departures %>
-  <section class="rounded-xl bg-white border border-stone-200 overflow-hidden">
-    <h2 class="px-4 py-3 border-b border-stone-100 font-semibold text-stone-900">Próximas salidas</h2>
+  <section class="rounded-xl bg-white border border-sand-200 overflow-hidden">
+    <h2 class="px-4 py-3 border-b border-sand-100 font-semibold text-sand-900">Próximas salidas</h2>
     <% if @departures.empty? %>
-      <p class="p-4 text-sm text-stone-400">Sin salidas esta semana.</p>
+      <p class="p-4 text-sm text-sand-400">Sin salidas esta semana.</p>
     <% else %>
-      <ul class="divide-y divide-stone-100">
+      <ul class="divide-y divide-sand-100">
         <% @departures.each do |booking| %>
           <li class="px-4 py-3 flex items-center justify-between">
-            <div><p class="text-sm font-medium text-stone-900"><%= booking.property.name %></p><p class="text-xs text-stone-500"><%= booking.guest_name %></p></div>
-            <span class="text-sm text-stone-600 font-medium"><%= l booking.check_out, format: :short %></span>
+            <div><p class="text-sm font-medium text-sand-900"><%= booking.property.name %></p><p class="text-xs text-sand-500"><%= booking.guest_name %></p></div>
+            <span class="text-sm text-sand-600 font-medium"><%= l booking.check_out, format: :short %></span>
           </li>
         <% end %>
       </ul>

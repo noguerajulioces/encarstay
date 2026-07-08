@@ -63,14 +63,15 @@ pt:
               dates_unavailable: "As datas não estão mais disponíveis"
 
   site:
-    name: "Reservá Directo"
-    title_suffix: "Reservá Directo"
-    default_title: "Reservá Directo — casas e cabanas sem comissão"
-    default_description: "Reserve direto, sem intermediários. Confira a disponibilidade real e reserve casas e cabanas para a sua próxima estadia no Paraguai."
+    name: "ENCAR STAYS"
+    title_suffix: "ENCAR STAYS"
+    default_title: "ENCAR STAYS — Hospedagens e guia de Encarnación"
+    default_description: "Reserve direto a sua hospedagem em Encarnación, sem intermediários. Disponibilidade real e um guia local de eventos e o que fazer na cidade."
     og_locale: "pt_BR"
 
   units:
     per_night: "/ noite"
+    from: "a partir de"
     guests:
       one: "%{count} hóspede"
       other: "%{count} hóspedes"
@@ -79,19 +80,68 @@ pt:
       other: "%{count} noites"
 
   layout:
-    nav_properties: "Propriedades"
+    nav_properties: "Acomodações"
+    nav_attractions: "O que fazer"
+    nav_events: "Eventos"
     nav_my_booking: "Minha reserva"
     language: "Idioma"
-    footer_rights: "© %{year} Reservá Directo — reserve direto, sem intermediários."
+    footer_rights: "© %{year} ENCAR STAYS — reservas diretas em Encarnación."
     footer_lookup: "Confira o status da sua reserva"
+    footer_blurb: "Acomodações com charme em Encarnación e um guia local para descobrir a cidade. Reserve direto, sem intermediários."
+    footer_location: "Encarnación, Paraguai"
+    footer_explore: "Explorar"
+    footer_contact: "Contato"
 
   home:
-    org_description: "Reserve casas e cabanas no Paraguai diretamente, sem intermediários."
-    hero_kicker: "Reserve direto, sem comissão"
-    hero_title: "Casas e cabanas para a sua próxima escapada"
-    hero_subtitle: "Escolha as datas e confira a disponibilidade real. Você reserva direto com a gente — o mesmo lugar, sem intermediários."
-    properties_title: "Nossas propriedades"
+    org_description: "Reservas diretas de acomodações em Encarnación, Paraguai, sem intermediários."
+    hero_kicker: "Sua base em Encarnación"
+    hero_title: "Hospede-se em Encarnación e viva a cidade"
+    hero_subtitle: "Escolha as datas e confira a disponibilidade real. Reserve direto com a gente — sem intermediários, sem comissão."
+    trust_direct: "Reserva direta com o anfitrião"
+    trust_no_fees: "Sem comissão, sem intermediários"
+    trust_local: "Anfitrião local em Encarnación"
+    properties_kicker: "Onde ficar"
+    properties_title: "Nossas acomodações"
     properties_subtitle: "Escolha uma para ver fotos, disponibilidade e preços."
+    see_all: "Ver todas"
+    guide_kicker: "Guia de Encarnación"
+    guide_title: "Explore a cidade"
+    guide_subtitle: "Eventos, praias, cultura e gastronomia para aproveitar a estadia."
+    see_guide: "Ver o guia"
+    explore_kicker: "O que fazer"
+    explore_title: "Imperdíveis de Encarnación"
+    events_kicker: "Agenda"
+    events_title: "Próximos eventos"
+
+  guide:
+    events_title: "Eventos em Encarnación"
+    events_subtitle: "A agenda da cidade: carnaval, feiras, música e mais."
+    events_kicker: "Agenda"
+    events_meta: "Agenda de eventos em Encarnación: carnaval, feiras, festivais e atividades. Planeje sua viagem e reserve sua hospedagem."
+    attractions_title: "O que fazer em Encarnación"
+    attractions_subtitle: "Praias, beira-rio, cultura e história para descobrir a cidade."
+    attractions_kicker: "Guia da cidade"
+    attractions_meta: "O que fazer em Encarnación: praias, beira-rio, ruínas jesuíticas, gastronomia e mais. Guia local para a sua viagem."
+    all: "Tudo"
+    available: "Disponível"
+    search_placeholder: "Buscar no guia…"
+    read_more: "Ver mais"
+    none_events: "Sem eventos por enquanto"
+    none_events_subtitle: "Volte em breve: a agenda é atualizada com frequência."
+    none_attractions: "Ainda não há lugares"
+    none_attractions_subtitle: "Estamos montando o guia da cidade."
+    location: "Localização"
+    official_link: "Site oficial ↗"
+    open_in_maps: "Abrir no Maps"
+    stay_nearby: "Onde ficar"
+    stay_nearby_subtitle: "Reserve direto por perto e aproveite ainda mais a sua visita."
+    see_all_stays: "Ver todas as hospedagens"
+    ask_whatsapp: "Perguntar no WhatsApp"
+    whatsapp_message: "Olá, quero saber sobre uma hospedagem para %{title}."
+    more_events: "Mais eventos"
+    more_places: "Mais lugares para ver"
+    see_all_places: "Ver o guia completo"
+    see_all_events: "Ver todos os eventos"
 
   search_form:
     check_in: "Chegada"
@@ -112,7 +162,8 @@ pt:
     view_and_book: "Ver e reservar"
 
   properties:
-    index_title: "Nossas propriedades"
+    index_kicker: "Acomodações"
+    index_title: "Nossas acomodações"
     index_subtitle: "Escolha uma para ver fotos, disponibilidade e preços."
 
   property:
@@ -130,8 +181,13 @@ pt:
     departure: "Saída"
     guests_label: "Hóspedes"
     book: "Reservar"
+    view: "Ver"
+    about: "Sobre esta acomodação"
+    reserve_note: "Nada é cobrado agora. Você combina o sinal (50%) e confirma pelo WhatsApp ou email."
     not_available: "Indisponível para essas datas."
     pick_dates: "Escolha as datas para ver o preço total e reservar."
+    nearby_guide: "O que fazer por perto"
+    nearby_guide_subtitle: "Eventos e lugares imperdíveis a um passo da sua hospedagem."
 
   calendar:
     weekday_initials: [S, T, Q, Q, S, S, D]
@@ -158,6 +214,7 @@ pt:
       completed: "Concluída"
       cancelled: "Cancelada"
     flash_received: "Recebemos o seu pedido! Vamos escrever para confirmar."
+    new_kicker: "Pedido de reserva"
     new_title: "Complete o seu pedido"
     new_subtitle: "Verificamos a disponibilidade e confirmamos por email ou WhatsApp."
     honeypot: "Não preencher"

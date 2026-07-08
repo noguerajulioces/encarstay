@@ -1,0 +1,40 @@
+<%# locals: entry, properties %>
+<div class="space-y-4 lg:sticky lg:top-24">
+  <div class="rounded-2xl border border-sand-200 bg-white p-5 shadow-[0_18px_44px_-28px_rgba(94,72,50,0.5)]">
+    <h2 class="font-display text-lg font-semibold text-brand-900"><%= t("guide.stay_nearby") %></h2>
+    <p class="mt-1 text-sm text-sand-500"><%= t("guide.stay_nearby_subtitle") %></p>
+
+    <div class="mt-4 space-y-3">
+      <% properties.each do |property| %>
+        <%= link_to property_path(property, check_in: local_assigns[:check_in], check_out: local_assigns[:check_out]),
+              class: "group flex gap-3 rounded-xl border border-sand-200 p-2.5 transition hover:border-brand-300 hover:bg-sand-50" do %>
+          <div class="h-16 w-16 shrink-0 overflow-hidden rounded-lg">
+            <% if property.cover_photo %>
+              <%= image_tag property.cover_photo.image.variant(resize_to_fill: [ 128, 128 ]), alt: property.name, loading: "lazy", class: "h-full w-full object-cover" %>
+            <% else %>
+              <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-400 to-brand-800 font-display text-xl font-semibold text-brand-50"><%= property.name.first %></div>
+            <% end %>
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="truncate font-medium text-brand-900 group-hover:text-brand-700"><%= property.name %></p>
+            <p class="flex items-center gap-1 truncate text-xs text-sand-500"><%= icon :users, klass: "h-3.5 w-3.5 text-sand-400" %><%= guests_label(property.capacity) %></p>
+            <p class="mt-0.5 text-sm text-brand-900"><span class="font-semibold"><%= money(property.base_price_cents, property.currency) %></span> <span class="text-xs text-sand-500"><%= t("units.per_night") %></span></p>
+            <% if local_assigns[:check_in].present? && local_assigns[:check_out].present? && property.available?(check_in, check_out) %>
+              <span class="mt-1 inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[0.65rem] font-semibold text-emerald-800"><%= icon :check, klass: "h-3 w-3" %><%= t("guide.available") %></span>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= link_to properties_path, class: "mt-4 flex items-center justify-center gap-1.5 rounded-xl border border-sand-200 px-4 py-2.5 text-sm font-semibold text-brand-700 hover:bg-sand-50" do %>
+      <%= t("guide.see_all_stays") %> <%= icon :arrow, klass: "h-4 w-4" %>
+    <% end %>
+  </div>
+
+  <%= link_to whatsapp_url(t("guide.whatsapp_message", title: entry.title)), target: "_blank", rel: "noopener",
+        class: "flex items-center justify-center gap-2 rounded-2xl bg-[#25D366] px-4 py-3 font-semibold text-white transition hover:brightness-105" do %>
+    <span class="inline-block h-2 w-2 rounded-full bg-white/90"></span>
+    <%= t("guide.ask_whatsapp") %>
+  <% end %>
+</div>

@@ -1,0 +1,98 @@
+<% loc_label = { "es" => "Español", "en" => "English", "pt" => "Português" } %>
+<% inp = "w-full rounded-lg border-sand-300 border px-3 py-2" %>
+<% lbl = "block text-sm font-medium text-sand-700 mb-1" %>
+<%= form_with model: [ :admin, guide_entry ], html: { multipart: true }, class: "space-y-5" do |form| %>
+  <% if guide_entry.errors.any? %>
+    <div class="rounded-lg bg-rose-50 border border-rose-200 text-rose-800 px-4 py-3 text-sm">
+      <ul class="list-disc list-inside">
+        <% guide_entry.errors.full_messages.each { |message| %><li><%= message %></li><% } %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%# --- Tipo, categoría, estado --- %>
+  <div class="rounded-xl bg-white border border-sand-200 p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div>
+      <%= form.label :kind, "Tipo", class: lbl %>
+      <%= form.select :kind, [ [ "Lugar / atracción", "attraction" ], [ "Evento (con fecha)", "event" ] ], {}, class: inp %>
+    </div>
+    <div>
+      <%= form.label :category_id, "Categoría", class: lbl %>
+      <%= form.collection_select :category_id, Category.ordered, :id, :name_es, { include_blank: "—" }, class: inp %>
+    </div>
+    <div class="sm:col-span-2 flex flex-wrap items-center gap-6 pt-1">
+      <label class="flex items-center gap-2 text-sm text-sand-700"><%= form.check_box :published, class: "rounded border-sand-300" %> Publicado (visible en el sitio)</label>
+      <label class="flex items-center gap-2 text-sm text-sand-700"><%= form.check_box :featured, class: "rounded border-sand-300" %> Destacado (aparece en la home)</label>
+      <div class="flex items-center gap-2 text-sm text-sand-700">Orden <%= form.number_field :position, class: "w-20 rounded-lg border-sand-300 border px-2 py-1" %></div>
+    </div>
+  </div>
+
+  <%# --- Contenido por idioma --- %>
+  <div class="rounded-xl bg-white border border-sand-200 p-5 space-y-4">
+    <div>
+      <span class="<%= lbl %>">Título <span class="font-normal text-sand-400">(el ES define la URL)</span></span>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <% %w[es en pt].each do |l| %>
+          <div><span class="text-xs text-sand-400"><%= loc_label[l] %></span><%= form.text_field "title_#{l}", required: (l == "es"), class: inp %></div>
+        <% end %>
+      </div>
+    </div>
+    <div>
+      <span class="<%= lbl %>">Resumen <span class="font-normal text-sand-400">(1 línea, para tarjetas y SEO)</span></span>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <% %w[es en pt].each do |l| %>
+          <div><span class="text-xs text-sand-400"><%= loc_label[l] %></span><%= form.text_field "summary_#{l}", class: inp %></div>
+        <% end %>
+      </div>
+    </div>
+    <div>
+      <span class="<%= lbl %>">Descripción</span>
+      <div class="space-y-2">
+        <% %w[es en pt].each do |l| %>
+          <div><span class="text-xs text-sand-400"><%= loc_label[l] %></span><%= form.text_area "description_#{l}", rows: 4, class: inp %></div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <%# --- Fechas (solo eventos) --- %>
+  <div class="rounded-xl bg-white border border-sand-200 p-5 space-y-4">
+    <p class="text-sm font-semibold text-sand-800">Fechas <span class="font-normal text-sand-400">— solo para eventos</span></p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div><%= form.label :starts_at, "Inicio", class: lbl %><%= form.datetime_field :starts_at, class: inp %></div>
+      <div><%= form.label :ends_at, "Fin", class: lbl %><%= form.datetime_field :ends_at, class: inp %></div>
+    </div>
+    <label class="flex items-center gap-2 text-sm text-sand-700"><%= form.check_box :recurring, class: "rounded border-sand-300" %> Recurrente</label>
+    <div>
+      <span class="<%= lbl %>">Nota de horario <span class="font-normal text-sand-400">(ej. "Todos los sábados de febrero")</span></span>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <% %w[es en pt].each do |l| %>
+          <div><span class="text-xs text-sand-400"><%= loc_label[l] %></span><%= form.text_field "schedule_note_#{l}", class: inp %></div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <%# --- Ubicación --- %>
+  <div class="rounded-xl bg-white border border-sand-200 p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="sm:col-span-2"><%= form.label :address, "Dirección", class: lbl %><%= form.text_field :address, class: inp %></div>
+    <div><%= form.label :area, "Zona / barrio", class: lbl %><%= form.text_field :area, placeholder: "Costanera, Centro…", class: inp %></div>
+    <div><%= form.label :external_url, "Enlace externo", class: lbl %><%= form.url_field :external_url, placeholder: "https://…", class: inp %></div>
+    <div><%= form.label :latitude, "Latitud", class: lbl %><%= form.text_field :latitude, placeholder: "-27.33", class: inp %></div>
+    <div><%= form.label :longitude, "Longitud", class: lbl %><%= form.text_field :longitude, placeholder: "-55.86", class: inp %></div>
+  </div>
+
+  <%# --- Portada --- %>
+  <div class="rounded-xl bg-white border border-sand-200 p-5">
+    <span class="<%= lbl %>">Imagen de portada</span>
+    <% if guide_entry.cover_image.attached? %>
+      <%= image_tag guide_entry.cover_image.variant(resize_to_fill: [ 320, 200 ]), class: "mb-3 h-32 w-52 rounded-lg object-cover" %>
+    <% end %>
+    <%= file_field_tag :cover_image, accept: "image/*", class: "text-sm" %>
+  </div>
+
+  <div class="flex gap-3">
+    <%= form.submit guide_entry.persisted? ? "Guardar cambios" : "Crear", class: "rounded-lg bg-brand-700 hover:bg-brand-800 text-white font-medium px-5 py-2.5 cursor-pointer" %>
+    <%= link_to "Cancelar", admin_guide_entries_path(kind: guide_entry.kind), class: "rounded-lg border border-sand-300 text-sand-700 px-5 py-2.5" %>
+  </div>
+<% end %>

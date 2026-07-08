@@ -14,33 +14,120 @@
   }) %>
 <% end %>
 
-<section class="rounded-3xl bg-gradient-to-br from-emerald-800 to-emerald-950 text-white px-6 py-12 sm:px-12 sm:py-16">
-  <div class="max-w-2xl">
-    <p class="text-emerald-300 font-medium"><%= t("home.hero_kicker") %></p>
-    <h1 class="mt-2 text-3xl sm:text-4xl font-bold leading-tight">
+<%# ===== Hero ===== %>
+<section class="relative overflow-hidden text-white"
+         style="background:
+           radial-gradient(1100px 480px at 12% -12%, rgba(194,154,114,0.50), transparent 60%),
+           radial-gradient(900px 520px at 105% 0%, rgba(214,179,147,0.32), transparent 55%),
+           linear-gradient(160deg, #3a2c20 0%, #2a2018 55%, #201811 100%);">
+  <div class="pointer-events-none absolute inset-0 opacity-[0.06]"
+       style="background-image: radial-gradient(currentColor 1px, transparent 1px); background-size: 22px 22px;"></div>
+  <div class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand-400/20 blur-3xl"></div>
+
+  <div class="relative mx-auto max-w-6xl px-5 pb-28 pt-16 sm:pb-32 sm:pt-24">
+    <p class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-brand-200 backdrop-blur">
+      <%= icon :compass, klass: "h-4 w-4" %> <%= t("home.hero_kicker") %>
+    </p>
+    <h1 class="mt-5 max-w-3xl font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl">
       <%= t("home.hero_title") %>
     </h1>
-    <p class="mt-3 text-emerald-100">
+    <p class="mt-5 max-w-xl text-lg leading-relaxed text-sand-200">
       <%= t("home.hero_subtitle") %>
     </p>
-  </div>
 
-  <div class="mt-8 bg-white rounded-2xl p-4 sm:p-5 shadow-lg">
-    <%= render "shared/search_form", search: @search %>
+    <div class="mt-9 flex flex-wrap gap-x-6 gap-y-2 text-sm text-sand-200">
+      <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-brand-300" %> <%= t("home.trust_direct") %></span>
+      <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-brand-300" %> <%= t("home.trust_no_fees") %></span>
+      <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-brand-300" %> <%= t("home.trust_local") %></span>
+    </div>
   </div>
 </section>
 
-<section class="mt-12">
-  <h2 class="text-2xl font-semibold text-stone-900"><%= t("home.properties_title") %></h2>
-  <p class="text-stone-500 mt-1"><%= t("home.properties_subtitle") %></p>
+<%# ===== Search (overlapping the hero) ===== %>
+<div class="relative z-10 mx-auto -mt-14 max-w-5xl px-5 sm:-mt-16">
+  <div class="rounded-3xl bg-white/10 p-2 backdrop-blur md:bg-transparent md:p-0">
+    <%= render "shared/search_form", search: @search %>
+  </div>
+</div>
 
-  <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<%# ===== Explorá la ciudad (categorías) ===== %>
+<% if @categories.any? %>
+  <section class="mx-auto mt-16 max-w-6xl px-5 sm:mt-20">
+    <div class="flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-brand-500"><%= t("home.guide_kicker") %></p>
+        <h2 class="mt-1 font-display text-3xl font-semibold text-brand-900"><%= t("home.guide_title") %></h2>
+        <p class="mt-1 text-sand-500"><%= t("home.guide_subtitle") %></p>
+      </div>
+      <%= link_to attractions_path, class: "inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-900" do %>
+        <%= t("home.see_guide") %> <%= icon :arrow, klass: "h-4 w-4" %>
+      <% end %>
+    </div>
+    <div class="mt-6"><%= render "shared/category_tiles", categories: @categories, kind: "attractions" %></div>
+  </section>
+<% end %>
+
+<%# ===== Alojamientos ===== %>
+<section class="mx-auto mt-16 max-w-6xl px-5 sm:mt-20">
+  <div class="flex flex-wrap items-end justify-between gap-3">
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-widest text-brand-500"><%= t("home.properties_kicker") %></p>
+      <h2 class="mt-1 font-display text-3xl font-semibold text-brand-900"><%= t("home.properties_title") %></h2>
+      <p class="mt-1 text-sand-500"><%= t("home.properties_subtitle") %></p>
+    </div>
+    <%= link_to properties_path, class: "inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-900" do %>
+      <%= t("home.see_all") %> <%= icon :arrow, klass: "h-4 w-4" %>
+    <% end %>
+  </div>
+
+  <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
     <% @properties.each do |property| %>
       <%= render "shared/property_card", property: property %>
     <% end %>
   </div>
 </section>
 
-<section class="mt-12">
+<%# ===== Qué hacer en Encarnación (atracciones destacadas) ===== %>
+<% if @featured_attractions.any? %>
+  <section class="mx-auto mt-16 max-w-6xl px-5 sm:mt-20">
+    <div class="flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-brand-500"><%= t("home.explore_kicker") %></p>
+        <h2 class="mt-1 font-display text-3xl font-semibold text-brand-900"><%= t("home.explore_title") %></h2>
+      </div>
+      <%= link_to attractions_path, class: "inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-900" do %>
+        <%= t("guide.see_all_places") %> <%= icon :arrow, klass: "h-4 w-4" %>
+      <% end %>
+    </div>
+    <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <% @featured_attractions.each do |attraction| %>
+        <%= render "shared/guide_entry_card", entry: attraction %>
+      <% end %>
+    </div>
+  </section>
+<% end %>
+
+<%# ===== Próximos eventos (destacados) ===== %>
+<% if @featured_events.any? %>
+  <section class="mx-auto mt-16 max-w-6xl px-5 sm:mt-20">
+    <div class="flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-brand-500"><%= t("home.events_kicker") %></p>
+        <h2 class="mt-1 font-display text-3xl font-semibold text-brand-900"><%= t("home.events_title") %></h2>
+      </div>
+      <%= link_to events_path, class: "inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-900" do %>
+        <%= t("guide.see_all_events") %> <%= icon :arrow, klass: "h-4 w-4" %>
+      <% end %>
+    </div>
+    <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <% @featured_events.each do |event| %>
+        <%= render "shared/guide_entry_card", entry: event %>
+      <% end %>
+    </div>
+  </section>
+<% end %>
+
+<%# ===== Consulta de reserva ===== %>
+<section class="mx-auto mt-16 max-w-6xl px-5 sm:mt-20">
   <%= render "shared/reservation_lookup" %>
 </section>

@@ -1,0 +1,22 @@
+<%# locals: entry %>
+<% if entry.latitude.present? && entry.longitude.present? %>
+  <div class="overflow-hidden rounded-2xl border border-sand-200">
+    <iframe
+      title="<%= entry.title %>"
+      class="h-64 w-full border-0"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      src="https://maps.google.com/maps?q=<%= entry.latitude %>,<%= entry.longitude %>&z=15&output=embed"></iframe>
+    <div class="flex items-center justify-between gap-3 bg-white px-4 py-3">
+      <p class="flex items-center gap-1.5 text-sm text-sand-600">
+        <%= icon :pin, klass: "h-4 w-4 text-brand-500" %><%= entry.address.presence || entry.area.presence %>
+      </p>
+      <%= link_to t("guide.open_in_maps"), "https://www.google.com/maps/search/?api=1&query=#{entry.latitude},#{entry.longitude}",
+            target: "_blank", rel: "noopener", class: "shrink-0 text-sm font-semibold text-brand-700 hover:underline" %>
+    </div>
+  </div>
+<% elsif entry.address.present? || entry.area.present? %>
+  <p class="flex items-center gap-1.5 text-sm text-sand-600">
+    <%= icon :pin, klass: "h-4 w-4 text-brand-500" %><%= entry.address.presence || entry.area %>
+  </p>
+<% end %>
