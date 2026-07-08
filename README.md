@@ -96,3 +96,4 @@ docs/                documentación del proyecto
   Airbnb, panel de administración e i18n.
 - **[docs/DATABASE.md](docs/DATABASE.md)** — esquema de **base de datos** con
   diagramas gráficos (entidad-relación y flujos) y detalle de cada tabla.
+# encarstay
