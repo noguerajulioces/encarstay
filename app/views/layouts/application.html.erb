@@ -32,8 +32,10 @@
 
         <nav class="flex items-center gap-4 sm:gap-6 text-sm">
           <%= link_to t("layout.nav_properties"), properties_path, class: "font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
+          <%= link_to t("layout.nav_map"), search_path, class: "hidden sm:inline font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
           <%= link_to t("layout.nav_attractions"), attractions_path, class: "hidden sm:inline font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
           <%= link_to t("layout.nav_events"), events_path, class: "hidden sm:inline font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
+          <%= link_to t("layout.nav_blog"), posts_path, class: "hidden sm:inline font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
           <%= link_to t("layout.nav_my_booking"), root_path(anchor: "buscar-reserva"), class: "hidden md:inline font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
           <div class="flex items-center rounded-full border border-sand-200 bg-white/60 p-0.5" aria-label="<%= t('layout.language') %>">
             <% I18n.available_locales.each do |loc| %>
@@ -71,6 +73,7 @@
             <li><%= link_to t("layout.nav_properties"), properties_path, class: "text-sand-300 hover:text-white transition-colors" %></li>
             <li><%= link_to t("layout.nav_attractions"), attractions_path, class: "text-sand-300 hover:text-white transition-colors" %></li>
             <li><%= link_to t("layout.nav_events"), events_path, class: "text-sand-300 hover:text-white transition-colors" %></li>
+            <li><%= link_to t("layout.nav_blog"), posts_path, class: "text-sand-300 hover:text-white transition-colors" %></li>
             <li><%= link_to t("layout.footer_lookup"), root_path(anchor: "buscar-reserva"), class: "text-sand-300 hover:text-white transition-colors" %></li>
           </ul>
         </div>

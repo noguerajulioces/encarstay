@@ -33,4 +33,18 @@ class SeoTest < ActionDispatch::IntegrationTest
       assert_no_match(/check_in/, links.first["href"])
     end
   end
+
+  test "blog post exposes BlogPosting structured data and article og:type" do
+    get post_path(posts(:verano))
+    assert_response :success
+    assert_select "meta[property='og:type'][content=article]"
+    assert_match '"@type":"BlogPosting"', response.body
+    assert_match '"@type":"BreadcrumbList"', response.body
+  end
+
+  test "sitemap lists published blog posts but not drafts" do
+    get sitemap_path
+    assert_match posts(:verano).slug, response.body
+    assert_no_match(/#{posts(:borrador).slug}/, response.body)
+  end
 end

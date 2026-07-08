@@ -1,0 +1,41 @@
+<% content_for :title, "Blog" %>
+
+<div class="flex items-center justify-between">
+  <div>
+    <h1 class="text-2xl font-semibold text-sand-900">Blog</h1>
+    <p class="mt-1 text-sm text-sand-500">Artículos sobre Encarnación para posicionar el sitio en Google y atraer visitas.</p>
+  </div>
+  <%= link_to "+ Nuevo artículo", new_admin_post_path, class: "rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-medium px-4 py-2.5" %>
+</div>
+
+<div class="mt-5 space-y-2">
+  <% @posts.each do |post| %>
+    <%= link_to edit_admin_post_path(post), class: "flex items-center gap-4 rounded-xl bg-white border border-sand-200 p-3 hover:shadow-sm" do %>
+      <div class="h-14 w-20 shrink-0 overflow-hidden rounded-lg bg-sand-100">
+        <% if post.cover_image.attached? %>
+          <%= image_tag post.cover_image.variant(resize_to_fill: [ 160, 112 ]), class: "h-full w-full object-cover" %>
+        <% else %>
+          <div class="grid h-full w-full place-items-center text-sand-300"><%= icon :sparkles, klass: "h-5 w-5" %></div>
+        <% end %>
+      </div>
+      <div class="min-w-0 flex-1">
+        <p class="font-medium text-sand-900 truncate"><%= post.title_es.presence || "(sin título)" %></p>
+        <p class="text-xs text-sand-500 truncate">
+          <%= post.category&.name_es || "Sin categoría" %>
+          <% if post.published_at %> · <%= l post.published_at, format: :short %><% end %>
+        </p>
+      </div>
+      <div class="flex shrink-0 items-center gap-1.5">
+        <% if post.featured? %><span class="rounded-full bg-amber-100 text-amber-800 text-xs px-2 py-0.5">Destacado</span><% end %>
+        <span class="rounded-full text-xs px-2 py-0.5 <%= post.published? ? 'bg-emerald-100 text-emerald-800' : 'bg-sand-200 text-sand-500' %>">
+          <%= post.published? ? "Publicado" : "Borrador" %>
+        </span>
+      </div>
+    <% end %>
+  <% end %>
+  <% if @posts.empty? %>
+    <div class="rounded-xl border border-dashed border-sand-300 p-10 text-center text-sand-500">
+      Todavía no hay artículos. <%= link_to "Escribí el primero", new_admin_post_path, class: "text-brand-700 underline" %>.
+    </div>
+  <% end %>
+</div>

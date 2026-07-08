@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :properties, only: %i[ index show ], param: :slug
     resources :events,      only: %i[ index show ], param: :slug, path: "eventos"
     resources :attractions, only: %i[ index show ], param: :slug, path: "que-hacer"
+    resources :posts,       only: %i[ index show ], param: :slug, path: "blog"
     resources :bookings, only: %i[ new create show ], param: :code
   end
 
@@ -39,6 +40,7 @@ Rails.application.routes.draw do
     resources :guide_entries, except: :show do
       resources :property_recommendations, only: %i[ create destroy ]
     end
+    resources :posts, except: :show
     resources :categories, except: :show
 
     resources :blocks, only: %i[ create destroy ]

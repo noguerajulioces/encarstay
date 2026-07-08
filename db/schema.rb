@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_08_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_08_190000) do
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -159,6 +169,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_120000) do
     t.index ["property_id"], name: "index_photos_on_property_id"
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.integer "category_id"
+    t.datetime "created_at", null: false
+    t.string "excerpt_en"
+    t.string "excerpt_es"
+    t.string "excerpt_pt"
+    t.boolean "featured", default: false, null: false
+    t.string "meta_description_en"
+    t.string "meta_description_es"
+    t.string "meta_description_pt"
+    t.integer "position", default: 0, null: false
+    t.boolean "published", default: false, null: false
+    t.datetime "published_at"
+    t.string "slug", null: false
+    t.string "title_en"
+    t.string "title_es"
+    t.string "title_pt"
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_posts_on_category_id"
+    t.index ["published", "published_at"], name: "index_posts_on_published_and_published_at"
+    t.index ["slug"], name: "index_posts_on_slug", unique: true
+  end
+
   create_table "properties", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.string "address_area"
@@ -224,6 +257,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_120000) do
   add_foreign_key "external_events", "calendar_sources"
   add_foreign_key "guide_entries", "categories"
   add_foreign_key "photos", "properties"
+  add_foreign_key "posts", "categories"
   add_foreign_key "property_recommendations", "guide_entries"
   add_foreign_key "property_recommendations", "properties"
   add_foreign_key "seasonal_rates", "properties"

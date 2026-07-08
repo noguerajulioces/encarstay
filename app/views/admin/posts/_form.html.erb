@@ -1,0 +1,87 @@
+<%# Trix editor CSS — scoped to this admin page so it never loads on the public site. %>
+<% content_for :head do %>
+  <%= stylesheet_link_tag "trix" %>
+<% end %>
+
+<% loc_label = { "es" => "Español", "en" => "English", "pt" => "Português" } %>
+<% inp = "w-full rounded-lg border-sand-300 border px-3 py-2" %>
+<% lbl = "block text-sm font-medium text-sand-700 mb-1" %>
+<%= form_with model: [ :admin, post ], html: { multipart: true }, class: "space-y-5" do |form| %>
+  <% if post.errors.any? %>
+    <div class="rounded-lg bg-rose-50 border border-rose-200 text-rose-800 px-4 py-3 text-sm">
+      <ul class="list-disc list-inside">
+        <% post.errors.full_messages.each { |message| %><li><%= message %></li><% } %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%# --- Categoría, estado, orden --- %>
+  <div class="rounded-xl bg-white border border-sand-200 p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div>
+      <%= form.label :category_id, "Categoría", class: lbl %>
+      <%= form.collection_select :category_id, Category.ordered, :id, :name_es, { include_blank: "—" }, class: inp %>
+    </div>
+    <div>
+      <%= form.label :published_at, "Fecha de publicación", class: lbl %>
+      <%= form.datetime_field :published_at, class: inp %>
+    </div>
+    <div class="sm:col-span-2 flex flex-wrap items-center gap-6 pt-1">
+      <label class="flex items-center gap-2 text-sm text-sand-700"><%= form.check_box :published, class: "rounded border-sand-300" %> Publicado (visible en el sitio)</label>
+      <label class="flex items-center gap-2 text-sm text-sand-700"><%= form.check_box :featured, class: "rounded border-sand-300" %> Destacado (aparece primero)</label>
+      <div class="flex items-center gap-2 text-sm text-sand-700">Orden <%= form.number_field :position, class: "w-20 rounded-lg border-sand-300 border px-2 py-1" %></div>
+    </div>
+  </div>
+
+  <%# --- Título, extracto y meta descripción por idioma --- %>
+  <div class="rounded-xl bg-white border border-sand-200 p-5 space-y-4">
+    <div>
+      <span class="<%= lbl %>">Título <span class="font-normal text-sand-400">(el ES define la URL)</span></span>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <% %w[es en pt].each do |l| %>
+          <div><span class="text-xs text-sand-400"><%= loc_label[l] %></span><%= form.text_field "title_#{l}", required: (l == "es"), class: inp %></div>
+        <% end %>
+      </div>
+    </div>
+    <div>
+      <span class="<%= lbl %>">Extracto <span class="font-normal text-sand-400">(1–2 líneas, para tarjetas y listados)</span></span>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <% %w[es en pt].each do |l| %>
+          <div><span class="text-xs text-sand-400"><%= loc_label[l] %></span><%= form.text_field "excerpt_#{l}", class: inp %></div>
+        <% end %>
+      </div>
+    </div>
+    <div>
+      <span class="<%= lbl %>">Meta descripción <span class="font-normal text-sand-400">(para Google, ~155 caracteres; si se deja vacía se usa el extracto)</span></span>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <% %w[es en pt].each do |l| %>
+          <div><span class="text-xs text-sand-400"><%= loc_label[l] %></span><%= form.text_field "meta_description_#{l}", class: inp %></div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <%# --- Cuerpo del artículo por idioma (editor visual) --- %>
+  <div class="rounded-xl bg-white border border-sand-200 p-5 space-y-5">
+    <p class="text-sm font-semibold text-sand-800">Contenido del artículo</p>
+    <% %w[es en pt].each do |l| %>
+      <div>
+        <span class="<%= lbl %>"><%= loc_label[l] %></span>
+        <%= form.rich_text_area "body_#{l}", class: "trix-content min-h-40 rounded-lg border border-sand-300 bg-white" %>
+      </div>
+    <% end %>
+  </div>
+
+  <%# --- Portada --- %>
+  <div class="rounded-xl bg-white border border-sand-200 p-5">
+    <span class="<%= lbl %>">Imagen de portada</span>
+    <% if post.cover_image.attached? %>
+      <%= image_tag post.cover_image.variant(resize_to_fill: [ 320, 200 ]), class: "mb-3 h-32 w-52 rounded-lg object-cover" %>
+    <% end %>
+    <%= file_field_tag :cover_image, accept: "image/*", class: "text-sm" %>
+  </div>
+
+  <div class="flex gap-3">
+    <%= form.submit post.persisted? ? "Guardar cambios" : "Crear", class: "rounded-lg bg-brand-700 hover:bg-brand-800 text-white font-medium px-5 py-2.5 cursor-pointer" %>
+    <%= link_to "Cancelar", admin_posts_path, class: "rounded-lg border border-sand-300 text-sand-700 px-5 py-2.5" %>
+  </div>
+<% end %>

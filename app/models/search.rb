@@ -25,4 +25,11 @@ class Search
     return [] unless valid_range?
     Property.active.accommodating(guests).alphabetically.select { |property| property.available?(check_in, check_out) }
   end
+
+  # The left-hand list for the search+map page: availability-filtered results when
+  # a valid date range is given, otherwise the whole active catalogue so the map
+  # is useful even before dates are picked.
+  def list
+    valid_range? ? results : Property.active.alphabetically
+  end
 end

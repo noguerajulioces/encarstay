@@ -83,6 +83,8 @@ pt:
     nav_properties: "Acomodações"
     nav_attractions: "O que fazer"
     nav_events: "Eventos"
+    nav_blog: "Blog"
+    nav_map: "Mapa"
     nav_my_booking: "Minha reserva"
     language: "Idioma"
     footer_rights: "© %{year} ENCAR STAYS — reservas diretas em Encarnación."
@@ -144,6 +146,16 @@ pt:
     see_all_places: "Ver o guia completo"
     see_all_events: "Ver todos os eventos"
 
+  blog:
+    index_kicker: "Blog de Encarnación"
+    index_title: "Blog"
+    index_subtitle: "Guias, dicas e histórias para descobrir Encarnación e planejar sua viagem."
+    index_meta: "Blog sobre Encarnación: o que fazer, praias, eventos, gastronomia e dicas de viagem para sua estadia."
+    read_more: "Ler mais"
+    more_posts: "Mais artigos"
+    none_title: "Ainda não há artigos"
+    none_subtitle: "Em breve vamos publicar guias e novidades de Encarnación."
+
   search_form:
     check_in: "Chegada"
     check_out: "Saída"
@@ -165,6 +177,12 @@ pt:
     up_to_guests: "até %{count} hóspedes"
     total_summary: "Total %{nights} + limpeza"
     view_and_book: "Ver e reservar"
+    all_stays_title: "Explore as acomodações"
+    all_stays_subtitle: "Escolha datas para ver a disponibilidade, ou explore o mapa com pontos de interesse."
+    map_stays: "Acomodações"
+    map_attractions: "Atrações"
+    map_events: "Eventos"
+    map_all_categories: "Todas"
 
   properties:
     index_kicker: "Acomodações"

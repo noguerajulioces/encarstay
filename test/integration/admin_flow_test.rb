@@ -22,10 +22,33 @@ class AdminFlowTest < ActionDispatch::IntegrationTest
 
     [ admin_root_path, admin_calendar_path, admin_bookings_path, new_admin_booking_path,
       admin_booking_path(booking), admin_properties_path, new_admin_property_path,
-      admin_property_path(@property), edit_admin_property_path(@property) ].each do |path|
+      admin_property_path(@property), edit_admin_property_path(@property),
+      admin_posts_path, new_admin_post_path, edit_admin_post_path(posts(:verano)) ].each do |path|
       get path
       assert_response :success, "Expected #{path} to render, got #{response.status}"
     end
+  end
+
+  test "the blog editor loads Trix CSS but public pages do not" do
+    sign_in
+    get new_admin_post_path
+    assert_select "link[rel=stylesheet][href*=?]", "trix", { count: 1 }, "the blog editor should load Trix CSS"
+    assert_select "trix-editor", 3, "the blog editor should render one Trix editor per locale (es/en/pt)"
+
+    get posts_path
+    assert_select "link[rel=stylesheet][href*=?]", "trix", false, "public pages must not load the Trix editor CSS"
+  end
+
+  test "creating a blog post generates a slug and redirects to edit" do
+    sign_in
+    assert_difference "Post.count", 1 do
+      post admin_posts_path, params: { post: {
+        title_es: "Nuevo artículo de prueba", body_es: "<div>Contenido</div>", published: "1"
+      } }
+    end
+    assert_redirected_to edit_admin_post_path(Post.last)
+    assert_equal "nuevo-articulo-de-prueba", Post.last.slug
+    assert Post.last.published?
   end
 
   test "signing in reaches the dashboard, bad credentials do not" do
