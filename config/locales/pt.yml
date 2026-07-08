@@ -129,7 +129,6 @@ pt:
     arrival: "Chegada"
     departure: "Saída"
     guests_label: "Hóspedes"
-    see_price: "Ver preço"
     book: "Reservar"
     not_available: "Indisponível para essas datas."
     pick_dates: "Escolha as datas para ver o preço total e reservar."

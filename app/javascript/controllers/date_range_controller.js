@@ -12,7 +12,7 @@ import { Controller } from "@hotwired/stimulus"
 // When a check-in has fewer free nights ahead than its minimum, no range fits
 // and the picker keeps waiting for a different check-in.
 export default class extends Controller {
-  static targets = ["day", "checkIn", "checkOut", "form", "controls", "summary", "submit"]
+  static targets = ["day", "checkIn", "checkOut", "form", "controls", "summary"]
   static values = { occupied: Array, minNights: Number, minNightsOverrides: Object, locale: String, labels: Object }
 
   connect() {
@@ -142,16 +142,6 @@ export default class extends Controller {
     })
 
     this.renderControls(lo, range)
-    this.toggleSubmit()
-  }
-
-  // Hide "Ver precio" once the fields hold a valid range — the price is already
-  // showing and refreshes on its own. Keep it as the prompt until then.
-  toggleSubmit() {
-    if (!this.hasSubmitTarget) return
-    const checkIn = this.hasCheckInTarget ? this.checkInTarget.value : ""
-    const checkOut = this.hasCheckOutTarget ? this.checkOutTarget.value : ""
-    this.submitTarget.hidden = Boolean(checkIn && checkOut && checkOut > checkIn)
   }
 
   renderControls(lo, range) {

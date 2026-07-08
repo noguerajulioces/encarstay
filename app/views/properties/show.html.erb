@@ -114,7 +114,6 @@
           <%= form.label :guests, t("property.guests_label"), class: "block text-xs font-medium text-stone-500 mb-1" %>
           <%= form.number_field :guests, value: @guests, min: 1, max: @property.capacity, data: { action: "change->date-range#refresh" }, class: "w-full rounded-lg border-stone-300 border px-3 py-2" %>
         </div>
-        <%= form.submit t("property.see_price"), data: { date_range_target: "submit" }, hidden: @quote.valid?, class: "w-full rounded-lg border border-emerald-700 text-emerald-800 font-medium px-4 py-2.5 hover:bg-emerald-50 cursor-pointer" %>
       <% end %>
 
       <%= turbo_frame_tag "quote" do %>

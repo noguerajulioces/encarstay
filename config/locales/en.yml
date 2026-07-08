@@ -120,7 +120,6 @@ en:
     arrival: "Check-in"
     departure: "Check-out"
     guests_label: "Guests"
-    see_price: "See price"
     book: "Book now"
     not_available: "Not available for those dates."
     pick_dates: "Pick dates to see the total price and book."
