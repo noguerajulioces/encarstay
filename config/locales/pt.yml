@@ -146,6 +146,10 @@ pt:
   search_form:
     check_in: "Chegada"
     check_out: "Saída"
+    dates: "Datas"
+    dates_placeholder: "Adicione suas datas"
+    clear: "Limpar datas"
+    weekdays: ["S", "T", "Q", "Q", "S", "S", "D"]
     guests: "Hóspedes"
     submit: "Buscar disponibilidade"
 

@@ -137,6 +137,10 @@ en:
   search_form:
     check_in: "Check-in"
     check_out: "Check-out"
+    dates: "Dates"
+    dates_placeholder: "Add your dates"
+    clear: "Clear dates"
+    weekdays: ["M", "T", "W", "T", "F", "S", "S"]
     guests: "Guests"
     submit: "Search availability"
 

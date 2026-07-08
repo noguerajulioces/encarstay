@@ -146,6 +146,10 @@ es:
   search_form:
     check_in: "Llegada"
     check_out: "Salida"
+    dates: "Fechas"
+    dates_placeholder: "Agregá tus fechas"
+    clear: "Borrar fechas"
+    weekdays: ["L", "M", "X", "J", "V", "S", "D"]
     guests: "Huéspedes"
     submit: "Buscar disponibilidad"
 
