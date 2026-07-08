@@ -33,6 +33,12 @@ module ApplicationHelper
     entry.event? ? event_path(entry) : attraction_path(entry)
   end
 
+  # Trix only offers one heading level and emits <h1>. Demote those to <h2> so a
+  # rendered article keeps a single top-level <h1> (its title) — cleaner for SEO.
+  def demote_headings(html)
+    html.to_s.gsub(%r{(</?)h1\b}, '\1h2').html_safe
+  end
+
   # The current page's path rebuilt for another locale — used by the language
   # switcher and hreflang tags. Works off the raw path (not url_for) so it holds
   # up on any page, including non-GET renders. The default locale stays unprefixed.
