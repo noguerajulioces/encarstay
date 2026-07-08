@@ -8,8 +8,9 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38BDF8?logo=tailwindcss&logoColor=white)
 
 A **direct-booking** system for short-term rentals: a multilingual public catalogue
-(ES/EN/PT) where guests search by date, see a quote, and book without intermediaries,
-plus an admin panel and two-way calendar sync with Airbnb over iCal.
+(ES/EN/PT) where guests search by date — as a list or on an interactive map — see a
+quote, and book without intermediaries, plus a local guide, an SEO blog, an admin
+panel, and two-way calendar sync with Airbnb over iCal.
 
 > Full documentation (domain, quotes, flows):
 > **[docs/DOCUMENTATION.md](docs/DOCUMENTATION.md)**
@@ -83,10 +84,11 @@ bin/kamal deploy
 
 ```
 app/
-  models/            Property, Booking, Quote, SeasonalRate, Block,
-                     CalendarSource, ExternalEvent, GuideEntry, Category, User…
+  models/            Property, Booking, Quote, SeasonalRate, Block, CalendarSource,
+                     ExternalEvent, GuideEntry, Category, Post, Search, User…
   models/concerns/   OccupiesDates, Monetizable, Translatable
-  controllers/       public (properties, bookings, searches…) and admin/
+  controllers/       public (properties, searches+map, posts, bookings…) and admin/
+  javascript/        Stimulus controllers (search_map, map_picker, gallery…)
   jobs/              iCal calendar import
   mailers/           booking notifications
 db/schema.rb         database schema

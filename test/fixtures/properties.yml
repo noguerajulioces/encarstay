@@ -28,4 +28,6 @@ bosque:
   cleaning_fee_cents: 1500
   min_nights: 2
   active: true
+  latitude: -27.330900
+  longitude: -55.866300
   calendar_token: tok-bosque-fixture-000000002

@@ -1,0 +1,16 @@
+verano:
+  title_es: Verano en Encarnación
+  title_en: Summer in Encarnación
+  excerpt_es: Playas, costanera y planes para tu verano.
+  meta_description_es: Guía de verano en Encarnación.
+  slug: verano-en-encarnacion
+  published: true
+  featured: true
+  published_at: <%= 2.days.ago.to_fs(:db) %>
+  position: 1
+
+borrador:
+  title_es: Artículo en borrador
+  slug: articulo-en-borrador
+  published: false
+  position: 2

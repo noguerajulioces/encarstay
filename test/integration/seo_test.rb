@@ -33,4 +33,27 @@ class SeoTest < ActionDispatch::IntegrationTest
       assert_no_match(/check_in/, links.first["href"])
     end
   end
+
+  test "blog post exposes BlogPosting structured data and article og:type" do
+    get post_path(posts(:verano))
+    assert_response :success
+    assert_select "meta[property='og:type'][content=article]"
+    assert_select "meta[property='article:published_time']"
+    assert_match '"@type":"BlogPosting"', response.body
+    assert_match '"@type":"BreadcrumbList"', response.body
+  end
+
+  test "blog post keeps a single top-level h1" do
+    post = posts(:verano)
+    post.update!(body_es: "<h1>Sección uno</h1><p>Texto</p><h1>Sección dos</h1>")
+    get post_path(post)
+    assert_select "article h1", 1, "the article title must be the only h1; Trix body headings demote to h2"
+    assert_select "article .article-body h2", 2
+  end
+
+  test "sitemap lists published blog posts but not drafts" do
+    get sitemap_path
+    assert_match posts(:verano).slug, response.body
+    assert_no_match(/#{posts(:borrador).slug}/, response.body)
+  end
 end

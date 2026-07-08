@@ -1,9 +1,10 @@
 # Documentation — Encar Stays (Bookings)
 
 A **direct-booking** system for short-term rentals. A multilingual public catalogue
-where guests search by date, request a quote, and book without intermediaries, plus
-an admin panel to manage properties, pricing, calendars, and bookings. It syncs
-availability with Airbnb over iCal in both directions.
+where guests search by date — as a list or on an interactive map — request a quote,
+and book without intermediaries, plus an admin panel to manage properties, pricing,
+calendars, bookings, the local guide, and a blog. It syncs availability with Airbnb
+over iCal in both directions.
 
 - **Stack:** Ruby 4.0.3 · Rails 8.1 · SQLite · Hotwire (Turbo + Stimulus) · Tailwind · Propshaft · Solid Queue/Cache/Cable
 - **Languages:** Spanish (default, no prefix), English (`/en`), Portuguese (`/pt`)
@@ -14,13 +15,15 @@ availability with Airbnb over iCal in both directions.
 1. [Architecture](#architecture)
 2. [Domain concepts](#domain-concepts)
 3. [Quotes (pricing)](#quotes-pricing)
-4. [Database](#database) → **[docs/DATABASE.md](DATABASE.md)** (diagrams)
-5. [Booking flow](#booking-flow)
-6. [Calendar sync (Airbnb)](#calendar-sync-airbnb)
-7. [Admin panel](#admin-panel)
-8. [Internationalization](#internationalization)
-9. [Jobs and scheduled tasks](#jobs-and-scheduled-tasks)
-10. [Getting started](#getting-started)
+4. [Search and map](#search-and-map)
+5. [Content: guide and blog](#content-guide-and-blog)
+6. [Database](#database) → **[docs/DATABASE.md](DATABASE.md)** (diagrams)
+7. [Booking flow](#booking-flow)
+8. [Calendar sync (Airbnb)](#calendar-sync-airbnb)
+9. [Admin panel](#admin-panel)
+10. [Internationalization](#internationalization)
+11. [Jobs and scheduled tasks](#jobs-and-scheduled-tasks)
+12. [Getting started](#getting-started)
 
 ---
 
@@ -32,12 +35,13 @@ interactivity.
 
 ```
 Guest ──► Public site (ES/EN/PT)
-              │  search · view property · quote · book
+              │  search (list + map) · view property · quote · book
+              │  browse guide (attractions / events) · read blog
               ▼
           Booking ──► emails (guest + admin)
               │
 Admin ──► /admin panel ──► confirm / cancel · properties · pricing · blocks
-              │
+              │                guide · blog · categories
               ▼
         iCal calendars ◄──► Airbnb
           · outbound: tokenized feed with occupied dates
@@ -56,6 +60,10 @@ Admin ──► /admin panel ──► confirm / cancel · properties · pricing
     major unit for admin forms.
   - `Translatable` — exposes `title` (etc.) by reading the current locale's column
     (`title_es`, `title_en`, `title_pt`) with a fallback to the default language.
+- **Action Text (Trix).** Blog posts store a rich-text body per locale
+  (`body_es`/`body_en`/`body_pt` via `has_rich_text`); `Post#body` returns the
+  current locale's version, falling back to Spanish. The Trix editor CSS is scoped to
+  the admin form so it never loads on public pages.
 
 ---
 
@@ -70,7 +78,8 @@ Admin ──► /admin panel ──► confirm / cancel · properties · pricing
 | Block | `Block` | Dates closed manually by the admin. |
 | Calendar source | `CalendarSource` | An Airbnb iCal URL to import. |
 | External event | `ExternalEvent` | A booking imported from an iCal source. |
-| Guide / content | `GuideEntry` + `Category` | Local attractions and events to promote. |
+| Guide / content | `GuideEntry` + `Category` | Local attractions and events to promote; plotted on the search map. |
+| Blog post | `Post` | A multilingual article (Trix rich text) publishing local SEO content. |
 | User | `User` | An admin with panel access. |
 
 **The golden rule of availability** (`Property#available?`): a property is free for a
@@ -120,6 +129,53 @@ concern converts them to the major unit only for display/editing in forms. In PY
 
 ---
 
+## Search and map
+
+Search is a plain object, not a table. `Search`
+([app/models/search.rb](../app/models/search.rb)) carries `check_in`, `check_out`,
+and `guests`:
+
+- `#results` — active properties that fit the guests **and** are available for the range.
+- `#list` — the left-hand results list: `#results` when a valid date range is given,
+  otherwise the whole active catalogue, so the map is useful before any dates are picked.
+
+`SearchesController#show` renders an Airbnb-style split view: the results list on the
+left and an interactive **Leaflet** map on the right. The map is fed three
+date-independent datasets — geolocated **properties**, **attractions**, and **events** —
+serialized to JSON in `data-*` attributes and drawn by the `search_map` Stimulus
+controller
+([app/javascript/controllers/search_map_controller.js](../app/javascript/controllers/search_map_controller.js)).
+
+- **Tiles:** OpenStreetMap (no API key, no cost) — the same setup as the admin
+  map-picker used to place a property's pin.
+- **Layers:** three toggleable marker groups (stays / attractions / events), each with
+  a distinct pin color. Points of interest are further filterable by `Category`.
+- **Coordinates** are admin-entered (`latitude` / `longitude`); proximity uses the
+  haversine `Property#distance_km_to`. The map only plots records that have coordinates.
+
+---
+
+## Content: guide and blog
+
+Two editorial content types, both multilingual and managed from the admin panel:
+
+- **Guide** — `GuideEntry` (`kind`: `attraction` or `event`) grouped by `Category`.
+  Promotes the area, appears on the search map, and cross-links to stays through
+  `property_recommendations` (N:M).
+- **Blog** — `Post`, for local SEO content about Encarnación. Mirrors the guide's
+  conventions (slug from `title_es`, `published` / `featured`, cover image, optional
+  `Category`) but stores its body as **Action Text** rich text, one record per locale.
+
+**Blog SEO.** Each article page emits a unique title, meta description, canonical URL,
+and a single `<h1>` (Trix's in-body headings are demoted to `<h2>`), plus full Open
+Graph (`og:type=article`, `article:published_time` / `article:modified_time`, a
+1200×630 image), a Twitter card, and `BlogPosting` + `BreadcrumbList` JSON-LD. The
+`/blog` index emits `Blog` JSON-LD. Every post is added to `sitemap.xml` with per-locale
+`hreflang` alternates. The shared head partial is
+[app/views/shared/_meta.html.erb](../app/views/shared/_meta.html.erb).
+
+---
+
 ## Database
 
 The full schema, with **graphical diagrams** (entity-relationship and occupancy /
@@ -133,7 +189,8 @@ cable, see [config/database.yml](../config/database.yml)); source schema in
 [db/schema.rb](../db/schema.rb). The central aggregate is `properties`, which owns
 photos, seasonal rates, blocks, bookings, and calendar sources. The local guide
 (`guide_entries` + `categories`) is cross-linked to properties via
-`property_recommendations` (N:M).
+`property_recommendations` (N:M). Blog articles live in `posts`, with their per-locale
+rich-text bodies stored by Action Text in `action_text_rich_texts`.
 
 ---
 
@@ -191,6 +248,7 @@ Under `/admin`, with its own layout, protected by
   sync (`/sync`).
 - **Blocks** — create/delete closed dates.
 - **Guide** — entries (attractions/events), categories, recommendations.
+- **Blog** — articles with a Trix rich-text editor (one per locale) and a cover image.
 - **Calendar** — a consolidated occupancy view.
 
 ---
@@ -203,6 +261,9 @@ uses `scope "(:locale)"` with the constraint `locale: /en|pt/`.
 - **UI content:** `config/locales/{es,en,pt}.yml` files.
 - **Data content:** per-locale columns (`title_es`, …) via the `Translatable`
   concern, with a fallback to the default language.
+- **Rich text:** blog bodies use Action Text with one rich-text record per locale
+  (`body_es` / `body_en` / `body_pt`); `Post#body` picks the current locale, falling
+  back to Spanish.
 - **Bookings:** each `Booking` remembers its `locale` so emails go out in the
   language the guest booked in.
 

@@ -74,6 +74,8 @@ en:
     nav_properties: "Stays"
     nav_attractions: "Things to do"
     nav_events: "Events"
+    nav_blog: "Blog"
+    nav_map: "Map"
     nav_my_booking: "My booking"
     language: "Language"
     footer_rights: "© %{year} ENCAR STAYS — direct bookings in Encarnación."
@@ -88,6 +90,7 @@ en:
     hero_kicker: "Your base in Encarnación"
     hero_title: "Stay in Encarnación and live the city"
     hero_subtitle: "Pick your dates and check real-time availability. Book directly with us — no middlemen, no commission."
+    hero_image_alt: "Watercolor of Encarnación: the San Roque González bridge, the riverside and the city at sunset"
     trust_direct: "Book directly with the host"
     trust_no_fees: "No commission, no middlemen"
     trust_local: "Local host in Encarnación"
@@ -134,9 +137,23 @@ en:
     see_all_places: "See the whole guide"
     see_all_events: "See all events"
 
+  blog:
+    index_kicker: "Encarnación blog"
+    index_title: "Blog"
+    index_subtitle: "Guides, tips and stories to discover Encarnación and plan your trip."
+    index_meta: "Blog about Encarnación: what to do, beaches, events, food and travel tips for your stay."
+    read_more: "Read more"
+    more_posts: "More articles"
+    none_title: "No articles yet"
+    none_subtitle: "We'll be publishing guides and news about Encarnación soon."
+
   search_form:
     check_in: "Check-in"
     check_out: "Check-out"
+    dates: "Dates"
+    dates_placeholder: "Add your dates"
+    clear: "Clear dates"
+    weekdays: ["M", "T", "W", "T", "F", "S", "S"]
     guests: "Guests"
     submit: "Search availability"
 
@@ -151,6 +168,12 @@ en:
     up_to_guests: "up to %{count} guests"
     total_summary: "Total %{nights} + cleaning"
     view_and_book: "View and book"
+    all_stays_title: "Explore the stays"
+    all_stays_subtitle: "Pick dates to see availability, or explore the map with points of interest."
+    map_stays: "Stays"
+    map_attractions: "Attractions"
+    map_events: "Events"
+    map_all_categories: "All"
 
   properties:
     index_kicker: "Stays"
@@ -159,6 +182,10 @@ en:
 
   property:
     photo_alt: "%{name} — photo %{index}"
+    show_all_photos: "Show all photos"
+    close: "Close"
+    prev_photo: "Previous photo"
+    next_photo: "Next photo"
     guests: "guests"
     bedrooms: "bedrooms"
     beds: "beds"

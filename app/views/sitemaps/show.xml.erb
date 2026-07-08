@@ -10,7 +10,8 @@
       { url: ->(loc) { root_url(locale: param.call(loc)) },        changefreq: "daily",  priority: "1.0" },
       { url: ->(loc) { properties_url(locale: param.call(loc)) },  changefreq: "daily",  priority: "0.8" },
       { url: ->(loc) { attractions_url(locale: param.call(loc)) }, changefreq: "weekly", priority: "0.8" },
-      { url: ->(loc) { events_url(locale: param.call(loc)) },      changefreq: "weekly", priority: "0.8" }
+      { url: ->(loc) { events_url(locale: param.call(loc)) },      changefreq: "weekly", priority: "0.8" },
+      { url: ->(loc) { posts_url(locale: param.call(loc)) },       changefreq: "weekly", priority: "0.7" }
     ]
     @properties.each do |property|
       pages << {
@@ -28,6 +29,12 @@
       pages << {
         url: ->(loc) { event_url(event, locale: param.call(loc)) },
         changefreq: "weekly", priority: "0.6", lastmod: event.updated_at.to_date.iso8601
+      }
+    end
+    @posts.each do |post|
+      pages << {
+        url: ->(loc) { post_url(post, locale: param.call(loc)) },
+        changefreq: "monthly", priority: "0.6", lastmod: post.updated_at.to_date.iso8601
       }
     end
   %>

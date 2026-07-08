@@ -18,5 +18,8 @@
 <meta property="og:description" content="<%= strip_tags(description).squish.truncate(160) %>">
 <meta property="og:url" content="<%= canonical_url %>">
 <meta property="og:locale" content="<%= t('site.og_locale') %>">
+<% (I18n.available_locales - [ I18n.locale ]).each do |loc| %>
+  <meta property="og:locale:alternate" content="<%= t('site.og_locale', locale: loc) %>">
+<% end %>
 <% if content_for?(:og_image) %><meta property="og:image" content="<%= content_for(:og_image) %>"><% end %>
 <meta name="twitter:card" content="<%= content_for?(:og_image) ? 'summary_large_image' : 'summary' %>">

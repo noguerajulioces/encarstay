@@ -1,22 +1,28 @@
 <%= form_with model: search, url: search_path, method: :get,
-      class: "flex flex-col gap-2 md:flex-row md:items-stretch md:gap-0 md:rounded-2xl md:border md:border-sand-200 md:bg-white md:p-2 md:shadow-[0_18px_40px_-24px_rgba(94,72,50,0.5)]" do |form| %>
-  <div class="flex flex-1 items-center gap-3 rounded-xl border border-sand-200 bg-white px-4 py-2.5 md:border-0 md:py-1">
+      data: {
+        controller: "search-range",
+        search_range_locale_value: I18n.locale,
+        search_range_labels_value: {
+          placeholder: t("search_form.dates_placeholder"),
+          weekdays: t("search_form.weekdays")
+        }.to_json
+      },
+      class: "relative flex flex-col gap-2 md:flex-row md:items-stretch md:gap-0 md:rounded-2xl md:border md:border-sand-200 md:bg-white md:p-2 md:shadow-[0_18px_40px_-24px_rgba(94,72,50,0.5)]" do |form| %>
+  <div class="flex flex-[1.5] cursor-pointer items-center gap-3 rounded-xl border border-sand-200 bg-white px-4 py-2.5 md:border-0 md:py-1"
+       data-action="click->search-range#open">
     <span class="text-brand-500"><%= icon :calendar, klass: "h-5 w-5" %></span>
     <div class="min-w-0 flex-1">
-      <%= form.label :check_in, t("search_form.check_in"), class: "block text-[0.65rem] font-semibold uppercase tracking-wider text-sand-400" %>
-      <%= form.date_field :check_in, min: Date.current, class: "w-full bg-transparent text-sm font-medium text-sand-800 focus:outline-none" %>
+      <span class="block text-[0.65rem] font-semibold uppercase tracking-wider text-sand-400"><%= t("search_form.dates") %></span>
+      <span data-search-range-target="display" class="block truncate text-sm font-medium text-sand-800"><%= t("search_form.dates_placeholder") %></span>
     </div>
+    <button type="button" data-search-range-target="clear" data-action="click->search-range#clear" hidden
+            class="rounded-full p-1 text-sand-400 hover:bg-sand-100 hover:text-sand-600" aria-label="<%= t("search_form.clear") %>">
+      <%= icon :x, klass: "h-4 w-4" %>
+    </button>
   </div>
 
-  <div class="my-2 hidden w-px bg-sand-200 md:block"></div>
-
-  <div class="flex flex-1 items-center gap-3 rounded-xl border border-sand-200 bg-white px-4 py-2.5 md:border-0 md:py-1">
-    <span class="text-brand-500"><%= icon :calendar, klass: "h-5 w-5" %></span>
-    <div class="min-w-0 flex-1">
-      <%= form.label :check_out, t("search_form.check_out"), class: "block text-[0.65rem] font-semibold uppercase tracking-wider text-sand-400" %>
-      <%= form.date_field :check_out, min: Date.current + 1, class: "w-full bg-transparent text-sm font-medium text-sand-800 focus:outline-none" %>
-    </div>
-  </div>
+  <%= form.hidden_field :check_in, data: { search_range_target: "checkIn" } %>
+  <%= form.hidden_field :check_out, data: { search_range_target: "checkOut" } %>
 
   <div class="my-2 hidden w-px bg-sand-200 md:block"></div>
 
@@ -33,4 +39,9 @@
     <%= icon :search, klass: "h-5 w-5" %>
     <span><%= t("search_form.submit") %></span>
   <% end %>
+
+  <div data-search-range-target="panel" hidden
+       class="absolute left-0 top-full z-20 mt-2 w-full max-w-sm rounded-2xl border border-sand-200 bg-white p-4 shadow-[0_18px_40px_-16px_rgba(94,72,50,0.45)]">
+    <div data-search-range-target="calendar"></div>
+  </div>
 <% end %>

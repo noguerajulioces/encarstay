@@ -83,6 +83,8 @@ pt:
     nav_properties: "Acomodações"
     nav_attractions: "O que fazer"
     nav_events: "Eventos"
+    nav_blog: "Blog"
+    nav_map: "Mapa"
     nav_my_booking: "Minha reserva"
     language: "Idioma"
     footer_rights: "© %{year} ENCAR STAYS — reservas diretas em Encarnación."
@@ -97,6 +99,7 @@ pt:
     hero_kicker: "Sua base em Encarnación"
     hero_title: "Hospede-se em Encarnación e viva a cidade"
     hero_subtitle: "Escolha as datas e confira a disponibilidade real. Reserve direto com a gente — sem intermediários, sem comissão."
+    hero_image_alt: "Aquarela de Encarnación: a ponte San Roque González, a orla e a cidade ao entardecer"
     trust_direct: "Reserva direta com o anfitrião"
     trust_no_fees: "Sem comissão, sem intermediários"
     trust_local: "Anfitrião local em Encarnación"
@@ -143,9 +146,23 @@ pt:
     see_all_places: "Ver o guia completo"
     see_all_events: "Ver todos os eventos"
 
+  blog:
+    index_kicker: "Blog de Encarnación"
+    index_title: "Blog"
+    index_subtitle: "Guias, dicas e histórias para descobrir Encarnación e planejar sua viagem."
+    index_meta: "Blog sobre Encarnación: o que fazer, praias, eventos, gastronomia e dicas de viagem para sua estadia."
+    read_more: "Ler mais"
+    more_posts: "Mais artigos"
+    none_title: "Ainda não há artigos"
+    none_subtitle: "Em breve vamos publicar guias e novidades de Encarnación."
+
   search_form:
     check_in: "Chegada"
     check_out: "Saída"
+    dates: "Datas"
+    dates_placeholder: "Adicione suas datas"
+    clear: "Limpar datas"
+    weekdays: ["S", "T", "Q", "Q", "S", "S", "D"]
     guests: "Hóspedes"
     submit: "Buscar disponibilidade"
 
@@ -160,6 +177,12 @@ pt:
     up_to_guests: "até %{count} hóspedes"
     total_summary: "Total %{nights} + limpeza"
     view_and_book: "Ver e reservar"
+    all_stays_title: "Explore as acomodações"
+    all_stays_subtitle: "Escolha datas para ver a disponibilidade, ou explore o mapa com pontos de interesse."
+    map_stays: "Acomodações"
+    map_attractions: "Atrações"
+    map_events: "Eventos"
+    map_all_categories: "Todas"
 
   properties:
     index_kicker: "Acomodações"
@@ -168,6 +191,10 @@ pt:
 
   property:
     photo_alt: "%{name} — foto %{index}"
+    show_all_photos: "Mostrar todas as fotos"
+    close: "Fechar"
+    prev_photo: "Foto anterior"
+    next_photo: "Próxima foto"
     guests: "hóspedes"
     bedrooms: "quartos"
     beds: "camas"
