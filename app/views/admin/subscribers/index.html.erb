@@ -1,0 +1,79 @@
+<% content_for :title, "Suscriptores" %>
+
+<% labels = { "pending" => "Pendiente", "confirmed" => "Confirmado", "unsubscribed" => "Baja" } %>
+<% badges = { "pending" => "bg-amber-100 text-amber-800", "confirmed" => "bg-emerald-100 text-emerald-800", "unsubscribed" => "bg-sand-200 text-sand-600" } %>
+
+<div class="flex flex-wrap items-center justify-between gap-3">
+  <h1 class="text-2xl font-semibold text-sand-900">Suscriptores</h1>
+  <div class="flex flex-wrap gap-2">
+    <%= button_to "Invitar huéspedes anteriores", admin_guest_invitations_path, method: :post,
+          form: { data: { turbo_confirm: "Se enviará una invitación única a cada huésped anterior que no esté en la lista. ¿Continuar?" } },
+          class: "rounded-lg border border-sand-300 bg-white px-3 py-2 text-sm font-medium text-sand-800 hover:bg-sand-50 cursor-pointer" %>
+    <%= link_to "Exportar CSV", admin_subscribers_path(format: :csv, status: params[:status]),
+          class: "rounded-lg border border-sand-300 bg-white px-3 py-2 text-sm font-medium text-sand-800 hover:bg-sand-50" %>
+  </div>
+</div>
+
+<%# Status filter chips %>
+<div class="mt-4 flex flex-wrap gap-2 text-sm">
+  <% total = @counts.values.sum %>
+  <%= link_to "Todos (#{total})", admin_subscribers_path,
+        class: "rounded-full px-3 py-1.5 #{params[:status].blank? ? 'bg-sand-900 text-white' : 'bg-white border border-sand-200 text-sand-700 hover:bg-sand-50'}" %>
+  <% %w[pending confirmed unsubscribed].each do |st| %>
+    <%= link_to "#{labels[st]} (#{@counts[st].to_i})", admin_subscribers_path(status: st),
+          class: "rounded-full px-3 py-1.5 #{params[:status] == st ? 'bg-sand-900 text-white' : 'bg-white border border-sand-200 text-sand-700 hover:bg-sand-50'}" %>
+  <% end %>
+</div>
+
+<div class="mt-5 overflow-x-auto rounded-xl border border-sand-200 bg-white">
+  <% if @subscribers.empty? %>
+    <p class="p-6 text-sm text-sand-400">Todavía no hay suscriptores.</p>
+  <% else %>
+    <table class="w-full text-sm">
+      <thead class="border-b border-sand-100 text-left text-xs uppercase tracking-wide text-sand-500">
+        <tr>
+          <th class="px-4 py-3 font-medium">Email</th>
+          <th class="px-4 py-3 font-medium">Estado</th>
+          <th class="px-4 py-3 font-medium">Origen</th>
+          <th class="px-4 py-3 font-medium">Idioma</th>
+          <th class="px-4 py-3 font-medium">Código</th>
+          <th class="px-4 py-3 font-medium">Alta</th>
+          <th class="px-4 py-3"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-sand-100">
+        <% @subscribers.each do |subscriber| %>
+          <tr class="hover:bg-sand-50">
+            <td class="px-4 py-3 text-sand-900"><%= subscriber.email %></td>
+            <td class="px-4 py-3">
+              <span class="rounded-full px-2.5 py-1 text-xs font-medium <%= badges[subscriber.status] %>"><%= labels[subscriber.status] %></span>
+            </td>
+            <td class="px-4 py-3 text-sand-600"><%= subscriber.source %></td>
+            <td class="px-4 py-3 text-sand-600"><%= subscriber.locale.upcase %></td>
+            <td class="px-4 py-3">
+              <% if subscriber.discount_code %>
+                <span class="font-mono text-xs text-sand-700"><%= subscriber.discount_code %></span>
+                <% if subscriber.discount_redeemed_at %>
+                  <span class="ml-1 text-xs text-emerald-700">✓ usado</span>
+                <% end %>
+              <% else %>
+                <span class="text-sand-300">—</span>
+              <% end %>
+            </td>
+            <td class="px-4 py-3 text-sand-500"><%= l subscriber.created_at.to_date, format: :short %></td>
+            <td class="px-4 py-3 text-right whitespace-nowrap">
+              <% if subscriber.discount_code %>
+                <%= button_to (subscriber.discount_redeemed_at ? "Marcar sin usar" : "Marcar usado"),
+                      redeem_admin_subscriber_path(subscriber, status: params[:status]), method: :patch,
+                      class: "text-xs text-brand-700 hover:underline cursor-pointer" %>
+              <% end %>
+              <%= button_to "Eliminar", admin_subscriber_path(subscriber, status: params[:status]), method: :delete,
+                    form: { data: { turbo_confirm: "¿Eliminar este suscriptor?" } },
+                    class: "ml-2 text-xs text-rose-600 hover:underline cursor-pointer" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>

@@ -1,0 +1,31 @@
+<%# Site-wide capture popup. Hidden until the Stimulus controller opens it on
+    exit-intent (desktop) or ~50% scroll (mobile), once, remembered in
+    localStorage. Rendered near the end of <body>, outside <main>. %>
+<div data-controller="newsletter"
+     data-newsletter-delay-value="8000"
+     data-newsletter-scroll-value="0.5"
+     data-action="click->newsletter#backdrop turbo:submit-end->newsletter#subscribed"
+     hidden
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+  <div class="relative w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+    <button type="button" data-action="newsletter#close" aria-label="<%= t('newsletter.dismiss') %>"
+            class="absolute right-3 top-3 rounded-full p-1.5 text-sand-400 transition hover:bg-sand-100 hover:text-sand-700">
+      <%= icon :x, klass: "h-5 w-5" %>
+    </button>
+
+    <div class="px-6 pb-6 pt-8 text-center">
+      <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-brand-100 text-brand-600">
+        <%= icon :envelope, klass: "h-6 w-6" %>
+      </div>
+      <h2 class="mt-3 font-display text-xl font-semibold text-sand-900"><%= t("newsletter.popup_heading") %></h2>
+      <p class="mt-1.5 text-sm text-sand-600"><%= t("newsletter.popup_blurb") %></p>
+      <p class="mt-3 inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1 text-sm font-semibold text-brand-700">
+        <%= icon :sparkles, klass: "h-4 w-4" %> <%= t("newsletter.popup_incentive") %>
+      </p>
+
+      <div class="mt-5 text-left">
+        <%= render "shared/newsletter_form", variant: "popup" %>
+      </div>
+    </div>
+  </div>
+</div>

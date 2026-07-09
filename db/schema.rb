@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_08_200004) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_09_140000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -71,6 +71,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_200004) do
   end
 
   create_table "bookings", force: :cascade do |t|
+    t.string "applied_discount_code"
     t.datetime "cancelled_at"
     t.date "check_in", null: false
     t.date "check_out", null: false
@@ -79,6 +80,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_200004) do
     t.datetime "confirmed_at"
     t.datetime "created_at", null: false
     t.string "currency", default: "PYG", null: false
+    t.integer "discount_cents", default: 0, null: false
     t.string "guest_email", null: false
     t.string "guest_name", null: false
     t.string "guest_phone"
@@ -91,6 +93,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_200004) do
     t.integer "subtotal_cents", default: 0, null: false
     t.integer "total_cents", default: 0, null: false
     t.datetime "updated_at", null: false
+    t.index ["applied_discount_code"], name: "index_bookings_on_applied_discount_code"
     t.index ["code"], name: "index_bookings_on_code", unique: true
     t.index ["property_id", "status", "check_in", "check_out"], name: "idx_on_property_id_status_check_in_check_out_e998aafd96"
     t.index ["property_id"], name: "index_bookings_on_property_id"
@@ -106,6 +109,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_200004) do
     t.integer "property_id", null: false
     t.datetime "updated_at", null: false
     t.index ["property_id"], name: "index_calendar_sources_on_property_id"
+  end
+
+  create_table "campaigns", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "recipients_count", default: 0, null: false
+    t.datetime "sent_at"
+    t.string "status", default: "draft", null: false
+    t.string "subject", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -273,6 +285,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_200004) do
     t.datetime "updated_at", null: false
     t.index ["property_id", "starts_on", "ends_on"], name: "index_seasonal_rates_on_property_id_and_starts_on_and_ends_on"
     t.index ["property_id"], name: "index_seasonal_rates_on_property_id"
+  end
+
+  create_table "subscribers", force: :cascade do |t|
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "created_at", null: false
+    t.string "discount_code"
+    t.datetime "discount_redeemed_at"
+    t.string "email", null: false
+    t.string "locale", default: "es", null: false
+    t.string "source"
+    t.string "status", default: "pending", null: false
+    t.string "unsubscribe_token"
+    t.datetime "unsubscribed_at"
+    t.datetime "updated_at", null: false
+    t.index ["confirmation_token"], name: "index_subscribers_on_confirmation_token", unique: true
+    t.index ["discount_code"], name: "index_subscribers_on_discount_code", unique: true, where: "discount_code IS NOT NULL"
+    t.index ["email"], name: "index_subscribers_on_email", unique: true
+    t.index ["status"], name: "index_subscribers_on_status"
+    t.index ["unsubscribe_token"], name: "index_subscribers_on_unsubscribe_token", unique: true
   end
 
   create_table "users", force: :cascade do |t|

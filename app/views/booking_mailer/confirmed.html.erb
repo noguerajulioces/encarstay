@@ -6,6 +6,9 @@
   <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.confirmed.code") %></td><td style="padding:6px 0;text-align:right;font-weight:bold;"><%= @booking.code %></td></tr>
   <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.confirmed.arrival") %></td><td style="padding:6px 0;text-align:right;"><%= l @booking.check_in, format: :long %></td></tr>
   <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.confirmed.departure") %></td><td style="padding:6px 0;text-align:right;"><%= l @booking.check_out, format: :long %></td></tr>
+  <% if @booking.discount_cents.positive? %>
+    <tr><td style="padding:6px 0;color:#047857;"><%= t("mailer.confirmed.discount") %></td><td style="padding:6px 0;text-align:right;color:#047857;">−<%= money(@booking.discount_cents, @booking.currency) %></td></tr>
+  <% end %>
   <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.confirmed.total") %></td><td style="padding:6px 0;text-align:right;font-weight:bold;"><%= money(@booking.total_cents, @booking.currency) %></td></tr>
 </table>
 

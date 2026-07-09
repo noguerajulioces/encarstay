@@ -50,6 +50,7 @@ pt:
         guest_email: "Email"
         guest_phone: "Telefone"
         notes: "Comentários"
+        applied_discount_code: "Código de desconto"
     errors:
       models:
         booking:
@@ -58,6 +59,8 @@ pt:
               after_check_in: "deve ser posterior ao check-in"
             guests_count:
               over_capacity: "excede a capacidade da propriedade"
+            applied_discount_code:
+              invalid_discount: "é inválido ou já foi usado"
             base:
               min_nights: "A estadia mínima é de %{count} noites"
               dates_unavailable: "As datas não estão mais disponíveis"
@@ -298,6 +301,7 @@ pt:
   price:
     lodging: "Hospedagem"
     cleaning: "Limpeza"
+    discount: "Desconto de boas-vindas"
     total: "Total"
     deposit: "Sinal para reservar (50%)"
     deposit_short: "Sinal (50%)"
@@ -318,6 +322,8 @@ pt:
     email: "Email"
     phone: "Telefone / WhatsApp"
     notes: "Comentários (opcional)"
+    discount_code: "Código de desconto (opcional)"
+    discount_hint: "Tem um código de boas-vindas? Insira para ganhar 5% off."
     disclaimer_html: "Ao enviar, o seu pedido fica <strong>pendente</strong>. Entramos em contato para combinar o sinal (50%) e confirmar a reserva. Nenhuma cobrança é feita nesta etapa."
     submit: "Enviar pedido"
     arrival: "Chegada"
@@ -344,6 +350,33 @@ pt:
     default_message: "Olá, quero tirar uma dúvida sobre uma reserva."
     booking_message: "Olá, estou perguntando sobre a minha reserva %{code} em %{property}."
 
+  newsletter:
+    footer_heading: "Entre na nossa lista"
+    footer_blurb: "Receba datas disponíveis e ofertas de temporada antes de todo mundo — e ganhe 5% off na sua primeira reserva."
+    email_label: "Email"
+    email_placeholder: "voce@email.com"
+    submit: "Inscrever-me"
+    honeypot: "Não preencher"
+    privacy_note: "Sem spam. Cancele quando quiser."
+    check_email: "Quase lá! Confira seu email para confirmar a inscrição."
+    invalid_email: "Insira um email válido."
+    success_heading: "Confira seu email!"
+    success_body: "Enviamos um link para confirmar sua inscrição."
+    popup_heading: "5% off na sua primeira reserva"
+    popup_blurb: "Entre na nossa lista e receba datas disponíveis e ofertas de temporada."
+    popup_incentive: "5% de desconto de boas-vindas"
+    dismiss: "Fechar"
+    confirm_heading: "Inscrição confirmada!"
+    confirm_body: "Você já faz parte da lista. Este é o seu código de boas-vindas:"
+    discount_label: "Seu código"
+    discount_note: "5% off na sua primeira reserva. Mencione ao combinar a reserva."
+    browse_stays: "Ver acomodações"
+    unsubscribe_heading: "Você foi removido da lista"
+    unsubscribe_body: "Você não vai receber mais emails de marketing. Pode se inscrever de novo quando quiser."
+    back_home: "Voltar ao início"
+    invalid_token: "Link inválido"
+    invalid_token_body: "Este link expirou ou não é válido. Tente se inscrever novamente."
+
   mailer:
     guest_requested:
       subject: "Recebemos o seu pedido · %{code}"
@@ -355,6 +388,7 @@ pt:
       arrival: "Chegada"
       departure: "Saída"
       guests: "Hóspedes"
+      discount: "Desconto de boas-vindas"
       total: "Total"
       deposit: "Sinal (50%)"
       cta: "Ver o status da minha reserva"
@@ -368,6 +402,32 @@ pt:
       code: "Código"
       arrival: "Chegada"
       departure: "Saída"
+      discount: "Desconto de boas-vindas"
       total: "Total"
       cta: "Ver a minha reserva"
       cta_text: "Ver a minha reserva"
+    newsletter:
+      confirm:
+        subject: "Confirme sua inscrição na Encar Stays"
+        heading: "Confirme sua inscrição"
+        intro_html: "Obrigado por entrar! Clique no botão para confirmar sua inscrição e receber seu <strong>5% de desconto</strong> de boas-vindas."
+        intro_text: "Obrigado por entrar. Confirme sua inscrição para receber seu 5% de desconto de boas-vindas."
+        cta: "Confirmar inscrição"
+        footer: "Se não foi você, pode ignorar este email."
+      welcome:
+        subject: "Bem-vindo(a)! Aqui está seu 5% de desconto"
+        heading: "Você faz parte da Encar Stays!"
+        intro_html: "Obrigado por confirmar sua inscrição. Como presente de boas-vindas, aqui está <strong>5% off</strong> na sua primeira reserva."
+        intro_text: "Obrigado por confirmar. Como presente de boas-vindas, aqui está 5% off na sua primeira reserva."
+        discount_label: "Seu código de desconto"
+        discount_note: "5% off na sua primeira reserva. Mencione ao reservar."
+        cta: "Ver acomodações"
+        unsubscribe: "Não quer receber estes emails?"
+        unsubscribe_link: "Cancelar inscrição"
+      invitation:
+        subject: "Entre na nossa lista e ganhe 5% off"
+        heading: "Até a próxima?"
+        intro_html: "Obrigado por se hospedar com a gente! Entre na nossa lista para receber datas disponíveis e ofertas de temporada — e ganhe <strong>5% off</strong> na sua próxima reserva."
+        intro_text: "Obrigado por se hospedar com a gente. Entre na nossa lista e ganhe 5% off na sua próxima reserva."
+        cta: "Entrar e ganhar 5% off"
+        footer: "Não tem interesse? Ignore este email — não vamos escrever de novo."

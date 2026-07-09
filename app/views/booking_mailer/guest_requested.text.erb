@@ -7,7 +7,8 @@
 <%= t("mailer.guest_requested.arrival") %>:    <%= l @booking.check_in, format: :long %>
 <%= t("mailer.guest_requested.departure") %>:    <%= l @booking.check_out, format: :long %>
 <%= t("mailer.guest_requested.guests") %>:  <%= @booking.guests_count %>
-<%= t("mailer.guest_requested.total") %>:      <%= money(@booking.total_cents, @booking.currency) %>
+<% if @booking.discount_cents.positive? %><%= t("mailer.guest_requested.discount") %>: -<%= money(@booking.discount_cents, @booking.currency) %>
+<% end %><%= t("mailer.guest_requested.total") %>:      <%= money(@booking.total_cents, @booking.currency) %>
 <%= t("mailer.guest_requested.deposit") %>: <%= money(@booking.deposit_cents, @booking.currency) %>
 
 <%= t("mailer.guest_requested.status_link") %>: <%= booking_url(@booking.code, locale: @locale_param) %>

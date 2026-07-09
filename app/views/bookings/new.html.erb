@@ -46,6 +46,12 @@
             <%= form.label :notes, t("booking.notes"), class: flabel %>
             <%= form.text_area :notes, rows: 3, class: field %>
           </div>
+          <div class="sm:col-span-2">
+            <%= form.label :applied_discount_code, t("booking.discount_code"), class: flabel %>
+            <%= form.text_field :applied_discount_code, placeholder: "ENCAR-XXXXXX", autocapitalize: "characters",
+                  class: "#{field} uppercase placeholder:normal-case" %>
+            <p class="mt-1 text-xs text-sand-500"><%= t("booking.discount_hint") %></p>
+          </div>
         </div>
 
         <p class="flex items-start gap-2 text-xs leading-relaxed text-sand-500">

@@ -36,7 +36,7 @@ class BookingsController < ApplicationController
   private
     def booking_params
       params.require(:booking).permit(:property_id, :check_in, :check_out, :guests_count,
-        :guest_name, :guest_email, :guest_phone, :notes)
+        :guest_name, :guest_email, :guest_phone, :notes, :applied_discount_code)
     end
 
     # Honeypot: a hidden field real guests never fill. Bots do.

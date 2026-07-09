@@ -7,6 +7,7 @@ class Admin::DashboardController < Admin::BaseController
     @departures = Booking.confirmed.where(check_out: window).chronologically.includes(:property)
     @sync_alerts = CalendarSource.active.where.not(last_status: [ nil, "ok" ]).includes(:property)
     @occupancy = month_occupancy
+    @confirmed_subscribers = Subscriber.confirmed.count
   end
 
   private

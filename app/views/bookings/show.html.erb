@@ -35,6 +35,9 @@
       <div class="space-y-2 border-t border-sand-100 pt-4 text-sm">
         <div class="flex justify-between text-sand-600"><span><%= t("price.lodging") %> · <%= nights_label(@booking.nights) %></span><span><%= money(@booking.subtotal_cents, @booking.currency) %></span></div>
         <div class="flex justify-between text-sand-600"><span><%= t("price.cleaning") %></span><span><%= money(@booking.cleaning_fee_cents, @booking.currency) %></span></div>
+        <% if @booking.discount_cents.positive? %>
+          <div class="flex justify-between text-emerald-700"><span><%= t("price.discount") %></span><span>−<%= money(@booking.discount_cents, @booking.currency) %></span></div>
+        <% end %>
         <div class="flex justify-between border-t border-sand-200 pt-2 font-semibold text-sand-900"><span><%= t("price.total") %></span><span><%= money(@booking.total_cents, @booking.currency) %></span></div>
         <div class="flex justify-between text-emerald-800"><span><%= t("price.deposit_short") %></span><span><%= money(@booking.deposit_cents, @booking.currency) %></span></div>
       </div>

@@ -1,0 +1,18 @@
+<% content_for :title, t("newsletter.confirm_heading") %>
+
+<section class="mx-auto max-w-lg px-5 py-16 text-center">
+  <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 text-white">
+    <%= icon :check, klass: "h-7 w-7" %>
+  </div>
+  <h1 class="mt-4 font-display text-2xl font-semibold text-sand-900"><%= t("newsletter.confirm_heading") %></h1>
+  <p class="mt-2 text-sand-600"><%= t("newsletter.confirm_body") %></p>
+
+  <div class="mx-auto mt-6 max-w-xs rounded-2xl border border-dashed border-brand-400 bg-brand-50 p-5">
+    <p class="text-xs font-semibold uppercase tracking-widest text-brand-700"><%= t("newsletter.discount_label") %></p>
+    <p class="mt-1 font-display text-2xl font-bold tracking-wider text-brand-800"><%= @subscriber.discount_code %></p>
+    <p class="mt-1 text-xs text-sand-600"><%= t("newsletter.discount_note") %></p>
+  </div>
+
+  <%= link_to t("newsletter.browse_stays"), properties_path,
+        class: "mt-6 inline-flex items-center gap-2 rounded-xl bg-brand-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-brand-600" %>
+</section>

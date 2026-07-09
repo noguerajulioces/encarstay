@@ -1,0 +1,48 @@
+<% content_for :title, @campaign.subject %>
+<% content_for :head do %><%= stylesheet_link_tag "trix" %><% end %>
+
+<% status_labels = { "draft" => "Borrador", "sending" => "Enviando…", "sent" => "Enviada" } %>
+<% status_badges = { "draft" => "bg-sand-200 text-sand-600", "sending" => "bg-amber-100 text-amber-800", "sent" => "bg-emerald-100 text-emerald-800" } %>
+
+<nav class="text-sm text-sand-500 mb-4"><%= link_to "← Campañas", admin_campaigns_path, class: "hover:text-brand-700" %></nav>
+
+<div class="flex items-start justify-between flex-wrap gap-3">
+  <div>
+    <h1 class="text-2xl font-semibold text-sand-900"><%= @campaign.subject %></h1>
+    <p class="text-sand-500">
+      <% if @campaign.sent? %>Enviada <%= l @campaign.sent_at, format: :long %> · <%= @campaign.recipients_count %> destinatarios
+      <% else %>Creada <%= l @campaign.created_at, format: :long %><% end %>
+    </p>
+  </div>
+  <span class="text-sm font-medium px-3 py-1.5 rounded-full <%= status_badges[@campaign.status] %>"><%= status_labels[@campaign.status] %></span>
+</div>
+
+<div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <section class="lg:col-span-2 rounded-xl bg-white border border-sand-200 p-6">
+    <p class="text-xs font-semibold uppercase tracking-wide text-sand-400 mb-3">Vista previa</p>
+    <div class="trix-content"><%= @campaign.body %></div>
+  </section>
+
+  <div class="space-y-4">
+    <% if @campaign.draft? %>
+      <section class="rounded-xl bg-white border border-sand-200 p-5 space-y-3">
+        <h2 class="font-semibold text-sand-900">Acciones</h2>
+        <%= link_to "Editar", edit_admin_campaign_path(@campaign), class: "block text-center rounded-lg border border-sand-300 text-sand-700 font-medium px-4 py-2.5 hover:bg-sand-50" %>
+        <%= button_to "Enviar a #{Subscriber.confirmed.count} suscriptores", deliver_admin_campaign_path(@campaign), method: :post,
+              data: { turbo_confirm: "¿Enviar esta campaña ahora? No se puede deshacer." },
+              class: "w-full rounded-lg bg-brand-500 hover:bg-brand-600 text-white font-medium px-4 py-2.5 cursor-pointer" %>
+        <%= button_to "Eliminar", admin_campaign_path(@campaign), method: :delete,
+              form: { data: { turbo_confirm: "¿Eliminar esta campaña?" } },
+              class: "w-full rounded-lg border border-rose-300 text-rose-700 font-medium px-4 py-2.5 hover:bg-rose-50 cursor-pointer" %>
+      </section>
+    <% elsif @campaign.sending? %>
+      <section class="rounded-xl bg-amber-50 border border-amber-200 p-5 text-sm text-amber-800">
+        El envío está en curso. Actualizá la página en unos minutos.
+      </section>
+    <% else %>
+      <section class="rounded-xl bg-emerald-50 border border-emerald-200 p-5 text-sm text-emerald-800">
+        Campaña enviada a <%= @campaign.recipients_count %> suscriptores.
+      </section>
+    <% end %>
+  </div>
+</div>

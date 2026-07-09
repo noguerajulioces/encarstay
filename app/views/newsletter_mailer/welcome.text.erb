@@ -1,0 +1,10 @@
+<%= t("mailer.newsletter.welcome.heading") %>
+
+<%= t("mailer.newsletter.welcome.intro_text") %>
+
+<%= t("mailer.newsletter.welcome.discount_label") %>: <%= @subscriber.discount_code %>
+<%= t("mailer.newsletter.welcome.discount_note") %>
+
+<%= t("mailer.newsletter.welcome.cta") %>: <%= properties_url(locale: @locale_param) %>
+
+<%= t("mailer.newsletter.welcome.unsubscribe") %> <%= newsletter_unsubscribe_url(@subscriber.unsubscribe_token, locale: @locale_param) %>
