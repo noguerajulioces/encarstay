@@ -73,6 +73,19 @@
     </label>
   </div>
 
+  <% if Amenity.exists? %>
+    <div class="rounded-xl bg-white border border-sand-200 p-5">
+      <p class="text-sm font-medium text-sand-700 mb-3">Servicios</p>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+        <%= form.collection_check_boxes :amenity_ids, Amenity.ordered, :id, :label do |b| %>
+          <label class="flex items-center gap-2 text-sm text-sand-700">
+            <%= b.check_box class: "rounded border-sand-300" %> <%= b.text %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
   <% if property.persisted? %>
     <div class="rounded-xl bg-white border border-sand-200 p-5">
       <%= form.label :photos, "Agregar fotos", class: "block text-sm font-medium text-sand-700 mb-1" %>
@@ -81,7 +94,7 @@
   <% end %>
 
   <div class="flex gap-3">
-    <%= form.submit property.persisted? ? "Guardar cambios" : "Crear propiedad", class: "rounded-lg bg-brand-700 hover:bg-brand-800 text-white font-medium px-5 py-2.5 cursor-pointer" %>
+    <%= form.submit property.persisted? ? "Guardar cambios" : "Crear propiedad", class: "rounded-lg bg-brand-500 hover:bg-brand-600 text-white font-medium px-5 py-2.5 cursor-pointer" %>
     <%= link_to "Cancelar", property.persisted? ? admin_property_path(property) : admin_properties_path, class: "rounded-lg border border-sand-300 text-sand-700 px-5 py-2.5" %>
   </div>
 <% end %>

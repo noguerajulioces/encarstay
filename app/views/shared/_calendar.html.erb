@@ -16,15 +16,15 @@
           <% elsif day < Date.current %>
             <span class="py-1.5 text-sand-300"><%= day.day %></span>
           <% elsif occupied.include?(day) %>
-            <span class="py-1.5 rounded bg-sand-100 text-sand-400 line-through"><%= day.day %></span>
+            <span class="py-1.5 text-sand-300 line-through"><%= day.day %></span>
           <% elsif selectable %>
             <button type="button"
                     data-date="<%= day.iso8601 %>"
                     data-date-range-target="day"
                     data-action="pointerdown->date-range#down pointerenter->date-range#enter"
-                    class="py-1.5 rounded cursor-pointer transition-colors bg-brand-50 text-brand-800 hover:bg-brand-100"><%= day.day %></button>
+                    class="py-1.5 rounded-full cursor-pointer transition-colors bg-white text-sand-900 hover:bg-sand-100"><%= day.day %></button>
           <% else %>
-            <span class="py-1.5 rounded bg-brand-50 text-brand-800"><%= day.day %></span>
+            <span class="py-1.5 rounded-full text-sand-900"><%= day.day %></span>
           <% end %>
         <% end %>
       </div>
@@ -32,9 +32,9 @@
   <% end %>
 </div>
 <div class="flex flex-wrap gap-4 mt-4 text-xs text-sand-500">
-  <span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded bg-brand-50 border border-brand-200"></span> <%= t("calendar.available") %></span>
-  <span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded bg-sand-100 border border-sand-200"></span> <%= t("calendar.occupied") %></span>
+  <span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded-full bg-white border border-sand-300"></span> <%= t("calendar.available") %></span>
+  <span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded-full bg-sand-100 border border-sand-200"></span> <%= t("calendar.occupied") %></span>
   <% if selectable %>
-    <span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded bg-brand-700"></span> <%= t("calendar.your_stay") %></span>
+    <span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded-full bg-sand-900"></span> <%= t("calendar.your_stay") %></span>
   <% end %>
 </div>

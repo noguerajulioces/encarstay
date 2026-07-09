@@ -1,0 +1,136 @@
+<%# DEV-ONLY palette tester. Overrides the --color-brand-* / --color-sand-* CSS
+    vars at runtime so you can eyeball candidate palettes on the real UI without
+    recompiling Tailwind. Pick one, then bake its hexes into
+    app/assets/tailwind/application.css and delete this partial + its render. %>
+<div id="palette-switcher"
+     style="position:fixed;bottom:16px;right:16px;z-index:9999;font-family:system-ui,sans-serif;">
+  <button id="ps-toggle"
+          style="width:44px;height:44px;border-radius:9999px;border:none;cursor:pointer;
+                 background:#111;color:#fff;font-size:18px;box-shadow:0 4px 16px rgba(0,0,0,.25);"
+          title="Probar paletas">🎨</button>
+
+  <div id="ps-panel"
+       style="display:none;position:absolute;bottom:56px;right:0;width:260px;padding:14px;
+              background:#fff;color:#111;border-radius:14px;
+              box-shadow:0 12px 40px rgba(0,0,0,.28);border:1px solid #eee;">
+    <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#666;margin-bottom:10px;">
+      Paletas (dev)
+    </div>
+    <div id="ps-list" style="display:flex;flex-direction:column;gap:6px;"></div>
+    <button id="ps-reset"
+            style="margin-top:12px;width:100%;padding:8px;border:1px solid #ddd;border-radius:8px;
+                   background:#f7f7f7;cursor:pointer;font-size:12px;">↺ Volver al original</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  // Lightness ramp roughly matching Tailwind's 50 -> 950 steps.
+  var STEPS = [50,100,200,300,400,500,600,700,800,900,950];
+  var LIGHT = [0.97,0.94,0.87,0.78,0.68,0.58,0.49,0.40,0.32,0.25,0.16];
+
+  // Candidate palettes. Each defines a hue + saturation for the brand color
+  // and for the warm/cool neutral ("sand"). Add or tweak freely.
+  var PALETTES = [
+    { name: "Taupe / mocha (actual)", bh: 32,  bs: 0.36, sh: 35,  ss: 0.10 },
+    { name: "Airbnb (Rausch coral)",  bh: 358, bs: 0.92, sh: 12,  ss: 0.05 },
+    { name: "Turquesa vivo",          bh: 184, bs: 0.85, sh: 190, ss: 0.10 },
+    { name: "Coral / naranja",        bh: 14,  bs: 0.92, sh: 20,  ss: 0.10 },
+    { name: "Fucsia tropical",        bh: 330, bs: 0.85, sh: 320, ss: 0.09 },
+    { name: "Verde esmeralda",        bh: 158, bs: 0.75, sh: 150, ss: 0.08 },
+    { name: "Azul eléctrico",         bh: 218, bs: 0.90, sh: 220, ss: 0.10 },
+    { name: "Violeta vibrante",       bh: 268, bs: 0.78, sh: 260, ss: 0.09 },
+    { name: "Ámbar / dorado",         bh: 42,  bs: 0.95, sh: 40,  ss: 0.12 },
+    { name: "Magenta / rosa",         bh: 345, bs: 0.88, sh: 340, ss: 0.09 },
+    { name: "Lima cítrico",           bh: 96,  bs: 0.75, sh: 90,  ss: 0.10 }
+  ];
+
+  function hslToHex(h, s, l) {
+    s = Math.max(0, Math.min(1, s));
+    l = Math.max(0, Math.min(1, l));
+    var c = (1 - Math.abs(2 * l - 1)) * s;
+    var hp = h / 60;
+    var x = c * (1 - Math.abs((hp % 2) - 1));
+    var r = 0, g = 0, b = 0;
+    if (hp >= 0 && hp < 1) { r = c; g = x; }
+    else if (hp < 2) { r = x; g = c; }
+    else if (hp < 3) { g = c; b = x; }
+    else if (hp < 4) { g = x; b = c; }
+    else if (hp < 5) { r = x; b = c; }
+    else { r = c; b = x; }
+    var m = l - c / 2;
+    var to = function (v) {
+      return ("0" + Math.round((v + m) * 255).toString(16)).slice(-2);
+    };
+    return "#" + to(r) + to(g) + to(b);
+  }
+
+  // Slightly desaturate at the very light/dark ends so ramps read cleanly.
+  function ramp(hue, sat) {
+    return LIGHT.map(function (l, i) {
+      var edge = (i === 0 || i === 1) ? 0.55 : (i >= 9 ? 0.8 : 1);
+      return hslToHex(hue, sat * edge, l);
+    });
+  }
+
+  function apply(p) {
+    var css = ":root{";
+    ramp(p.bh, p.bs).forEach(function (hex, i) {
+      css += "--color-brand-" + STEPS[i] + ":" + hex + ";";
+    });
+    ramp(p.sh, p.ss).forEach(function (hex, i) {
+      css += "--color-sand-" + STEPS[i] + ":" + hex + ";";
+    });
+    css += "}";
+    var tag = document.getElementById("ps-override");
+    if (!tag) {
+      tag = document.createElement("style");
+      tag.id = "ps-override";
+      document.head.appendChild(tag);
+    }
+    tag.textContent = css;
+    try { localStorage.setItem("ps-palette", p.name); } catch (e) {}
+  }
+
+  function reset() {
+    var tag = document.getElementById("ps-override");
+    if (tag) tag.remove();
+    try { localStorage.removeItem("ps-palette"); } catch (e) {}
+  }
+
+  var list = document.getElementById("ps-list");
+  PALETTES.forEach(function (p) {
+    var btn = document.createElement("button");
+    btn.style.cssText =
+      "display:flex;align-items:center;gap:8px;padding:6px 8px;border:1px solid #eee;" +
+      "border-radius:8px;background:#fff;cursor:pointer;font-size:13px;text-align:left;";
+    var sw = document.createElement("span");
+    sw.style.cssText =
+      "width:22px;height:22px;border-radius:6px;flex:none;border:1px solid rgba(0,0,0,.1);" +
+      "background:" + hslToHex(p.bh, p.bs, LIGHT[5]) + ";";
+    var label = document.createElement("span");
+    label.textContent = p.name;
+    btn.appendChild(sw);
+    btn.appendChild(label);
+    btn.addEventListener("click", function () { apply(p); });
+    list.appendChild(btn);
+  });
+
+  document.getElementById("ps-reset").addEventListener("click", reset);
+  document.getElementById("ps-toggle").addEventListener("click", function () {
+    var panel = document.getElementById("ps-panel");
+    panel.style.display = panel.style.display === "none" ? "block" : "none";
+  });
+
+  // Reapply last choice across page loads / Turbo morphs.
+  function restore() {
+    var saved;
+    try { saved = localStorage.getItem("ps-palette"); } catch (e) {}
+    if (!saved) return;
+    var p = PALETTES.filter(function (x) { return x.name === saved; })[0];
+    if (p) apply(p);
+  }
+  restore();
+  document.addEventListener("turbo:load", restore);
+})();
+</script>

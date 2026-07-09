@@ -40,12 +40,12 @@
     <div class="absolute inset-x-0 bottom-0 p-6 sm:p-10">
       <div class="flex flex-wrap items-center gap-2">
         <% if @attraction.category.present? %>
-          <span class="inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-brand-800">
+          <span class="inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-sand-900">
             <%= icon(@attraction.category.icon.presence&.to_sym || :compass, klass: "h-3.5 w-3.5") %><%= @attraction.category.name %>
           </span>
         <% end %>
         <% if @attraction.area.present? %>
-          <span class="inline-flex items-center gap-1 rounded-full bg-brand-700/90 px-2.5 py-1 text-xs font-semibold text-white">
+          <span class="inline-flex items-center gap-1 rounded-full bg-brand-500/90 px-2.5 py-1 text-xs font-semibold text-white">
             <%= icon :pin, klass: "h-3.5 w-3.5" %><%= @attraction.area %>
           </span>
         <% end %>
@@ -58,7 +58,7 @@
 <div class="mx-auto mt-8 grid max-w-6xl gap-10 px-5 pb-8 lg:grid-cols-3">
   <div class="space-y-8 lg:col-span-2">
     <% if @attraction.summary.present? %>
-      <p class="text-xl leading-relaxed text-brand-900"><%= @attraction.summary %></p>
+      <p class="text-xl leading-relaxed text-sand-900"><%= @attraction.summary %></p>
     <% end %>
 
     <% if @attraction.description.present? %>
@@ -71,7 +71,7 @@
     <% end %>
 
     <div>
-      <h2 class="mb-3 font-display text-xl font-semibold text-brand-900"><%= t("guide.location") %></h2>
+      <h2 class="mb-3 font-display text-xl font-semibold text-sand-900"><%= t("guide.location") %></h2>
       <%= render "shared/map", title: @attraction.title, latitude: @attraction.latitude, longitude: @attraction.longitude, address: @attraction.address.presence || @attraction.area %>
     </div>
   </div>
@@ -83,7 +83,7 @@
 
 <% if @related.any? %>
   <section class="mx-auto max-w-6xl px-5 pb-8">
-    <h2 class="mb-6 font-display text-2xl font-semibold text-brand-900"><%= t("guide.more_places") %></h2>
+    <h2 class="mb-6 font-display text-2xl font-semibold text-sand-900"><%= t("guide.more_places") %></h2>
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <% @related.each do |attraction| %>
         <%= render "shared/guide_entry_card", entry: attraction %>

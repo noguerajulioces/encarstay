@@ -6,12 +6,43 @@ admin = User.find_or_create_by!(email: "admin@reservas.test") do |user|
 end
 puts "Admin: #{admin.email} / password"
 
+# --- Amenities catalog (Airbnb-style services) ---
+amenities_catalog = [
+  { key: "wifi",             icon: "wifi",      position: 1 },
+  { key: "kitchen",          icon: "kitchen",   position: 2 },
+  { key: "air_conditioning", icon: "snowflake", position: 3 },
+  { key: "pool",             icon: "pool",      position: 4 },
+  { key: "free_parking",     icon: "car",       position: 5 },
+  { key: "tv",               icon: "tv",        position: 6 },
+  { key: "washer",           icon: "washer",    position: 7 },
+  { key: "workspace",        icon: "workspace", position: 8 },
+  { key: "pets_allowed",     icon: "paw",       position: 9 },
+  { key: "security_cameras", icon: "shield",    position: 10 },
+  { key: "smoke_alarm",      icon: "fire",      position: 11 },
+  { key: "self_checkin",     icon: "key",       position: 12 }
+]
+amenities_catalog.each do |attrs|
+  Amenity.find_or_create_by!(key: attrs[:key]) { |a| a.assign_attributes(attrs) }
+end
+puts "Servicios: #{Amenity.count}"
+
+# Sample guest reviews reused across the seed properties (idempotent per property).
+base_reviews = [
+  { reviewer_name: "Ana",    reviewer_location: "Asunción, Paraguay",       stayed_on: Date.current - 40,  body: "Todo impecable y muy bien ubicado. Los anfitriones súper atentos." },
+  { reviewer_name: "Bruno",  reviewer_location: "Posadas, Argentina",       stayed_on: Date.current - 70,  body: "Hermoso lugar, tal como en las fotos. Volveríamos sin dudar." },
+  { reviewer_name: "Carla",  reviewer_location: "Encarnación, Paraguay",    stayed_on: Date.current - 95,  body: "Muy cómodo y limpio. La comunicación fue excelente en todo momento." },
+  { reviewer_name: "Diego",  reviewer_location: "Ciudad del Este, Paraguay", stayed_on: Date.current - 120, body: "Excelente relación precio-calidad. Totalmente recomendado." },
+  { reviewer_name: "Elena",  reviewer_location: "Buenos Aires, Argentina",  stayed_on: Date.current - 150, body: "Una estadía perfecta y el check-in fue rapidísimo." },
+  { reviewer_name: "Fabián", reviewer_location: "Asunción, Paraguay",       stayed_on: Date.current - 180, body: "Nos encantó, ideal para descansar en familia." }
+]
+
 properties = [
   {
     name: "Casa del Lago",
     description: "Amplia casa con vista al lago, ideal para familias. Parrilla, jardín y muelle propio.\nA 5 minutos del centro de San Bernardino.",
     address_area: "San Bernardino",
     capacity: 6, bedrooms: 3, beds: 4, bathrooms: 2,
+    latitude: -27.3240, longitude: -55.8770,
     base_price_cents: 45_000_000, currency: "PYG", cleaning_fee_cents: 8_000_000, min_nights: 2
   },
   {
@@ -19,6 +50,7 @@ properties = [
     description: "Cabaña acogedora rodeada de naturaleza. Perfecta para desconectar en pareja.",
     address_area: "Areguá",
     capacity: 2, bedrooms: 1, beds: 1, bathrooms: 1,
+    latitude: -27.3410, longitude: -55.8560,
     base_price_cents: 28_000_000, currency: "PYG", cleaning_fee_cents: 5_000_000, min_nights: 2
   },
   {
@@ -26,6 +58,7 @@ properties = [
     description: "Loft moderno frente a la costanera, con todas las comodidades y excelente ubicación.",
     address_area: "Encarnación",
     capacity: 4, bedrooms: 2, beds: 2, bathrooms: 1,
+    latitude: -27.3320, longitude: -55.8685,
     base_price_cents: 38_000_000, currency: "PYG", cleaning_fee_cents: 6_000_000, min_nights: 2
   }
 ]
@@ -33,6 +66,11 @@ properties = [
 properties.each do |attributes|
   property = Property.find_or_create_by!(slug: attributes[:name].parameterize) do |record|
     record.assign_attributes(attributes)
+  end
+
+  # Keep the demo coordinates in sync so the search map is populated and spread.
+  if attributes[:latitude].present?
+    property.update_columns(latitude: attributes[:latitude], longitude: attributes[:longitude])
   end
 
   property.seasonal_rates.find_or_create_by!(name: "Temporada alta") do |rate|
@@ -46,7 +84,22 @@ properties.each do |attributes|
     source.ical_url = "https://www.airbnb.com/calendar/ical/#{property.slug}.ics"
   end
 
-  puts "Propiedad: #{property.name} — feed iCal: /calendars/#{property.calendar_token}/#{property.slug}.ics"
+  amenity_keys = {
+    "casa-del-lago"     => %w[wifi kitchen pool free_parking tv washer air_conditioning smoke_alarm self_checkin workspace pets_allowed],
+    "cabana-del-bosque" => %w[wifi kitchen free_parking smoke_alarm self_checkin],
+    "loft-costanera"    => %w[wifi kitchen air_conditioning tv washer workspace security_cameras smoke_alarm self_checkin]
+  }.fetch(property.slug, %w[wifi kitchen tv air_conditioning])
+  property.amenities = Amenity.where(key: amenity_keys)
+
+  # Casa del Lago earns the "guest favourite" badge (all 5s); the rest average ~4.8.
+  if property.reviews.none?
+    ratings = property.slug == "casa-del-lago" ? [ 5, 5, 5, 5, 5, 5 ] : [ 5, 5, 5, 4, 5, 5 ]
+    base_reviews.each_with_index do |attrs, i|
+      property.reviews.create!(attrs.merge(rating: ratings[i]))
+    end
+  end
+
+  puts "Propiedad: #{property.name} — #{property.amenities.count} servicios, #{property.reviews_count} reseñas (#{property.rating_cache} ★)"
 end
 
 # --- Guía de la ciudad: categorías + eventos y atracciones de Encarnación ---

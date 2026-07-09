@@ -2,14 +2,14 @@
 
 <div class="flex items-center justify-between">
   <h1 class="text-2xl font-semibold text-sand-900">Categorías</h1>
-  <%= link_to "+ Nueva categoría", new_admin_category_path, class: "rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-medium px-4 py-2.5" %>
+  <%= link_to "+ Nueva categoría", new_admin_category_path, class: "rounded-lg bg-brand-500 hover:bg-brand-600 text-white text-sm font-medium px-4 py-2.5" %>
 </div>
 <p class="mt-1 text-sm text-sand-500">Agrupan los eventos y lugares de la guía (aparecen como filtros y accesos rápidos).</p>
 
 <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
   <% @categories.each do |category| %>
     <%= link_to edit_admin_category_path(category), class: "rounded-xl bg-white border border-sand-200 p-4 hover:shadow-sm flex items-center gap-3" do %>
-      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-600"><%= icon(category.icon.presence&.to_sym || :sparkles, klass: "h-5 w-5") %></span>
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-brand-50 text-sand-700"><%= icon(category.icon.presence&.to_sym || :sparkles, klass: "h-5 w-5") %></span>
       <div class="min-w-0">
         <p class="font-medium text-sand-900 truncate"><%= category.name_es %></p>
         <p class="text-xs text-sand-400 truncate">/<%= category.slug %> · <%= category.guide_entries.count %> ítems</p>

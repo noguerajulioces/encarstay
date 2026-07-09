@@ -1,0 +1,59 @@
+wifi:
+  key: wifi
+  icon: wifi
+  position: 1
+
+kitchen:
+  key: kitchen
+  icon: kitchen
+  position: 2
+
+air_conditioning:
+  key: air_conditioning
+  icon: snowflake
+  position: 3
+
+pool:
+  key: pool
+  icon: pool
+  position: 4
+
+free_parking:
+  key: free_parking
+  icon: car
+  position: 5
+
+tv:
+  key: tv
+  icon: tv
+  position: 6
+
+washer:
+  key: washer
+  icon: washer
+  position: 7
+
+workspace:
+  key: workspace
+  icon: workspace
+  position: 8
+
+pets_allowed:
+  key: pets_allowed
+  icon: paw
+  position: 9
+
+security_cameras:
+  key: security_cameras
+  icon: shield
+  position: 10
+
+smoke_alarm:
+  key: smoke_alarm
+  icon: fire
+  position: 11
+
+self_checkin:
+  key: self_checkin
+  icon: key
+  position: 12

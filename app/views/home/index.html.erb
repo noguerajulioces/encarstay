@@ -22,10 +22,10 @@
   <div class="relative mx-auto grid max-w-6xl items-center gap-10 px-5 pb-24 pt-12 sm:pt-16 lg:grid-cols-2 lg:gap-14">
     <%# Texto %>
     <div class="order-2 lg:order-1">
-      <p class="inline-flex items-center gap-2 rounded-full border border-sand-200 bg-white/70 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-brand-600 backdrop-blur">
+      <p class="inline-flex items-center gap-2 rounded-full border border-sand-200 bg-white/70 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-sand-700 backdrop-blur">
         <%= icon :compass, klass: "h-4 w-4" %> <%= t("home.hero_kicker") %>
       </p>
-      <h1 class="mt-5 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-brand-900 sm:text-6xl">
+      <h1 class="mt-5 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-sand-900 sm:text-6xl">
         <%= t("home.hero_title") %>
       </h1>
       <p class="mt-5 max-w-xl text-lg leading-relaxed text-sand-600">
@@ -33,15 +33,15 @@
       </p>
 
       <div class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-sand-600">
-        <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-brand-500" %> <%= t("home.trust_direct") %></span>
-        <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-brand-500" %> <%= t("home.trust_no_fees") %></span>
-        <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-brand-500" %> <%= t("home.trust_local") %></span>
+        <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-sand-700" %> <%= t("home.trust_direct") %></span>
+        <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-sand-700" %> <%= t("home.trust_no_fees") %></span>
+        <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-sand-700" %> <%= t("home.trust_local") %></span>
       </div>
     </div>
 
     <%# Acuarela %>
     <div class="order-1 lg:order-2">
-      <div class="overflow-hidden rounded-3xl shadow-[0_30px_60px_-30px_rgba(94,72,50,0.5)] ring-1 ring-sand-900/5">
+      <div class="overflow-hidden rounded-3xl shadow-[0_30px_60px_-30px_rgba(0,0,0,0.5)] ring-1 ring-sand-900/5">
         <%= image_tag "header.webp", alt: t("home.hero_image_alt"),
               width: 1100, height: 600, loading: "eager", fetchpriority: "high",
               class: "aspect-[11/6] w-full object-cover" %>
@@ -60,11 +60,11 @@
   <section class="mx-auto mt-16 max-w-6xl px-5 sm:mt-20">
     <div class="flex flex-wrap items-end justify-between gap-3">
       <div>
-        <p class="text-xs font-semibold uppercase tracking-widest text-brand-500"><%= t("home.guide_kicker") %></p>
-        <h2 class="mt-1 font-display text-3xl font-semibold text-brand-900"><%= t("home.guide_title") %></h2>
+        <p class="text-xs font-semibold uppercase tracking-widest text-sand-700"><%= t("home.guide_kicker") %></p>
+        <h2 class="mt-1 font-display text-3xl font-semibold text-sand-900"><%= t("home.guide_title") %></h2>
         <p class="mt-1 text-sand-500"><%= t("home.guide_subtitle") %></p>
       </div>
-      <%= link_to attractions_path, class: "inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-900" do %>
+      <%= link_to attractions_path, class: "inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-sand-900" do %>
         <%= t("home.see_guide") %> <%= icon :arrow, klass: "h-4 w-4" %>
       <% end %>
     </div>
@@ -72,64 +72,48 @@
   </section>
 <% end %>
 
-<%# ===== Alojamientos ===== %>
-<section class="mx-auto mt-16 max-w-6xl px-5 sm:mt-20">
-  <div class="flex flex-wrap items-end justify-between gap-3">
-    <div>
-      <p class="text-xs font-semibold uppercase tracking-widest text-brand-500"><%= t("home.properties_kicker") %></p>
-      <h2 class="mt-1 font-display text-3xl font-semibold text-brand-900"><%= t("home.properties_title") %></h2>
-      <p class="mt-1 text-sand-500"><%= t("home.properties_subtitle") %></p>
-    </div>
-    <%= link_to properties_path, class: "inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-900" do %>
-      <%= t("home.see_all") %> <%= icon :arrow, klass: "h-4 w-4" %>
-    <% end %>
-  </div>
-
-  <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+<%# ===== Alojamientos (carrusel horizontal, estilo Airbnb) ===== %>
+<div class="mt-14 sm:mt-16">
+  <%= render layout: "shared/carousel", locals: {
+        title: t("home.properties_title"),
+        subtitle: t("home.properties_subtitle"),
+        see_all: { label: t("home.see_all"), path: properties_path } } do %>
     <% @properties.each do |property| %>
-      <%= render "shared/property_card", property: property %>
+      <div class="w-[72%] shrink-0 snap-start sm:w-[46%] md:w-[31%] lg:w-[23%] xl:w-[19%]">
+        <%= render "shared/property_card", property: property %>
+      </div>
     <% end %>
-  </div>
-</section>
+  <% end %>
+</div>
 
 <%# ===== Qué hacer en Encarnación (atracciones destacadas) ===== %>
 <% if @featured_attractions.any? %>
-  <section class="mx-auto mt-16 max-w-6xl px-5 sm:mt-20">
-    <div class="flex flex-wrap items-end justify-between gap-3">
-      <div>
-        <p class="text-xs font-semibold uppercase tracking-widest text-brand-500"><%= t("home.explore_kicker") %></p>
-        <h2 class="mt-1 font-display text-3xl font-semibold text-brand-900"><%= t("home.explore_title") %></h2>
-      </div>
-      <%= link_to attractions_path, class: "inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-900" do %>
-        <%= t("guide.see_all_places") %> <%= icon :arrow, klass: "h-4 w-4" %>
-      <% end %>
-    </div>
-    <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="mt-14 sm:mt-16">
+    <%= render layout: "shared/carousel", locals: {
+          title: t("home.explore_title"),
+          see_all: { label: t("guide.see_all_places"), path: attractions_path } } do %>
       <% @featured_attractions.each do |attraction| %>
-        <%= render "shared/guide_entry_card", entry: attraction %>
+        <div class="w-[72%] shrink-0 snap-start sm:w-[46%] md:w-[31%] lg:w-[23%] xl:w-[19%]">
+          <%= render "shared/guide_entry_card", entry: attraction %>
+        </div>
       <% end %>
-    </div>
-  </section>
+    <% end %>
+  </div>
 <% end %>
 
 <%# ===== Próximos eventos (destacados) ===== %>
 <% if @featured_events.any? %>
-  <section class="mx-auto mt-16 max-w-6xl px-5 sm:mt-20">
-    <div class="flex flex-wrap items-end justify-between gap-3">
-      <div>
-        <p class="text-xs font-semibold uppercase tracking-widest text-brand-500"><%= t("home.events_kicker") %></p>
-        <h2 class="mt-1 font-display text-3xl font-semibold text-brand-900"><%= t("home.events_title") %></h2>
-      </div>
-      <%= link_to events_path, class: "inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-900" do %>
-        <%= t("guide.see_all_events") %> <%= icon :arrow, klass: "h-4 w-4" %>
-      <% end %>
-    </div>
-    <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="mt-14 sm:mt-16">
+    <%= render layout: "shared/carousel", locals: {
+          title: t("home.events_title"),
+          see_all: { label: t("guide.see_all_events"), path: events_path } } do %>
       <% @featured_events.each do |event| %>
-        <%= render "shared/guide_entry_card", entry: event %>
+        <div class="w-[72%] shrink-0 snap-start sm:w-[46%] md:w-[31%] lg:w-[23%] xl:w-[19%]">
+          <%= render "shared/guide_entry_card", entry: event %>
+        </div>
       <% end %>
-    </div>
-  </section>
+    <% end %>
+  </div>
 <% end %>
 
 <%# ===== Consulta de reserva ===== %>

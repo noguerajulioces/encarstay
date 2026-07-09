@@ -1,0 +1,35 @@
+<% content_for :title, "Reseñas · #{@property.name}" %>
+<nav class="text-sm text-sand-500 mb-4"><%= link_to "← #{@property.name}", admin_property_path(@property), class: "hover:text-brand-700" %></nav>
+
+<div class="flex items-center justify-between flex-wrap gap-3">
+  <div>
+    <h1 class="text-2xl font-semibold text-sand-900">Reseñas</h1>
+    <p class="mt-1 text-sm text-sand-500">
+      <% if @property.rated? %>
+        <%= number_with_precision(@property.rating_cache, precision: 2) %> ★ · <%= @property.reviews_count %> reseña(s)
+      <% else %>
+        Todavía sin reseñas.
+      <% end %>
+    </p>
+  </div>
+  <%= link_to "+ Nueva reseña", new_admin_property_review_path(@property), class: "rounded-lg bg-brand-500 hover:bg-brand-600 text-white text-sm font-medium px-4 py-2.5" %>
+</div>
+
+<div class="mt-5 rounded-xl bg-white border border-sand-200 divide-y divide-sand-100">
+  <% @reviews.each do |review| %>
+    <div class="p-4 flex items-start justify-between gap-3">
+      <div class="min-w-0">
+        <p class="font-medium text-sand-900"><%= "★" * review.rating %><span class="text-sand-300"><%= "★" * (5 - review.rating) %></span> <span class="ml-2"><%= review.reviewer_name %></span></p>
+        <p class="text-sm text-sand-500"><%= [ review.reviewer_location, (l(review.stayed_on, format: :short) if review.stayed_on) ].compact.join(" · ") %></p>
+        <% if review.body.present? %><p class="mt-1 text-sm text-sand-600 line-clamp-2"><%= review.body %></p><% end %>
+      </div>
+      <div class="flex gap-2 shrink-0">
+        <%= link_to "Editar", edit_admin_property_review_path(@property, review), class: "rounded-lg border border-sand-300 text-sand-700 text-sm px-3 py-1.5 hover:bg-sand-50" %>
+        <%= button_to "✕", admin_property_review_path(@property, review), method: :delete, data: { turbo_confirm: "¿Eliminar esta reseña?" }, class: "rounded-lg border border-sand-300 text-sand-500 text-sm px-3 py-1.5 cursor-pointer" %>
+      </div>
+    </div>
+  <% end %>
+  <% if @reviews.empty? %>
+    <p class="p-4 text-sm text-sand-400">Sin reseñas todavía. Agregá la primera.</p>
+  <% end %>
+</div>

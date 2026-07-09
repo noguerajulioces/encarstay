@@ -1,0 +1,41 @@
+# Five 5★ reviews for lago → average 5.0, count 5 (guest favourite).
+# properties.yml sets the cached aggregates to match, since fixtures skip callbacks.
+lago_one:
+  property: lago
+  reviewer_name: Ana
+  reviewer_location: "Asunción, Paraguay"
+  rating: 5
+  body: "Todo impecable y muy bien ubicado."
+  stayed_on: 2026-01-10
+
+lago_two:
+  property: lago
+  reviewer_name: Bruno
+  reviewer_location: "Posadas, Argentina"
+  rating: 5
+  body: "Hermoso lugar, tal como en las fotos."
+  stayed_on: 2026-02-05
+
+lago_three:
+  property: lago
+  reviewer_name: Carla
+  reviewer_location: "Encarnación, Paraguay"
+  rating: 5
+  body: "Muy cómodo y limpio."
+  stayed_on: 2026-03-01
+
+lago_four:
+  property: lago
+  reviewer_name: Diego
+  reviewer_location: "Ciudad del Este, Paraguay"
+  rating: 5
+  body: "Excelente relación precio-calidad."
+  stayed_on: 2026-04-01
+
+lago_five:
+  property: lago
+  reviewer_name: Elena
+  reviewer_location: "Buenos Aires, Argentina"
+  rating: 5
+  body: "Una estadía perfecta."
+  stayed_on: 2026-05-01

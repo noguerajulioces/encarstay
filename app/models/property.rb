@@ -15,6 +15,9 @@ class Property < ApplicationRecord
   has_many :external_events, through: :calendar_sources
   has_many :property_recommendations, dependent: :destroy
   has_many :guide_entries, through: :property_recommendations
+  has_many :reviews, dependent: :destroy
+  has_many :property_amenities, dependent: :destroy
+  has_many :amenities, through: :property_amenities
 
   scope :active, -> { where(active: true) }
   scope :accommodating, ->(guests) { where("capacity >= ?", guests.to_i) }
@@ -74,6 +77,36 @@ class Property < ApplicationRecord
 
   def cover_photo
     photos.detect { |photo| photo.image.attached? }
+  end
+
+  # Cached review aggregates, kept fresh by Review's after_commit callbacks. The
+  # cache lives on the row so listing grids don't fan out a query per card.
+  def recalculate_reviews!
+    scope = reviews.reset
+    update_columns(reviews_count: scope.count, rating_cache: scope.average(:rating))
+  end
+
+  def rated?
+    reviews_count.positive?
+  end
+
+  def rating
+    rating_cache
+  end
+
+  # A property earns Airbnb's "guest favourite" badge once it has a solid body of
+  # reviews and a near-perfect average.
+  def guest_favorite?
+    rated? && rating_cache.to_f >= 4.9 && reviews_count >= 5
+  end
+
+  # Site-wide aggregates for the single-operator host card.
+  def self.aggregate_rating
+    where("reviews_count > 0").average(:rating_cache)
+  end
+
+  def self.total_reviews
+    sum(:reviews_count)
   end
 
   def coordinates?

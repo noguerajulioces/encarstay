@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_08_190000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_08_200004) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -47,6 +47,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_190000) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "amenities", force: :cascade do |t|
+    t.string "category"
+    t.datetime "created_at", null: false
+    t.string "icon"
+    t.string "key", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_amenities_on_key", unique: true
   end
 
   create_table "blocks", force: :cascade do |t|
@@ -210,10 +220,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_190000) do
     t.decimal "longitude", precision: 10, scale: 6
     t.integer "min_nights", default: 2, null: false
     t.string "name", null: false
+    t.decimal "rating_cache", precision: 3, scale: 2
+    t.integer "reviews_count", default: 0, null: false
     t.string "slug", null: false
     t.datetime "updated_at", null: false
     t.index ["calendar_token"], name: "index_properties_on_calendar_token", unique: true
     t.index ["slug"], name: "index_properties_on_slug", unique: true
+  end
+
+  create_table "property_amenities", force: :cascade do |t|
+    t.integer "amenity_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "property_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["amenity_id"], name: "index_property_amenities_on_amenity_id"
+    t.index ["property_id", "amenity_id"], name: "index_property_amenities_on_property_id_and_amenity_id", unique: true
+    t.index ["property_id"], name: "index_property_amenities_on_property_id"
   end
 
   create_table "property_recommendations", force: :cascade do |t|
@@ -225,6 +247,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_190000) do
     t.index ["guide_entry_id", "property_id"], name: "idx_on_guide_entry_id_property_id_9e1aa032be", unique: true
     t.index ["guide_entry_id"], name: "index_property_recommendations_on_guide_entry_id"
     t.index ["property_id"], name: "index_property_recommendations_on_property_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.integer "property_id", null: false
+    t.integer "rating", null: false
+    t.string "reviewer_location"
+    t.string "reviewer_name", null: false
+    t.date "stayed_on"
+    t.datetime "updated_at", null: false
+    t.index ["property_id", "stayed_on"], name: "index_reviews_on_property_id_and_stayed_on"
+    t.index ["property_id"], name: "index_reviews_on_property_id"
   end
 
   create_table "seasonal_rates", force: :cascade do |t|
@@ -258,7 +293,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_190000) do
   add_foreign_key "guide_entries", "categories"
   add_foreign_key "photos", "properties"
   add_foreign_key "posts", "categories"
+  add_foreign_key "property_amenities", "amenities"
+  add_foreign_key "property_amenities", "properties"
   add_foreign_key "property_recommendations", "guide_entries"
   add_foreign_key "property_recommendations", "properties"
+  add_foreign_key "reviews", "properties"
   add_foreign_key "seasonal_rates", "properties"
 end

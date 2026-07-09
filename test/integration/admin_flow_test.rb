@@ -23,10 +23,24 @@ class AdminFlowTest < ActionDispatch::IntegrationTest
     [ admin_root_path, admin_calendar_path, admin_bookings_path, new_admin_booking_path,
       admin_booking_path(booking), admin_properties_path, new_admin_property_path,
       admin_property_path(@property), edit_admin_property_path(@property),
+      admin_property_reviews_path(@property), new_admin_property_review_path(@property),
       admin_posts_path, new_admin_post_path, edit_admin_post_path(posts(:verano)) ].each do |path|
       get path
       assert_response :success, "Expected #{path} to render, got #{response.status}"
     end
+  end
+
+  test "admin can add a review and it refreshes the property rating" do
+    sign_in
+    bosque = properties(:bosque)
+    assert_difference "bosque.reviews.count", 1 do
+      post admin_property_reviews_path(bosque), params: { review: {
+        reviewer_name: "Marta", reviewer_location: "Encarnación", rating: 5, body: "Genial", stayed_on: Date.current
+      } }
+    end
+    assert_redirected_to admin_property_reviews_path(bosque)
+    assert bosque.reload.rated?
+    assert_in_delta 5.0, bosque.rating_cache, 0.001
   end
 
   test "the blog editor loads Trix CSS but public pages do not" do

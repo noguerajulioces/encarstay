@@ -10,7 +10,7 @@
     <div class="flex items-center justify-between gap-3 bg-white px-4 py-3">
       <% if address.present? %>
         <p class="flex items-center gap-1.5 text-sm text-sand-600">
-          <%= icon :pin, klass: "h-4 w-4 text-brand-500" %><%= address %>
+          <%= icon :pin, klass: "h-4 w-4 text-sand-700" %><%= address %>
         </p>
       <% end %>
       <%= link_to t("guide.open_in_maps"), "https://www.google.com/maps/search/?api=1&query=#{latitude},#{longitude}",
@@ -19,6 +19,6 @@
   </div>
 <% elsif address.present? %>
   <p class="flex items-center gap-1.5 text-sm text-sand-600">
-    <%= icon :pin, klass: "h-4 w-4 text-brand-500" %><%= address %>
+    <%= icon :pin, klass: "h-4 w-4 text-sand-700" %><%= address %>
   </p>
 <% end %>

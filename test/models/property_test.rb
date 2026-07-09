@@ -68,6 +68,8 @@ class PropertyTest < ActiveSupport::TestCase
   # --- Coordinates & distance ---
 
   test "coordinates? is false without both lat and lng" do
+    @property.latitude = nil
+    @property.longitude = nil
     assert_not @property.coordinates?
     @property.latitude = -27.33
     assert_not @property.coordinates?, "needs both latitude and longitude"
@@ -76,6 +78,8 @@ class PropertyTest < ActiveSupport::TestCase
   end
 
   test "distance_km_to returns nil when the property has no coordinates" do
+    @property.latitude = nil
+    @property.longitude = nil
     assert_nil @property.distance_km_to(-27.33, -55.86)
   end
 

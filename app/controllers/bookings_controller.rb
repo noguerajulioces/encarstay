@@ -25,7 +25,12 @@ class BookingsController < ApplicationController
   end
 
   def show
-    @booking = Booking.find_by!(code: params[:code].to_s.upcase)
+    @booking = Booking.find_by(code: params[:code].to_s.strip.upcase)
+    redirect_to booking_lookup_path, alert: t("booking.not_found") unless @booking
+  end
+
+  # Dedicated "look up my reservation" page.
+  def lookup
   end
 
   private

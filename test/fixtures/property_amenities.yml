@@ -1,0 +1,15 @@
+lago_wifi:
+  property: lago
+  amenity: wifi
+
+lago_kitchen:
+  property: lago
+  amenity: kitchen
+
+lago_pool:
+  property: lago
+  amenity: pool
+
+lago_parking:
+  property: lago
+  amenity: free_parking
