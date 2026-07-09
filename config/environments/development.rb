@@ -34,6 +34,9 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
+  # Capture sent emails in a web inbox (http://localhost:3000/letter_opener) instead of SMTP.
+  config.action_mailer.delivery_method = :letter_opener_web
+
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
 
