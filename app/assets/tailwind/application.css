@@ -8,31 +8,33 @@
    semántica (verde = éxito/confirmado; rose = error/no disponible).
    ========================================================================== */
 @theme {
-  /* Marca — coral "Rausch" estilo Airbnb (acento: logo, CTAs, corazón activo) */
-  --color-brand-50:  #fff0f3;
-  --color-brand-100: #ffe1e7;
-  --color-brand-200: #ffc6d3;
-  --color-brand-300: #ff9cb1;
-  --color-brand-400: #ff6b8a;
-  --color-brand-500: #ff385c; /* Rausch — botón/acción principal */
-  --color-brand-600: #e31c5f; /* hover de botón */
-  --color-brand-700: #c90e48; /* enlaces/acento sobre blanco */
-  --color-brand-800: #a50b3b;
-  --color-brand-900: #7d0a2d;
-  --color-brand-950: #52061d;
+  /* Marca — taupe / mocha cálido del logo (acento: logo, CTAs, enlaces).
+     brand-500 se ancla un poco más oscuro que el taupe puro del logo para que
+     el texto blanco sobre los botones tenga buen contraste. */
+  --color-brand-50:  #f9f5ef;
+  --color-brand-100: #f0e6d6;
+  --color-brand-200: #e3d0b8;
+  --color-brand-300: #d0b492;
+  --color-brand-400: #b8946a;
+  --color-brand-500: #96754e; /* mocha — botón/acción principal */
+  --color-brand-600: #7c5f3f; /* hover de botón */
+  --color-brand-700: #664d33; /* enlaces/acento sobre crema */
+  --color-brand-800: #503d29;
+  --color-brand-900: #3f301f;
+  --color-brand-950: #261c12;
 
-  /* Sand — grises neutros estilo Airbnb (fondo, texto, bordes) */
-  --color-sand-50:  #ffffff; /* fondo principal */
-  --color-sand-100: #f7f7f7; /* hover / secciones */
-  --color-sand-200: #dddddd; /* bordes */
-  --color-sand-300: #c2c2c2;
-  --color-sand-400: #a0a0a0;
-  --color-sand-500: #717171; /* texto secundario */
-  --color-sand-600: #5e5e5e;
-  --color-sand-700: #484848;
-  --color-sand-800: #333333; /* texto de cuerpo */
-  --color-sand-900: #222222; /* títulos, casi negro */
-  --color-sand-950: #111111;
+  /* Sand — neutros cálidos (crema/taupe) que acompañan al mocha */
+  --color-sand-50:  #faf8f5; /* fondo principal */
+  --color-sand-100: #f4f1ec; /* hover / secciones */
+  --color-sand-200: #e7e2d9; /* bordes */
+  --color-sand-300: #d6cfc2;
+  --color-sand-400: #b4ab9c;
+  --color-sand-500: #928979; /* texto secundario */
+  --color-sand-600: #746c5e;
+  --color-sand-700: #5b554a;
+  --color-sand-800: #3d3931; /* texto de cuerpo */
+  --color-sand-900: #262320; /* títulos */
+  --color-sand-950: #1a1712;
 
   /* Tipografía — sans geométrica (sustituto libre de Airbnb Cereal) */
   --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
