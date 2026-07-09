@@ -1,40 +1,42 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   ENCAR STAYS — Sistema de color de marca (Tailwind v4, CSS-first)
-   Paleta del logo: taupe/mocha cálido + crema.
-   Estos tokens generan utilidades bg-brand-500, text-sand-700, etc.
-   emerald/stone siguen disponibles como defaults de Tailwind y se reservan
-   para semántica (verde = éxito/confirmado; rose = error/no disponible).
+   ENCAR STAYS — Sistema de color (Tailwind v4, CSS-first) — estilo Airbnb.
+   brand-* = coral "Rausch" (#FF385C), reservado como acento: logo, CTAs,
+   corazón activo, botón de búsqueda. sand-* = grises neutros para fondo,
+   texto y bordes. Los títulos usan sand-900 (#222). emerald/rose siguen como
+   semántica (verde = éxito/confirmado; rose = error/no disponible).
    ========================================================================== */
 @theme {
-  /* Marca — taupe / mocha cálido */
-  --color-brand-50:  #faf6f0;
-  --color-brand-100: #f3e7d8;
-  --color-brand-200: #e7d0ba;
-  --color-brand-300: #d6b393;
-  --color-brand-400: #c29a72;
-  --color-brand-500: #a9855f; /* primario del logo */
-  --color-brand-600: #8e6e4c;
-  --color-brand-700: #74593d; /* CTAs (texto blanco) */
-  --color-brand-800: #5e4832; /* marrón profundo del logo */
-  --color-brand-900: #4a3a29;
-  --color-brand-950: #2a2018;
+  /* Marca — taupe / mocha cálido del logo (acento: logo, CTAs, enlaces).
+     brand-500 se ancla un poco más oscuro que el taupe puro del logo para que
+     el texto blanco sobre los botones tenga buen contraste. */
+  --color-brand-50:  #f9f5ef;
+  --color-brand-100: #f0e6d6;
+  --color-brand-200: #e3d0b8;
+  --color-brand-300: #d0b492;
+  --color-brand-400: #b8946a;
+  --color-brand-500: #96754e; /* mocha — botón/acción principal */
+  --color-brand-600: #7c5f3f; /* hover de botón */
+  --color-brand-700: #664d33; /* enlaces/acento sobre crema */
+  --color-brand-800: #503d29;
+  --color-brand-900: #3f301f;
+  --color-brand-950: #261c12;
 
-  /* Sand — neutral cálido (reemplaza a stone) */
-  --color-sand-50:  #faf8f5;
-  --color-sand-100: #f4f1ec;
-  --color-sand-200: #e7e2d9;
+  /* Sand — neutros cálidos (crema/taupe) que acompañan al mocha */
+  --color-sand-50:  #faf8f5; /* fondo principal */
+  --color-sand-100: #f4f1ec; /* hover / secciones */
+  --color-sand-200: #e7e2d9; /* bordes */
   --color-sand-300: #d6cfc2;
   --color-sand-400: #b4ab9c;
-  --color-sand-500: #928979;
+  --color-sand-500: #928979; /* texto secundario */
   --color-sand-600: #746c5e;
   --color-sand-700: #5b554a;
-  --color-sand-800: #3d3931;
-  --color-sand-900: #262320;
+  --color-sand-800: #3d3931; /* texto de cuerpo */
+  --color-sand-900: #262320; /* títulos */
   --color-sand-950: #1a1712;
 
-  /* Tipografía de marca — sans geométrica única (estilo Airbnb Cereal) */
+  /* Tipografía — sans geométrica (sustituto libre de Airbnb Cereal) */
   --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
 }
@@ -52,7 +54,7 @@
 .article-body > * + * { margin-top: 1.25em; }
 .article-body h1,
 .article-body h2 {
-  color: var(--color-brand-900);
+  color: var(--color-sand-900);
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1.6rem;
@@ -60,7 +62,7 @@
   margin-top: 2em;
 }
 .article-body h3 {
-  color: var(--color-brand-900);
+  color: var(--color-sand-900);
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1.3rem;
@@ -74,7 +76,7 @@
   text-underline-offset: 2px;
 }
 .article-body a:hover { color: var(--color-brand-800); }
-.article-body strong { color: var(--color-brand-900); font-weight: 600; }
+.article-body strong { color: var(--color-sand-900); font-weight: 600; }
 .article-body ul,
 .article-body ol { margin-top: 1.25em; padding-left: 1.5em; }
 .article-body ul { list-style: disc; }

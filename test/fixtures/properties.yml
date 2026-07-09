@@ -12,7 +12,13 @@ lago:
   cleaning_fee_cents: 50000
   min_nights: 2
   active: true
+  latitude: -27.330000
+  longitude: -55.870000
   calendar_token: tok-lago-fixture-0000000001
+  # Fixtures bypass Review callbacks, so the cached aggregates are set by hand to
+  # match reviews.yml (5 × 5★ → guest favourite).
+  reviews_count: 5
+  rating_cache: 5.0
 
 bosque:
   name: Cabaña del Bosque

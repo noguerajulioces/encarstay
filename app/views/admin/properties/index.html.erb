@@ -2,7 +2,7 @@
 
 <div class="flex items-center justify-between">
   <h1 class="text-2xl font-semibold text-sand-900">Propiedades</h1>
-  <%= link_to "+ Nueva propiedad", new_admin_property_path, class: "rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-sm font-medium px-4 py-2.5" %>
+  <%= link_to "+ Nueva propiedad", new_admin_property_path, class: "rounded-lg bg-brand-500 hover:bg-brand-600 text-white text-sm font-medium px-4 py-2.5" %>
 </div>
 
 <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -12,7 +12,7 @@
         <p class="font-medium text-sand-900"><%= property.name %></p>
         <p class="text-sm text-sand-500"><%= property.address_area %> · <%= money(property.base_price_cents, property.currency) %>/noche</p>
       </div>
-      <span class="text-xs px-2 py-1 rounded-full <%= property.active? ? 'bg-brand-100 text-brand-800' : 'bg-sand-200 text-sand-500' %>">
+      <span class="text-xs px-2 py-1 rounded-full <%= property.active? ? 'bg-brand-100 text-sand-900' : 'bg-sand-200 text-sand-500' %>">
         <%= property.active? ? "Activa" : "Inactiva" %>
       </span>
     <% end %>

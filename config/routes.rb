@@ -8,10 +8,11 @@ Rails.application.routes.draw do
 
     resource :search, only: :show
     resources :properties, only: %i[ index show ], param: :slug
-    resources :events,      only: %i[ index show ], param: :slug, path: "eventos"
-    resources :attractions, only: %i[ index show ], param: :slug, path: "que-hacer"
+    resources :events,      only: %i[ index show ], param: :slug
+    resources :attractions, only: %i[ index show ], param: :slug, path: "things-to-do"
     resources :posts,       only: %i[ index show ], param: :slug, path: "blog"
     resources :bookings, only: %i[ new create show ], param: :code
+    get "my-booking", to: "bookings#lookup", as: :booking_lookup
   end
 
   # Outgoing iCal feed consumed by Airbnb ("Import calendar"). Tokenized per property.
@@ -32,6 +33,7 @@ Rails.application.routes.draw do
     resources :properties do
       resources :seasonal_rates, only: %i[ create destroy ]
       resources :photos, only: :destroy
+      resources :reviews, except: :show
       resources :calendar_sources, only: %i[ create update destroy ] do
         resource :sync, only: :create
       end

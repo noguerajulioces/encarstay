@@ -169,12 +169,12 @@ export default class extends Controller {
 
   paint(button, state) {
     button.classList.remove(
-      "bg-brand-50", "text-brand-800", "hover:bg-brand-100",
-      "bg-brand-100", "bg-brand-700", "text-white"
+      "bg-white", "text-sand-900", "hover:bg-sand-100",
+      "bg-sand-100", "bg-sand-900", "text-white"
     )
-    if (state === "endpoint") button.classList.add("bg-brand-700", "text-white")
-    else if (state === "between") button.classList.add("bg-brand-100", "text-brand-800")
-    else button.classList.add("bg-brand-50", "text-brand-800", "hover:bg-brand-100")
+    if (state === "endpoint") button.classList.add("bg-sand-900", "text-white")
+    else if (state === "between") button.classList.add("bg-sand-100", "text-sand-900")
+    else button.classList.add("bg-white", "text-sand-900", "hover:bg-sand-100")
   }
 
   // Resolve the check-out for a wanted range: no shorter than the minimum stay,

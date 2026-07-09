@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#74593d">
+    <meta name="theme-color" content="#faf8f5">
     <meta name="turbo-refresh-method" content="morph">
     <meta name="turbo-refresh-scroll" content="preserve">
     <%= render "shared/meta" %>
@@ -23,34 +23,92 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="h-full bg-sand-50 text-sand-800 antialiased font-sans selection:bg-brand-200 selection:text-brand-900">
-    <header class="sticky top-0 z-30 border-b border-sand-200/80 bg-sand-50/85 backdrop-blur-md">
-      <div class="mx-auto max-w-6xl px-5 h-20 flex items-center justify-between gap-4">
+  <body class="h-full bg-sand-50 text-sand-800 antialiased font-sans selection:bg-brand-200 selection:text-sand-900">
+    <header data-controller="header" data-state="top"
+            class="group/hdr sticky top-0 z-40 border-b border-sand-200 bg-white/95 backdrop-blur">
+      <div class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
+        <%# Logo — original brand image %>
         <%= link_to root_path, class: "shrink-0 transition-opacity hover:opacity-80", "aria-label": t("site.name") do %>
-          <%= image_tag "encar-stays-logo.png", alt: t("site.name"), width: 140, height: 160, class: "h-14 w-auto sm:h-16" %>
+          <%= image_tag "encar-stays-logo.png", alt: t("site.name"), width: 140, height: 160, class: "h-12 w-auto sm:h-14" %>
         <% end %>
 
-        <nav class="flex items-center gap-4 sm:gap-6 text-sm">
-          <%= link_to t("layout.nav_properties"), properties_path, class: "font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
-          <%= link_to t("layout.nav_map"), search_path, class: "hidden sm:inline font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
-          <%= link_to t("layout.nav_attractions"), attractions_path, class: "hidden sm:inline font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
-          <%= link_to t("layout.nav_events"), events_path, class: "hidden sm:inline font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
-          <%= link_to t("layout.nav_blog"), posts_path, class: "hidden sm:inline font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
-          <%= link_to t("layout.nav_my_booking"), root_path(anchor: "buscar-reserva"), class: "hidden md:inline font-medium text-sand-600 hover:text-brand-800 transition-colors" %>
-          <div class="flex items-center rounded-full border border-sand-200 bg-white/60 p-0.5" aria-label="<%= t('layout.language') %>">
-            <% I18n.available_locales.each do |loc| %>
-              <%= link_to loc.to_s.upcase, path_for_locale(loc),
-                    lang: loc, hreflang: loc,
-                    "aria-current": (loc == I18n.locale ? "true" : nil),
-                    class: "px-2 py-0.5 rounded-full text-xs font-semibold transition-colors #{loc == I18n.locale ? 'bg-brand-700 text-white' : 'text-sand-400 hover:text-brand-800'}" %>
+        <%# Center — tabs at the top, cross-fading to a compact search pill on scroll %>
+        <div class="relative hidden flex-1 justify-center md:flex">
+          <% tabs = [
+               { label: t("layout.tab_stays"),       path: properties_path,  icon: :home,     badge: false },
+               { label: t("layout.tab_experiences"), path: attractions_path, icon: :sparkles, badge: true },
+               { label: t("layout.tab_services"),    path: events_path,      icon: :ticket,   badge: true }
+             ] %>
+          <nav class="flex items-center gap-1 transition-all duration-200 group-data-[state=scrolled]/hdr:pointer-events-none group-data-[state=scrolled]/hdr:opacity-0">
+            <% tabs.each do |tab| %>
+              <% on = current_page?(tab[:path]) %>
+              <%= link_to tab[:path], class: "relative flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-colors #{on ? 'text-sand-900' : 'text-sand-500 hover:text-sand-900'}" do %>
+                <% if tab[:badge] %><span class="absolute -top-1 left-7 z-10 rounded-md bg-brand-500 px-1 py-0.5 text-[0.5rem] font-bold leading-none text-white shadow"><%= t("layout.new_badge") %></span><% end %>
+                <%= icon tab[:icon], klass: "h-5 w-5" %>
+                <span><%= tab[:label] %></span>
+                <% if on %><span class="absolute inset-x-3 -bottom-1 h-0.5 rounded-full bg-sand-900"></span><% end %>
+              <% end %>
             <% end %>
+          </nav>
+          <%= link_to search_path, class: "pointer-events-none absolute top-1/2 flex w-full max-w-sm -translate-y-1/2 items-center justify-between gap-3 rounded-full border border-sand-200 bg-white py-2 pl-5 pr-2 opacity-0 shadow-[0_1px_8px_rgba(0,0,0,0.12)] transition-all duration-200 hover:shadow-[0_2px_12px_rgba(0,0,0,0.18)] group-data-[state=scrolled]/hdr:pointer-events-auto group-data-[state=scrolled]/hdr:opacity-100" do %>
+            <span class="text-sm font-medium text-sand-900"><%= t("layout.search_start") %></span>
+            <span class="grid h-8 w-8 place-items-center rounded-full bg-brand-500 text-white"><%= icon :search, klass: "h-4 w-4" %></span>
+          <% end %>
+        </div>
+
+        <%# Right cluster %>
+        <div class="flex shrink-0 items-center gap-2 sm:gap-3">
+          <%# Language switcher — round flag, click to choose %>
+          <div class="relative" data-controller="menu">
+            <button type="button" data-menu-target="button" data-action="menu#toggle"
+                    aria-haspopup="true" aria-expanded="false" aria-label="<%= t('layout.language') %>"
+                    class="flex items-center gap-1.5 rounded-full border border-sand-200 py-1.5 pl-1.5 pr-2 transition hover:shadow-md">
+              <%= flag_icon I18n.locale, klass: "h-6 w-6" %>
+              <span class="hidden text-xs font-semibold text-sand-700 sm:inline"><%= I18n.locale.to_s.upcase %></span>
+              <%= icon :chevron_down, klass: "h-3.5 w-3.5 text-sand-500" %>
+            </button>
+            <div data-menu-target="panel" hidden
+                 class="absolute right-0 top-full z-50 mt-2 w-48 overflow-hidden rounded-2xl border border-sand-200 bg-white py-2 shadow-[0_8px_28px_rgba(0,0,0,0.18)]">
+              <% I18n.available_locales.each do |loc| %>
+                <% active = (loc == I18n.locale) %>
+                <%= link_to path_for_locale(loc), lang: loc, hreflang: loc,
+                      "aria-current": (active ? "true" : nil),
+                      class: "flex items-center gap-3 px-4 py-2.5 text-sm transition hover:bg-sand-100 #{active ? 'font-semibold text-sand-900' : 'text-sand-700'}" do %>
+                  <%= flag_icon loc, klass: "h-5 w-5" %>
+                  <span><%= t("layout.locale_names.#{loc}", default: loc.to_s.upcase) %></span>
+                  <% if active %><span class="ml-auto text-brand-500"><%= icon :check, klass: "h-4 w-4" %></span><% end %>
+                <% end %>
+              <% end %>
+            </div>
           </div>
-        </nav>
+
+          <div class="relative" data-controller="menu">
+            <button type="button" data-menu-target="button" data-action="menu#toggle"
+                    aria-haspopup="true" aria-expanded="false" aria-label="<%= t('layout.menu') %>"
+                    class="flex items-center gap-2 rounded-full border border-sand-200 py-1.5 pl-3 pr-1.5 transition hover:shadow-md">
+              <%= icon :menu, klass: "h-4 w-4 text-sand-700" %>
+              <span class="grid h-7 w-7 place-items-center rounded-full bg-sand-500 text-white"><%= icon :user, klass: "h-5 w-5" %></span>
+            </button>
+            <div data-menu-target="panel" hidden
+                 class="absolute right-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-sand-200 bg-white py-2 shadow-[0_8px_28px_rgba(0,0,0,0.18)]">
+              <% menu_links = [
+                   [ t("layout.nav_properties"),  properties_path ],
+                   [ t("layout.nav_attractions"), attractions_path ],
+                   [ t("layout.nav_events"),      events_path ],
+                   [ t("layout.nav_blog"),        posts_path ],
+                   [ t("layout.nav_my_booking"),  booking_lookup_path ]
+                 ] %>
+              <% menu_links.each do |label, path| %>
+                <%= link_to label, path, class: "block px-4 py-2.5 text-sm text-sand-800 transition hover:bg-sand-100" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
 
-    <div id="flash" class="mx-auto max-w-6xl px-5 empty:hidden [&>*]:mt-4">
-      <%= render "shared/flash_messages" %>
+    <div id="flash" class="pointer-events-none fixed inset-x-4 top-24 z-[60] mx-auto flex max-w-sm flex-col gap-2 sm:inset-x-auto sm:right-6">
+      <%= render "shared/toasts" %>
     </div>
 
     <main class="min-h-[70vh]">
@@ -58,40 +116,41 @@
     </main>
 
     <%= render "shared/whatsapp" %>
+    <%= render "shared/palette_switcher" if Rails.env.development? %>
 
-    <footer class="mt-20 bg-brand-950 text-sand-300">
-      <div class="mx-auto max-w-6xl px-5 py-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="lg:col-span-2 max-w-sm">
-          <%= image_tag "encar-stays-logo.png", alt: t("site.name"), width: 175, height: 200, class: "h-20 w-auto" %>
-          <p class="mt-4 text-sm leading-relaxed text-sand-400"><%= t("layout.footer_blurb") %></p>
-          <p class="mt-4 flex items-center gap-1.5 text-sm text-sand-400"><%= icon :pin, klass: "h-4 w-4 text-brand-400" %> <%= t("layout.footer_location") %></p>
+    <footer class="mt-20 border-t border-sand-200 bg-sand-100">
+      <div class="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">
+        <div class="max-w-sm lg:col-span-2">
+          <%= image_tag "encar-stays-logo.png", alt: t("site.name"), width: 175, height: 200, class: "h-16 w-auto" %>
+          <p class="mt-4 text-sm leading-relaxed text-sand-600"><%= t("layout.footer_blurb") %></p>
+          <p class="mt-4 flex items-center gap-1.5 text-sm text-sand-600"><%= icon :pin, klass: "h-4 w-4 text-sand-500" %> <%= t("layout.footer_location") %></p>
         </div>
 
         <div>
-          <h3 class="text-xs font-semibold uppercase tracking-widest text-brand-300"><%= t("layout.footer_explore") %></h3>
+          <h3 class="text-xs font-semibold uppercase tracking-widest text-sand-900"><%= t("layout.footer_explore") %></h3>
           <ul class="mt-4 space-y-2.5 text-sm">
-            <li><%= link_to t("layout.nav_properties"), properties_path, class: "text-sand-300 hover:text-white transition-colors" %></li>
-            <li><%= link_to t("layout.nav_attractions"), attractions_path, class: "text-sand-300 hover:text-white transition-colors" %></li>
-            <li><%= link_to t("layout.nav_events"), events_path, class: "text-sand-300 hover:text-white transition-colors" %></li>
-            <li><%= link_to t("layout.nav_blog"), posts_path, class: "text-sand-300 hover:text-white transition-colors" %></li>
-            <li><%= link_to t("layout.footer_lookup"), root_path(anchor: "buscar-reserva"), class: "text-sand-300 hover:text-white transition-colors" %></li>
+            <li><%= link_to t("layout.nav_properties"), properties_path, class: "text-sand-600 transition-colors hover:text-sand-900 hover:underline" %></li>
+            <li><%= link_to t("layout.nav_attractions"), attractions_path, class: "text-sand-600 transition-colors hover:text-sand-900 hover:underline" %></li>
+            <li><%= link_to t("layout.nav_events"), events_path, class: "text-sand-600 transition-colors hover:text-sand-900 hover:underline" %></li>
+            <li><%= link_to t("layout.nav_blog"), posts_path, class: "text-sand-600 transition-colors hover:text-sand-900 hover:underline" %></li>
+            <li><%= link_to t("layout.footer_lookup"), booking_lookup_path, class: "text-sand-600 transition-colors hover:text-sand-900 hover:underline" %></li>
           </ul>
         </div>
 
         <div>
-          <h3 class="text-xs font-semibold uppercase tracking-widest text-brand-300"><%= t("layout.footer_contact") %></h3>
+          <h3 class="text-xs font-semibold uppercase tracking-widest text-sand-900"><%= t("layout.footer_contact") %></h3>
           <ul class="mt-4 space-y-2.5 text-sm">
             <li>
               <%= link_to whatsapp_url(t("whatsapp.default_message")), target: "_blank", rel: "noopener",
-                    class: "inline-flex items-center gap-2 text-sand-300 hover:text-white transition-colors" do %>
+                    class: "inline-flex items-center gap-2 text-sand-600 transition-colors hover:text-sand-900" do %>
                 <span class="inline-block h-2 w-2 rounded-full bg-[#25D366]"></span> WhatsApp
               <% end %>
             </li>
           </ul>
         </div>
       </div>
-      <div class="border-t border-white/10">
-        <div class="mx-auto max-w-6xl px-5 py-5 text-xs text-sand-500">
+      <div class="border-t border-sand-200">
+        <div class="mx-auto max-w-7xl px-5 py-5 text-xs text-sand-500 sm:px-8">
           <p><%= t("layout.footer_rights", year: Date.current.year) %></p>
         </div>
       </div>

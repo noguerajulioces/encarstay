@@ -1,13 +1,13 @@
 <% content_for :title, t("properties.index_title") %>
 
-<section class="mx-auto max-w-6xl px-5 pt-10 pb-4 sm:pt-14">
-  <p class="text-xs font-semibold uppercase tracking-widest text-brand-500"><%= t("properties.index_kicker") %></p>
-  <h1 class="mt-1 font-display text-4xl font-semibold text-brand-900"><%= t("properties.index_title") %></h1>
+<section class="mx-auto max-w-7xl px-5 pt-10 pb-4 sm:pt-14">
+  <p class="text-xs font-semibold uppercase tracking-widest text-sand-700"><%= t("properties.index_kicker") %></p>
+  <h1 class="mt-1 font-display text-4xl font-semibold text-sand-900"><%= t("properties.index_title") %></h1>
   <p class="mt-2 max-w-xl text-sand-500"><%= t("properties.index_subtitle") %></p>
 </section>
 
-<section class="mx-auto max-w-6xl px-5 pb-4">
-  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+<section class="mx-auto max-w-7xl px-5 pb-4">
+  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
     <% @properties.each do |property| %>
       <%= render "shared/property_card", property: property %>
     <% end %>

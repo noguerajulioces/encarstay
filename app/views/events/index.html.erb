@@ -3,19 +3,19 @@
 
 <section class="border-b border-sand-200 bg-gradient-to-b from-sand-100 to-sand-50">
   <div class="mx-auto max-w-6xl px-5 py-12 sm:py-16">
-    <p class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-brand-500">
+    <p class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-sand-700">
       <%= icon :ticket, klass: "h-4 w-4" %> <%= t("guide.events_kicker") %>
     </p>
-    <h1 class="mt-2 font-display text-4xl font-semibold text-brand-900 sm:text-5xl"><%= t("guide.events_title") %></h1>
+    <h1 class="mt-2 font-display text-4xl font-semibold text-sand-900 sm:text-5xl"><%= t("guide.events_title") %></h1>
     <p class="mt-3 max-w-xl text-lg text-sand-600"><%= t("guide.events_subtitle") %></p>
 
     <%= form_with url: events_path, method: :get, class: "mt-6 flex max-w-md gap-2" do %>
       <% if @active_category.present? %><%= hidden_field_tag :category, @active_category %><% end %>
       <div class="flex flex-1 items-center gap-2 rounded-xl border border-sand-200 bg-white px-3">
-        <span class="text-brand-500"><%= icon :search, klass: "h-5 w-5" %></span>
+        <span class="text-sand-700"><%= icon :search, klass: "h-5 w-5" %></span>
         <%= text_field_tag :q, params[:q], placeholder: t("guide.search_placeholder"), class: "w-full bg-transparent py-2.5 text-sm focus:outline-none" %>
       </div>
-      <%= submit_tag t("search_form.submit"), class: "rounded-xl bg-brand-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-800 cursor-pointer" %>
+      <%= submit_tag t("search_form.submit"), class: "rounded-xl bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-600 cursor-pointer" %>
     <% end %>
   </div>
 </section>
@@ -34,7 +34,7 @@
   <% else %>
     <div class="rounded-2xl border border-dashed border-sand-300 py-16 text-center">
       <span class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-sand-100 text-sand-400"><%= icon :ticket, klass: "h-6 w-6" %></span>
-      <p class="mt-4 font-display text-xl font-semibold text-brand-900"><%= t("guide.none_events") %></p>
+      <p class="mt-4 font-display text-xl font-semibold text-sand-900"><%= t("guide.none_events") %></p>
       <p class="mt-1 text-sand-500"><%= t("guide.none_events_subtitle") %></p>
     </div>
   <% end %>

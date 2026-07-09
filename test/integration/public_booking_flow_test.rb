@@ -54,6 +54,17 @@ class PublicBookingFlowTest < ActionDispatch::IntegrationTest
     assert_match "Recibimos tu solicitud", response.body
   end
 
+  test "the reservation lookup page renders the lookup form" do
+    get booking_lookup_path
+    assert_response :success
+    assert_select "form[data-controller='redirect']"
+  end
+
+  test "an unknown booking code redirects to the lookup instead of raising" do
+    get booking_path("NOPE-9999")
+    assert_redirected_to booking_lookup_path
+  end
+
   test "the honeypot silently drops spam without creating a booking" do
     assert_no_difference "Booking.count" do
       post bookings_path, params: { company: "spammer", booking: {

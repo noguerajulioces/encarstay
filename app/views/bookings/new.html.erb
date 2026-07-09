@@ -1,8 +1,8 @@
 <% content_for :title, "#{t('property.book')} · #{@property.name}" %>
 
 <section class="mx-auto max-w-5xl px-5 py-10">
-  <p class="text-xs font-semibold uppercase tracking-widest text-brand-500"><%= t("booking.new_kicker") %></p>
-  <h1 class="mt-1 font-display text-3xl font-semibold text-brand-900"><%= t("booking.new_title") %></h1>
+  <p class="text-xs font-semibold uppercase tracking-widest text-sand-700"><%= t("booking.new_kicker") %></p>
+  <h1 class="mt-1 font-display text-3xl font-semibold text-sand-900"><%= t("booking.new_title") %></h1>
   <p class="mt-2 text-sand-500"><%= t("booking.new_subtitle") %></p>
 
   <div class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
@@ -49,11 +49,11 @@
         </div>
 
         <p class="flex items-start gap-2 text-xs leading-relaxed text-sand-500">
-          <span class="mt-0.5 shrink-0 text-brand-500"><%= icon :check, klass: "h-4 w-4" %></span>
+          <span class="mt-0.5 shrink-0 text-sand-700"><%= icon :check, klass: "h-4 w-4" %></span>
           <span><%= t("booking.disclaimer_html").html_safe %></span>
         </p>
 
-        <%= form.button type: :submit, class: "flex w-full items-center justify-center gap-2 rounded-xl bg-brand-700 px-6 py-3 font-semibold text-white transition-colors hover:bg-brand-800 cursor-pointer sm:w-auto" do %>
+        <%= form.button type: :submit, class: "flex w-full items-center justify-center gap-2 rounded-xl bg-brand-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-brand-600 cursor-pointer sm:w-auto" do %>
           <%= t("booking.submit") %> <%= icon :arrow, klass: "h-4 w-4" %>
         <% end %>
       <% end %>
@@ -71,7 +71,7 @@
             <% end %>
           </div>
           <div>
-            <h2 class="font-display font-semibold text-brand-900"><%= @property.name %></h2>
+            <h2 class="font-display font-semibold text-sand-900"><%= @property.name %></h2>
             <p class="flex items-center gap-1 text-sm text-sand-500"><%= icon :pin, klass: "h-3.5 w-3.5 text-sand-400" %><%= @property.address_area %></p>
           </div>
         </div>

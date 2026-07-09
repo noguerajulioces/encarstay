@@ -1,0 +1,16 @@
+<% flash.each do |type, message| %>
+  <% next if message.blank? %>
+  <% is_alert = type.to_s.in?(%w[alert error]) %>
+  <div data-controller="toast" data-toast-delay-value="6000"
+       role="<%= is_alert ? "alert" : "status" %>"
+       class="pointer-events-auto flex w-full translate-y-2 items-start gap-3 rounded-2xl border bg-white px-4 py-3 opacity-0 shadow-[0_8px_28px_rgba(0,0,0,0.18)] transition duration-300 ease-out <%= is_alert ? "border-rose-200" : "border-emerald-200" %>">
+    <span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full <%= is_alert ? "bg-rose-100 text-rose-600" : "bg-emerald-100 text-emerald-600" %>">
+      <%= icon(is_alert ? :info : :check, klass: "h-4 w-4") %>
+    </span>
+    <p class="flex-1 pt-0.5 text-sm leading-snug text-sand-800"><%= message %></p>
+    <button type="button" data-action="toast#close" aria-label="<%= t("property.close") %>"
+            class="shrink-0 rounded-full p-1 text-sand-400 transition hover:bg-sand-100 hover:text-sand-700">
+      <%= icon :x, klass: "h-4 w-4" %>
+    </button>
+  </div>
+<% end %>
