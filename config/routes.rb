@@ -62,6 +62,7 @@ Rails.application.routes.draw do
     resources :campaigns do
       post :deliver, on: :member
     end
+    resource :settings, only: %i[ edit update ]
   end
 
   # Preview emails sent in development at /letter_opener (gem is development-only).

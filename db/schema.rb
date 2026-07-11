@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_09_140000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_11_120000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -285,6 +285,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_09_140000) do
     t.datetime "updated_at", null: false
     t.index ["property_id", "starts_on", "ends_on"], name: "index_seasonal_rates_on_property_id_and_starts_on_and_ends_on"
     t.index ["property_id"], name: "index_seasonal_rates_on_property_id"
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "whatsapp_number"
   end
 
   create_table "subscribers", force: :cascade do |t|

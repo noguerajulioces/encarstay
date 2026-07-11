@@ -74,7 +74,7 @@ module ApplicationHelper
   end
 
   def whatsapp_number
-    ENV.fetch("WHATSAPP_NUMBER", "595981000000")
+    Setting.current.whatsapp_number.presence || ENV.fetch("WHATSAPP_NUMBER", "595981000000")
   end
 
   # Click-to-chat link, optionally with a prefilled message.
