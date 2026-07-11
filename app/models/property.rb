@@ -81,8 +81,9 @@ class Property < ApplicationRecord
 
   # Cached review aggregates, kept fresh by Review's after_commit callbacks. The
   # cache lives on the row so listing grids don't fan out a query per card.
+  # Guest reviews only count once the admin approves them.
   def recalculate_reviews!
-    scope = reviews.reset
+    scope = reviews.approved.reset
     update_columns(reviews_count: scope.count, rating_cache: scope.average(:rating))
   end
 

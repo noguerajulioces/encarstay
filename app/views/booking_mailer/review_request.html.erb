@@ -1,0 +1,7 @@
+<h1 style="color:#1c1917;"><%= t("mailer.review_request.heading") %></h1>
+
+<p><%= t("mailer.review_request.intro_html", name: @booking.guest_name.split.first, property: @booking.property.name).html_safe %></p>
+
+<p><a href="<%= new_review_url(@review_token, locale: @locale_param) %>" style="display:inline-block;background:#e11d48;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;"><%= t("mailer.review_request.cta") %></a></p>
+
+<p style="color:#78716c;font-size:13px;"><%= t("mailer.review_request.note") %></p>

@@ -1,0 +1,7 @@
+<%= t("mailer.review_request.heading") %>
+
+<%= t("mailer.review_request.intro_text", name: @booking.guest_name.split.first, property: @booking.property.name) %>
+
+<%= t("mailer.review_request.cta") %>: <%= new_review_url(@review_token, locale: @locale_param) %>
+
+<%= t("mailer.review_request.note") %>

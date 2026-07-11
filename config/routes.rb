@@ -14,6 +14,10 @@ Rails.application.routes.draw do
     resources :bookings, only: %i[ new create show ], param: :code
     get "my-booking", to: "bookings#lookup", as: :booking_lookup
 
+    # Post-stay rating. The token is the signed per-booking link mailed to the guest.
+    get  "review/:token", to: "reviews#new",    as: :new_review
+    post "review/:token", to: "reviews#create", as: :review
+
     # Newsletter / email capture (footer form + popup). Double opt-in: the token
     # links land back here in the subscriber's language.
     resource :subscription, only: :create
@@ -40,7 +44,9 @@ Rails.application.routes.draw do
     resources :properties do
       resources :seasonal_rates, only: %i[ create destroy ]
       resources :photos, only: :destroy
-      resources :reviews, except: :show
+      resources :reviews, except: :show do
+        resource :approval, only: :create, module: :reviews
+      end
       resources :calendar_sources, only: %i[ create update destroy ] do
         resource :sync, only: :create
       end

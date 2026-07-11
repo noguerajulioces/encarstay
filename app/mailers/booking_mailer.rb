@@ -27,6 +27,24 @@ class BookingMailer < ApplicationMailer
     end
   end
 
+  # Sent to the guest the day after checkout with a personal signed link to rate
+  # the stay — in the language they booked in.
+  def review_request
+    @booking = params[:booking]
+    I18n.with_locale(@booking.locale) do
+      @locale_param = url_locale
+      @review_token = @booking.generate_token_for(:review)
+      mail to: @booking.guest_email, subject: t("mailer.review_request.subject", property: @booking.property.name)
+    end
+  end
+
+  # Heads-up to the admin(s) that a guest review is waiting for approval.
+  def admin_review_submitted
+    @review = params[:review]
+    @recipients = User.pluck(:email)
+    mail to: @recipients, subject: "Nueva reseña pendiente de aprobación · #{@review.property.name}" if @recipients.any?
+  end
+
   # Critical alert to the admin when an imported event collides with a direct booking.
   def collision_alert
     @booking = params[:booking]

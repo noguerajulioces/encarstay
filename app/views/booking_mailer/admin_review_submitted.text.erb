@@ -1,0 +1,9 @@
+Nueva reseña pendiente de aprobación
+
+<%= @review.reviewer_name %> calificó su estadía en <%= @review.property.name %> con <%= @review.rating %>/5.
+<% if @review.body.present? %>
+"<%= @review.body %>"
+<% end %>
+La reseña no se publica hasta que la apruebes.
+
+Revisar y aprobar: <%= admin_property_reviews_url(@review.property) %>

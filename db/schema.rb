@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_11_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_11_151841) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -88,6 +88,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_120000) do
     t.string "locale", default: "es", null: false
     t.text "notes"
     t.integer "property_id", null: false
+    t.datetime "review_requested_at"
     t.string "source", default: "direct", null: false
     t.string "status", default: "pending", null: false
     t.integer "subtotal_cents", default: 0, null: false
@@ -218,6 +219,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_120000) do
     t.boolean "active", default: true, null: false
     t.string "address_area"
     t.string "airbnb_listing_url"
+    t.string "airbnb_public_url"
     t.integer "base_price_cents", default: 0, null: false
     t.integer "bathrooms", default: 1, null: false
     t.integer "bedrooms", default: 1, null: false
@@ -262,7 +264,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_120000) do
   end
 
   create_table "reviews", force: :cascade do |t|
+    t.datetime "approved_at"
     t.text "body"
+    t.integer "booking_id"
     t.datetime "created_at", null: false
     t.integer "property_id", null: false
     t.integer "rating", null: false
@@ -270,6 +274,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_120000) do
     t.string "reviewer_name", null: false
     t.date "stayed_on"
     t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_reviews_on_booking_id", unique: true
     t.index ["property_id", "stayed_on"], name: "index_reviews_on_property_id_and_stayed_on"
     t.index ["property_id"], name: "index_reviews_on_property_id"
   end
@@ -335,6 +340,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_120000) do
   add_foreign_key "property_amenities", "properties"
   add_foreign_key "property_recommendations", "guide_entries"
   add_foreign_key "property_recommendations", "properties"
+  add_foreign_key "reviews", "bookings"
   add_foreign_key "reviews", "properties"
   add_foreign_key "seasonal_rates", "properties"
 end

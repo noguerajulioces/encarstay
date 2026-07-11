@@ -7,6 +7,7 @@ lago_one:
   rating: 5
   body: "Todo impecable y muy bien ubicado."
   stayed_on: 2026-01-10
+  approved_at: <%= 30.days.ago %>
 
 lago_two:
   property: lago
@@ -15,6 +16,7 @@ lago_two:
   rating: 5
   body: "Hermoso lugar, tal como en las fotos."
   stayed_on: 2026-02-05
+  approved_at: <%= 30.days.ago %>
 
 lago_three:
   property: lago
@@ -23,6 +25,7 @@ lago_three:
   rating: 5
   body: "Muy cómodo y limpio."
   stayed_on: 2026-03-01
+  approved_at: <%= 30.days.ago %>
 
 lago_four:
   property: lago
@@ -31,6 +34,7 @@ lago_four:
   rating: 5
   body: "Excelente relación precio-calidad."
   stayed_on: 2026-04-01
+  approved_at: <%= 30.days.ago %>
 
 lago_five:
   property: lago
@@ -39,3 +43,4 @@ lago_five:
   rating: 5
   body: "Una estadía perfecta."
   stayed_on: 2026-05-01
+  approved_at: <%= 30.days.ago %>

@@ -11,7 +11,9 @@ class Admin::ReviewsController < Admin::BaseController
   end
 
   def create
-    @review = @property.reviews.new(review_params)
+    # Reviews the admin types in by hand are public straight away; only guest
+    # submissions wait for approval.
+    @review = @property.reviews.new(review_params.merge(approved_at: Time.current))
     if @review.save
       redirect_to admin_property_reviews_path(@property), notice: "Reseña agregada."
     else

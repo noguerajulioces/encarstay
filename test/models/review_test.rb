@@ -16,11 +16,11 @@ class ReviewTest < ActiveSupport::TestCase
     assert_not @property.reviews.build(reviewer_name: "Ana", rating: 4.5).valid?
   end
 
-  test "creating a review refreshes the property's cached aggregates" do
+  test "creating an approved review refreshes the property's cached aggregates" do
     assert_equal 0, @property.reviews_count
 
-    @property.reviews.create!(reviewer_name: "Ana", rating: 4)
-    @property.reviews.create!(reviewer_name: "Beto", rating: 5)
+    @property.reviews.create!(reviewer_name: "Ana", rating: 4, approved_at: Time.current)
+    @property.reviews.create!(reviewer_name: "Beto", rating: 5, approved_at: Time.current)
     @property.reload
 
     assert_equal 2, @property.reviews_count
@@ -28,8 +28,16 @@ class ReviewTest < ActiveSupport::TestCase
     assert @property.rated?
   end
 
+  test "a pending review does not count until it is approved" do
+    review = @property.reviews.create!(reviewer_name: "Ana", rating: 4)
+    assert_equal 0, @property.reload.reviews_count
+
+    review.approve!
+    assert_equal 1, @property.reload.reviews_count
+  end
+
   test "destroying the last review resets the aggregates" do
-    review = @property.reviews.create!(reviewer_name: "Ana", rating: 5)
+    review = @property.reviews.create!(reviewer_name: "Ana", rating: 5, approved_at: Time.current)
     @property.reload
     assert_equal 1, @property.reviews_count
 
