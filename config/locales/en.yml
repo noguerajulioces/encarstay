@@ -41,6 +41,7 @@ en:
         guest_email: "Email"
         guest_phone: "Phone"
         notes: "Comments"
+        applied_discount_code: "Discount code"
     errors:
       models:
         booking:
@@ -49,6 +50,8 @@ en:
               after_check_in: "must be after the check-in"
             guests_count:
               over_capacity: "is over the property's capacity"
+            applied_discount_code:
+              invalid_discount: "is invalid or already used"
             base:
               min_nights: "The minimum stay is %{count} nights"
               dates_unavailable: "The dates are no longer available"
@@ -289,6 +292,7 @@ en:
   price:
     lodging: "Lodging"
     cleaning: "Cleaning"
+    discount: "Welcome discount"
     total: "Total"
     deposit: "Deposit to book (50%)"
     deposit_short: "Deposit (50%)"
@@ -309,6 +313,8 @@ en:
     email: "Email"
     phone: "Phone / WhatsApp"
     notes: "Comments (optional)"
+    discount_code: "Discount code (optional)"
+    discount_hint: "Have a welcome code? Enter it for your 5% off."
     disclaimer_html: "On submit, your request stays <strong>pending</strong>. We'll contact you to arrange the deposit (50%) and confirm the booking. No charge is made at this step."
     submit: "Send request"
     arrival: "Check-in"
@@ -335,6 +341,33 @@ en:
     default_message: "Hi, I'd like to ask about a booking."
     booking_message: "Hi, I'm asking about my booking %{code} at %{property}."
 
+  newsletter:
+    footer_heading: "Join our list"
+    footer_blurb: "Get open dates and seasonal offers before anyone else — plus 5% off your first booking."
+    email_label: "Email"
+    email_placeholder: "you@email.com"
+    submit: "Subscribe"
+    honeypot: "Do not fill in"
+    privacy_note: "No spam. Unsubscribe anytime."
+    check_email: "Almost there! Check your email to confirm your subscription."
+    invalid_email: "Enter a valid email."
+    success_heading: "Check your email!"
+    success_body: "We sent you a link to confirm your subscription."
+    popup_heading: "5% off your first booking"
+    popup_blurb: "Join our list for open dates and seasonal offers."
+    popup_incentive: "5% welcome discount"
+    dismiss: "Close"
+    confirm_heading: "Subscription confirmed!"
+    confirm_body: "You're on the list. Here's your welcome code:"
+    discount_label: "Your code"
+    discount_note: "5% off your first booking. Mention it when you book."
+    browse_stays: "Browse stays"
+    unsubscribe_heading: "You've unsubscribed"
+    unsubscribe_body: "You won't receive marketing emails anymore. You can resubscribe anytime."
+    back_home: "Back home"
+    invalid_token: "Invalid link"
+    invalid_token_body: "This link has expired or isn't valid. Try subscribing again."
+
   mailer:
     guest_requested:
       subject: "We got your request · %{code}"
@@ -346,6 +379,7 @@ en:
       arrival: "Check-in"
       departure: "Check-out"
       guests: "Guests"
+      discount: "Welcome discount"
       total: "Total"
       deposit: "Deposit (50%)"
       cta: "View my booking status"
@@ -359,6 +393,32 @@ en:
       code: "Code"
       arrival: "Check-in"
       departure: "Check-out"
+      discount: "Welcome discount"
       total: "Total"
       cta: "View my booking"
       cta_text: "View my booking"
+    newsletter:
+      confirm:
+        subject: "Confirm your Encar Stays subscription"
+        heading: "Confirm your subscription"
+        intro_html: "Thanks for joining! Click the button to confirm your subscription and get your <strong>5% welcome discount</strong>."
+        intro_text: "Thanks for joining. Confirm your subscription to get your 5% welcome discount."
+        cta: "Confirm subscription"
+        footer: "If this wasn't you, you can ignore this email."
+      welcome:
+        subject: "Welcome! Here's your 5% discount"
+        heading: "You're part of Encar Stays!"
+        intro_html: "Thanks for confirming your subscription. As a welcome gift, here's <strong>5% off</strong> your first booking."
+        intro_text: "Thanks for confirming. As a welcome gift, here's 5% off your first booking."
+        discount_label: "Your discount code"
+        discount_note: "5% off your first booking. Mention it when you book."
+        cta: "Browse stays"
+        unsubscribe: "Don't want these emails?"
+        unsubscribe_link: "Unsubscribe"
+      invitation:
+        subject: "Join our list and get 5% off"
+        heading: "Until next time?"
+        intro_html: "Thanks for staying with us! Join our list for open dates and seasonal offers — and get <strong>5% off</strong> your next booking."
+        intro_text: "Thanks for staying with us. Join our list and get 5% off your next booking."
+        cta: "Join and get 5% off"
+        footer: "Not interested? Just ignore this email — we won't write again."

@@ -1,0 +1,12 @@
+<h1 style="color:#1c1917;"><%= t("mailer.newsletter.invitation.heading") %></h1>
+
+<p><%= t("mailer.newsletter.invitation.intro_html").html_safe %></p>
+
+<p style="margin:24px 0;">
+  <a href="<%= @join_url %>"
+     style="display:inline-block;background:#96754e;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:bold;">
+    <%= t("mailer.newsletter.invitation.cta") %>
+  </a>
+</p>
+
+<p style="color:#78716c;font-size:13px;"><%= t("mailer.newsletter.invitation.footer") %></p>

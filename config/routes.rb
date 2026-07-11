@@ -13,6 +13,13 @@ Rails.application.routes.draw do
     resources :posts,       only: %i[ index show ], param: :slug, path: "blog"
     resources :bookings, only: %i[ new create show ], param: :code
     get "my-booking", to: "bookings#lookup", as: :booking_lookup
+
+    # Newsletter / email capture (footer form + popup). Double opt-in: the token
+    # links land back here in the subscriber's language.
+    resource :subscription, only: :create
+    get "newsletter/confirm/:token",     to: "subscriptions#confirm",     as: :newsletter_confirm
+    get "newsletter/unsubscribe/:token", to: "subscriptions#unsubscribe", as: :newsletter_unsubscribe
+    get "newsletter/join/:token",        to: "subscriptions#join",        as: :newsletter_join
   end
 
   # Outgoing iCal feed consumed by Airbnb ("Import calendar"). Tokenized per property.
@@ -47,6 +54,20 @@ Rails.application.routes.draw do
 
     resources :blocks, only: %i[ create destroy ]
     resource :calendar, only: :show, controller: "calendar"
+
+    resources :subscribers, only: %i[ index destroy ] do
+      patch :redeem, on: :member
+    end
+    resource :guest_invitations, only: :create
+    resources :campaigns do
+      post :deliver, on: :member
+    end
+    resource :settings, only: %i[ edit update ]
+  end
+
+  # Preview emails sent in development at /letter_opener (gem is development-only).
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -42,6 +42,9 @@
       <div class="space-y-2 text-sm">
         <div class="flex justify-between text-sand-600"><span>Alojamiento</span><span><%= money(@booking.subtotal_cents, @booking.currency) %></span></div>
         <div class="flex justify-between text-sand-600"><span>Limpieza</span><span><%= money(@booking.cleaning_fee_cents, @booking.currency) %></span></div>
+        <% if @booking.discount_cents.positive? %>
+          <div class="flex justify-between text-emerald-700"><span>Descuento <span class="font-mono text-xs">(<%= @booking.applied_discount_code %>)</span></span><span>−<%= money(@booking.discount_cents, @booking.currency) %></span></div>
+        <% end %>
         <div class="flex justify-between font-semibold border-t border-sand-200 pt-2"><span>Total</span><span><%= money(@booking.total_cents, @booking.currency) %></span></div>
         <div class="flex justify-between text-sand-900"><span>Seña (50%)</span><span><%= money(@booking.deposit_cents, @booking.currency) %></span></div>
       </div>

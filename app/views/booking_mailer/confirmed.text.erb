@@ -5,6 +5,7 @@
 <%= t("mailer.confirmed.code") %>:   <%= @booking.code %>
 <%= t("mailer.confirmed.arrival") %>:  <%= l @booking.check_in, format: :long %>
 <%= t("mailer.confirmed.departure") %>:  <%= l @booking.check_out, format: :long %>
-<%= t("mailer.confirmed.total") %>:    <%= money(@booking.total_cents, @booking.currency) %>
+<% if @booking.discount_cents.positive? %><%= t("mailer.confirmed.discount") %>: -<%= money(@booking.discount_cents, @booking.currency) %>
+<% end %><%= t("mailer.confirmed.total") %>:    <%= money(@booking.total_cents, @booking.currency) %>
 
 <%= t("mailer.confirmed.cta_text") %>: <%= booking_url(@booking.code, locale: @locale_param) %>

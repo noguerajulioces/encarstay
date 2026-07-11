@@ -1,0 +1,10 @@
+<div style="color:#1c1917;line-height:1.6;">
+  <%= @campaign.body %>
+</div>
+
+<hr style="border:none;border-top:1px solid #e7e5e4;margin:28px 0 16px;">
+
+<p style="color:#78716c;font-size:13px;">
+  <%= t("mailer.newsletter.welcome.unsubscribe") %>
+  <a href="<%= @unsubscribe_url %>" style="color:#78716c;"><%= t("mailer.newsletter.welcome.unsubscribe_link") %></a>.
+</p>

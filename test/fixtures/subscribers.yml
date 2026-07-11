@@ -1,0 +1,26 @@
+pending:
+  email: pending@example.com
+  locale: es
+  status: pending
+  source: footer
+  confirmation_token: pendingtoken123
+  unsubscribe_token: pendingunsub123
+
+confirmed:
+  email: confirmed@example.com
+  locale: es
+  status: confirmed
+  source: popup
+  confirmation_token: confirmedtoken123
+  unsubscribe_token: confirmedunsub123
+  confirmed_at: <%= 2.days.ago.to_fs(:db) %>
+  discount_code: ENCAR-ABC123
+
+unsubscribed:
+  email: unsubscribed@example.com
+  locale: en
+  status: unsubscribed
+  source: footer
+  confirmation_token: unsubtoken123
+  unsubscribe_token: unsubunsub123
+  unsubscribed_at: <%= 1.day.ago.to_fs(:db) %>

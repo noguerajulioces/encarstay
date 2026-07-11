@@ -2,7 +2,12 @@ class Booking < ApplicationRecord
   include OccupiesDates
   occupies_dates from: :check_in, to: :check_out
 
+  # Welcome-code discount off the lodging subtotal (see Subscriber).
+  DISCOUNT_RATE = 0.05
+
   belongs_to :property
+
+  normalizes :applied_discount_code, with: ->(code) { code.to_s.strip.upcase.presence }
 
   enum :status, %w[ pending confirmed completed cancelled ].index_with(&:itself), default: :pending
   enum :source, %w[ direct manual ].index_with(&:itself), default: :direct
@@ -22,6 +27,7 @@ class Booking < ApplicationRecord
   validate :within_capacity
   validate :meets_minimum_nights
   validate :dates_available, on: :create
+  validate :discount_code_redeemable, on: :create
 
   def nights
     return 0 if check_in.blank? || check_out.blank?
@@ -34,11 +40,20 @@ class Booking < ApplicationRecord
   end
 
   def confirm!
-    update!(status: :confirmed, confirmed_at: Time.current)
+    transaction do
+      update!(status: :confirmed, confirmed_at: Time.current)
+      redeem_discount!
+    end
   end
 
   def cancel!
     update!(status: :cancelled, cancelled_at: Time.current)
+  end
+
+  # The subscriber whose welcome code was applied, if it's still valid and unused.
+  def discount_subscriber
+    return nil if applied_discount_code.blank?
+    Subscriber.confirmed.find_by(discount_code: applied_discount_code, discount_redeemed_at: nil)
   end
 
   private
@@ -55,8 +70,22 @@ class Booking < ApplicationRecord
       quote = property.quote(check_in, check_out)
       self.subtotal_cents = quote.subtotal_cents
       self.cleaning_fee_cents = quote.cleaning_fee_cents
-      self.total_cents = quote.total_cents
+      self.discount_cents = discount_subscriber ? (quote.subtotal_cents * DISCOUNT_RATE).round : 0
+      self.total_cents = quote.total_cents - discount_cents
       self.currency = property.currency
+    end
+
+    def discount_code_redeemable
+      return if applied_discount_code.blank?
+      errors.add(:applied_discount_code, :invalid_discount) unless discount_subscriber
+    end
+
+    # Burn the welcome code once the booking is actually confirmed — a mere
+    # request doesn't consume it.
+    def redeem_discount!
+      return if applied_discount_code.blank?
+      Subscriber.where(discount_code: applied_discount_code, discount_redeemed_at: nil)
+                .update_all(discount_redeemed_at: Time.current)
     end
 
     def check_out_after_check_in

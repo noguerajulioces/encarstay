@@ -1,0 +1,7 @@
+<%= t("mailer.newsletter.confirm.heading") %>
+
+<%= t("mailer.newsletter.confirm.intro_text") %>
+
+<%= t("mailer.newsletter.confirm.cta") %>: <%= newsletter_confirm_url(@subscriber.confirmation_token, locale: @locale_param) %>
+
+<%= t("mailer.newsletter.confirm.footer") %>

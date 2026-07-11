@@ -1,0 +1,25 @@
+<h1 style="color:#1c1917;"><%= t("mailer.newsletter.welcome.heading") %></h1>
+
+<p><%= t("mailer.newsletter.welcome.intro_html").html_safe %></p>
+
+<table style="width:100%;border-collapse:collapse;margin:20px 0;">
+  <tr>
+    <td style="padding:20px;background:#f9f5ef;border:1px dashed #96754e;border-radius:10px;text-align:center;">
+      <div style="color:#78716c;font-size:13px;text-transform:uppercase;letter-spacing:1px;"><%= t("mailer.newsletter.welcome.discount_label") %></div>
+      <div style="margin-top:6px;font-size:26px;font-weight:bold;letter-spacing:2px;color:#7c5f3f;"><%= @subscriber.discount_code %></div>
+      <div style="margin-top:6px;color:#78716c;font-size:13px;"><%= t("mailer.newsletter.welcome.discount_note") %></div>
+    </td>
+  </tr>
+</table>
+
+<p style="margin:24px 0;">
+  <a href="<%= properties_url(locale: @locale_param) %>"
+     style="display:inline-block;background:#96754e;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:bold;">
+    <%= t("mailer.newsletter.welcome.cta") %>
+  </a>
+</p>
+
+<p style="color:#78716c;font-size:13px;">
+  <%= t("mailer.newsletter.welcome.unsubscribe") %>
+  <a href="<%= newsletter_unsubscribe_url(@subscriber.unsubscribe_token, locale: @locale_param) %>" style="color:#78716c;"><%= t("mailer.newsletter.welcome.unsubscribe_link") %></a>.
+</p>

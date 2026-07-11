@@ -8,6 +8,9 @@
   <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.guest_requested.arrival") %></td><td style="padding:6px 0;text-align:right;"><%= l @booking.check_in, format: :long %></td></tr>
   <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.guest_requested.departure") %></td><td style="padding:6px 0;text-align:right;"><%= l @booking.check_out, format: :long %></td></tr>
   <tr><td style="padding:6px 0;color:#78716c;"><%= t("mailer.guest_requested.guests") %></td><td style="padding:6px 0;text-align:right;"><%= @booking.guests_count %></td></tr>
+  <% if @booking.discount_cents.positive? %>
+    <tr><td style="padding:6px 0;color:#047857;"><%= t("mailer.guest_requested.discount") %></td><td style="padding:6px 0;text-align:right;color:#047857;">−<%= money(@booking.discount_cents, @booking.currency) %></td></tr>
+  <% end %>
   <tr><td style="padding:12px 0;border-top:1px solid #e7e5e4;font-weight:bold;"><%= t("mailer.guest_requested.total") %></td><td style="padding:12px 0;border-top:1px solid #e7e5e4;text-align:right;font-weight:bold;"><%= money(@booking.total_cents, @booking.currency) %></td></tr>
   <tr><td style="padding:6px 0;color:#047857;"><%= t("mailer.guest_requested.deposit") %></td><td style="padding:6px 0;text-align:right;color:#047857;"><%= money(@booking.deposit_cents, @booking.currency) %></td></tr>
 </table>

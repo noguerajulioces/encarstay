@@ -16,7 +16,7 @@
 <% end %>
 
 <%# --- Stat tiles --- %>
-<div class="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="mt-5 grid grid-cols-2 lg:grid-cols-5 gap-4">
   <div class="rounded-xl bg-white border border-sand-200 p-4">
     <p class="text-3xl font-bold text-sand-900"><%= @pending.size %></p>
     <p class="text-sm text-sand-500">Pendientes de confirmar</p>
@@ -33,6 +33,10 @@
     <p class="text-3xl font-bold text-sand-900"><%= @occupancy %>%</p>
     <p class="text-sm text-sand-500">Ocupación del mes</p>
   </div>
+  <%= link_to admin_subscribers_path(status: "confirmed"), class: "rounded-xl bg-white border border-sand-200 p-4 hover:bg-sand-50" do %>
+    <p class="text-3xl font-bold text-sand-900"><%= @confirmed_subscribers %></p>
+    <p class="text-sm text-sand-500">Suscriptores</p>
+  <% end %>
 </div>
 
 <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">

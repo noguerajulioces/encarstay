@@ -23,7 +23,7 @@
             <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-brand-600">R</span> Panel
           </div>
           <nav class="flex-1 p-3 space-y-1 text-sm">
-            <% nav = [["Dashboard", admin_root_path], ["Calendario", admin_calendar_path], ["Reservas", admin_bookings_path], ["Propiedades", admin_properties_path], ["Guía", admin_guide_entries_path], ["Blog", admin_posts_path], ["Categorías", admin_categories_path]] %>
+            <% nav = [["Dashboard", admin_root_path], ["Calendario", admin_calendar_path], ["Reservas", admin_bookings_path], ["Propiedades", admin_properties_path], ["Suscriptores", admin_subscribers_path], ["Campañas", admin_campaigns_path], ["Guía", admin_guide_entries_path], ["Blog", admin_posts_path], ["Categorías", admin_categories_path], ["Configuración", edit_admin_settings_path]] %>
             <% nav.each do |label, path| %>
               <%= link_to label, path, class: "block rounded-lg px-3 py-2 #{current_page?(path) ? 'bg-sand-800 text-white' : 'hover:bg-sand-800/60'}" %>
             <% end %>
@@ -40,6 +40,7 @@
             <div class="flex gap-3 text-sm">
               <%= link_to "Reservas", admin_bookings_path %>
               <%= link_to "Propiedades", admin_properties_path %>
+              <%= link_to "Suscriptores", admin_subscribers_path %>
               <%= link_to "Guía", admin_guide_entries_path %>
               <%= link_to "Blog", admin_posts_path %>
             </div>
