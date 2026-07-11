@@ -45,6 +45,11 @@ env:
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
     SOLID_QUEUE_IN_PUMA: true
 
+    # Self-hosted Plausible analytics (see docs/PLAUSIBLE.md). The tracking
+    # script only renders when PLAUSIBLE_DOMAIN is set.
+    # PLAUSIBLE_DOMAIN: encarstays.com
+    # PLAUSIBLE_SRC: https://analytics.encarstays.com/js/script.outbound-links.js
+
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3
 
