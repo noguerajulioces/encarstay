@@ -25,6 +25,10 @@ Rails.application.routes.draw do
   # Outgoing iCal feed consumed by Airbnb ("Import calendar"). Tokenized per property.
   get "calendars/:calendar_token/:slug", to: "calendars#show", as: :calendar_feed, defaults: { format: "ics" }
 
+  # First-party proxy for the self-hosted Plausible tracker (see docs/PLAUSIBLE.md).
+  get  "plausible/js/:script", to: "plausible_proxy#script", format: false, constraints: { script: /script(\.[a-z-]+)*\.js/ }
+  post "plausible/api/event",  to: "plausible_proxy#event"
+
   get "sitemap.xml", to: "sitemaps#show", as: :sitemap, defaults: { format: "xml" }
 
   # --- Admin panel ---

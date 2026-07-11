@@ -23,11 +23,12 @@
     <%= javascript_importmap_tags %>
 
     <%# Self-hosted Plausible analytics — renders only when PLAUSIBLE_DOMAIN is set
-        (see docs/PLAUSIBLE.md). The outbound-links script variant also counts
-        clicks out to Airbnb and WhatsApp. %>
+        (see docs/PLAUSIBLE.md). Script and events are served first-party through
+        our own /plausible proxy; the outbound-links variant also counts clicks
+        out to Airbnb and WhatsApp. %>
     <% if ENV["PLAUSIBLE_DOMAIN"].present? %>
-      <script defer data-domain="<%= ENV["PLAUSIBLE_DOMAIN"] %>"
-              src="<%= ENV.fetch("PLAUSIBLE_SRC", "https://plausible.#{ENV["PLAUSIBLE_DOMAIN"]}/js/script.outbound-links.js") %>"></script>
+      <script defer data-domain="<%= ENV["PLAUSIBLE_DOMAIN"] %>" data-api="/plausible/api/event"
+              src="/plausible/js/script.outbound-links.js"></script>
     <% end %>
   </head>
 
