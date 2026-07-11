@@ -23,7 +23,7 @@ class Admin::CampaignsController < Admin::BaseController
   end
 
   def edit
-    return redirect_to admin_campaign_path(@campaign), alert: "Una campaña enviada no se puede editar." unless @campaign.editable?
+    redirect_to admin_campaign_path(@campaign), alert: "Una campaña enviada no se puede editar." unless @campaign.editable?
   end
 
   def update
