@@ -6,15 +6,20 @@ class Booking < ApplicationRecord
   DISCOUNT_RATE = 0.05
 
   belongs_to :property
+  has_one :review, dependent: :nullify
 
   normalizes :applied_discount_code, with: ->(code) { code.to_s.strip.upcase.presence }
 
   enum :status, %w[ pending confirmed completed cancelled ].index_with(&:itself), default: :pending
   enum :source, %w[ direct manual ].index_with(&:itself), default: :direct
 
+  # The signed link mailed to the guest after checkout — no account needed.
+  generates_token_for :review, expires_in: 60.days
+
   # Bookings that hold dates off the market. Cancelled frees them; completed is past.
   scope :occupying, -> { where(status: %w[ pending confirmed ]) }
   scope :chronologically, -> { order(:check_in) }
+  scope :awaiting_review_request, -> { confirmed.where(review_requested_at: nil).where(check_out: ...Date.current) }
 
   before_validation :generate_code, on: :create
   before_validation :price, on: :create
@@ -48,6 +53,16 @@ class Booking < ApplicationRecord
 
   def cancel!
     update!(status: :cancelled, cancelled_at: Time.current)
+  end
+
+  # Marks the stay as completed and invites the guest to rate it.
+  def request_review!
+    update!(status: :completed, review_requested_at: Time.current)
+    BookingMailer.with(booking: self).review_request.deliver_later
+  end
+
+  def reviewable?
+    (confirmed? || completed?) && check_out <= Date.current
   end
 
   # The subscriber whose welcome code was applied, if it's still valid and unused.

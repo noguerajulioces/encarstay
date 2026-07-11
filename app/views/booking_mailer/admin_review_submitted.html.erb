@@ -1,0 +1,13 @@
+<h1 style="color:#1c1917;">Nueva reseña pendiente de aprobación</h1>
+
+<p><strong><%= @review.reviewer_name %></strong> calificó su estadía en <strong><%= @review.property.name %></strong>:</p>
+
+<p style="font-size:18px;"><%= "★" * @review.rating %><span style="color:#d6d3d1;"><%= "★" * (5 - @review.rating) %></span></p>
+
+<% if @review.body.present? %>
+  <blockquote style="border-left:3px solid #e7e5e4;margin:16px 0;padding:4px 16px;color:#57534e;"><%= @review.body %></blockquote>
+<% end %>
+
+<p>La reseña no se publica hasta que la apruebes.</p>
+
+<p><a href="<%= admin_property_reviews_url(@review.property) %>" style="display:inline-block;background:#1c1917;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;">Revisar y aprobar</a></p>

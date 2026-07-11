@@ -1,0 +1,9 @@
+<% content_for :title, t("review.invalid_heading") %>
+
+<section class="mx-auto max-w-lg px-5 py-16 text-center">
+  <h1 class="font-display text-2xl font-semibold text-sand-900"><%= t("review.invalid_heading") %></h1>
+  <p class="mt-2 text-sand-600"><%= t("review.invalid_body") %></p>
+
+  <%= link_to t("review.back_home"), root_path,
+        class: "mt-6 inline-flex items-center gap-2 rounded-xl border border-sand-200 px-6 py-3 font-semibold text-sand-800 transition-colors hover:bg-sand-100" %>
+</section>

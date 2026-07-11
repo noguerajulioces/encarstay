@@ -68,6 +68,11 @@
       <%= form.label :airbnb_listing_url, "URL del calendario del anuncio en Airbnb (para bloqueo manual)", class: "block text-sm font-medium text-sand-700 mb-1" %>
       <%= form.url_field :airbnb_listing_url, placeholder: "https://www.airbnb.com/hosting/listings/...", class: "w-full rounded-lg border-sand-300 border px-3 py-2" %>
     </div>
+    <div>
+      <%= form.label :airbnb_public_url, "URL pública del anuncio en Airbnb (visible para huéspedes)", class: "block text-sm font-medium text-sand-700 mb-1" %>
+      <%= form.url_field :airbnb_public_url, placeholder: "https://www.airbnb.com/rooms/...", class: "w-full rounded-lg border-sand-300 border px-3 py-2" %>
+      <p class="mt-1 text-xs text-sand-500">Si se completa, el sitio ofrece "Reservar por Airbnb" como alternativa.</p>
+    </div>
     <label class="flex items-center gap-2 text-sm text-sand-700">
       <%= form.check_box :active, class: "rounded border-sand-300" %> Activa (visible en el sitio)
     </label>

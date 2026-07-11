@@ -12,7 +12,7 @@ class PropertiesController < ApplicationController
     @available = @quote.valid? && @property.available?(@check_in, @check_out)
     @occupied_dates = @property.occupied_dates
     @min_nights_overrides = @property.min_nights_overrides
-    @reviews = @property.reviews.recent
+    @reviews = @property.reviews.approved.recent
     @nearby_guide = @property.guide_entries.published.limit(4)
     @nearby_guide = GuideEntry.attractions.published.featured.ordered.limit(4) if @nearby_guide.empty?
 

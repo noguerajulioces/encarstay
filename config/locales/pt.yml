@@ -232,6 +232,8 @@ pt:
     reserve_note: "Nada é cobrado agora. Você combina o sinal (50%) e confirma pelo WhatsApp ou email."
     not_available: "Indisponível para essas datas."
     pick_dates: "Escolha as datas para ver o preço total e reservar."
+    book_on_airbnb: "Reservar pelo Airbnb"
+    or_prefer: "Prefere reservar por outro meio?"
     nearby_guide: "O que fazer por perto"
     nearby_guide_subtitle: "Eventos e lugares imperdíveis a um passo da sua hospedagem."
     location: "Localização"
@@ -377,6 +379,25 @@ pt:
     invalid_token: "Link inválido"
     invalid_token_body: "Este link expirou ou não é válido. Tente se inscrever novamente."
 
+  review:
+    title: "Avalie a sua estadia · %{property}"
+    kicker: "Sua opinião"
+    heading: "Como foi a sua estadia em %{property}?"
+    subtitle: "Sua estadia: %{dates}. Sua avaliação ajuda outros viajantes — leva um minuto."
+    rating_label: "Sua avaliação"
+    stars:
+      one: "1 estrela"
+      other: "%{count} estrelas"
+    location_label: "De onde você nos visitou? (opcional)"
+    location_placeholder: "Cidade, país"
+    body_label: "Conte como foi a sua experiência (opcional)"
+    submit: "Enviar avaliação"
+    thanks_heading: "Obrigado pela sua avaliação!"
+    thanks_body: "Vamos publicá-la no site assim que a revisarmos."
+    invalid_heading: "Este link não é válido"
+    invalid_body: "O link expirou ou esta reserva não pode ser avaliada. Se você acha que é um erro, escreva para nós."
+    back_home: "Voltar ao início"
+
   mailer:
     guest_requested:
       subject: "Recebemos o seu pedido · %{code}"
@@ -406,6 +427,13 @@ pt:
       total: "Total"
       cta: "Ver a minha reserva"
       cta_text: "Ver a minha reserva"
+    review_request:
+      subject: "Como foi a sua estadia em %{property}?"
+      heading: "Como foi a sua estadia?"
+      intro_html: "Obrigado por se hospedar em <strong>%{property}</strong>, %{name}! Adoraríamos saber como foi. Sua avaliação ajuda outros viajantes a escolher."
+      intro_text: "Obrigado por se hospedar em %{property}, %{name}! Adoraríamos saber como foi."
+      cta: "Avaliar minha estadia"
+      note: "O link é pessoal e expira em 60 dias."
     newsletter:
       confirm:
         subject: "Confirme sua inscrição na Encar Stays"

@@ -223,6 +223,8 @@ en:
     reserve_note: "Nothing is charged now. You arrange the deposit (50%) and confirm over WhatsApp or email."
     not_available: "Not available for those dates."
     pick_dates: "Pick dates to see the total price and book."
+    book_on_airbnb: "Book on Airbnb"
+    or_prefer: "Prefer to book elsewhere?"
     nearby_guide: "Things to do nearby"
     nearby_guide_subtitle: "Must-see events and places a step from your stay."
     location: "Location"
@@ -368,6 +370,25 @@ en:
     invalid_token: "Invalid link"
     invalid_token_body: "This link has expired or isn't valid. Try subscribing again."
 
+  review:
+    title: "Rate your stay · %{property}"
+    kicker: "Your feedback"
+    heading: "How was your stay at %{property}?"
+    subtitle: "Your stay: %{dates}. Your rating helps other travelers — it takes a minute."
+    rating_label: "Your rating"
+    stars:
+      one: "1 star"
+      other: "%{count} stars"
+    location_label: "Where did you visit us from? (optional)"
+    location_placeholder: "City, country"
+    body_label: "Tell us about your experience (optional)"
+    submit: "Send rating"
+    thanks_heading: "Thanks for your rating!"
+    thanks_body: "We'll publish it on the site as soon as we review it."
+    invalid_heading: "This link isn't valid"
+    invalid_body: "The link has expired or this booking can't be rated. If you think this is a mistake, write to us."
+    back_home: "Back to home"
+
   mailer:
     guest_requested:
       subject: "We got your request · %{code}"
@@ -397,6 +418,13 @@ en:
       total: "Total"
       cta: "View my booking"
       cta_text: "View my booking"
+    review_request:
+      subject: "How was your stay at %{property}?"
+      heading: "How was your stay?"
+      intro_html: "Thanks for staying at <strong>%{property}</strong>, %{name}! We'd love to know how it went. Your rating helps other travelers choose."
+      intro_text: "Thanks for staying at %{property}, %{name}! We'd love to know how it went."
+      cta: "Rate my stay"
+      note: "This link is personal and expires in 60 days."
     newsletter:
       confirm:
         subject: "Confirm your Encar Stays subscription"
