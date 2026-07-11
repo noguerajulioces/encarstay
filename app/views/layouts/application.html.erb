@@ -21,6 +21,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap">
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <%# Self-hosted Plausible analytics — renders only when PLAUSIBLE_DOMAIN is set
+        (see docs/PLAUSIBLE.md). Script and events are served first-party through
+        our own /plausible proxy; the outbound-links variant also counts clicks
+        out to Airbnb and WhatsApp. %>
+    <% if ENV["PLAUSIBLE_DOMAIN"].present? %>
+      <script defer data-domain="<%= ENV["PLAUSIBLE_DOMAIN"] %>" data-api="/plausible/api/event"
+              src="/plausible/js/script.outbound-links.js"></script>
+    <% end %>
   </head>
 
   <body class="h-full bg-sand-50 text-sand-800 antialiased font-sans selection:bg-brand-200 selection:text-sand-900">

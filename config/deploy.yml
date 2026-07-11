@@ -2,39 +2,36 @@
 service: reservas
 
 # Name of the container image (use your-user/app-name on external registries).
-image: reservas
+image: noguerajulioces/reservas
 
 # Deploy to these servers.
 servers:
   web:
-    - 192.168.0.1
-  # job:
-  #   hosts:
-  #     - 192.168.0.1
-  #   cmd: bin/jobs
+    hosts:
+      - 2.25.149.103
+    # Lets the app container reach services on the host itself — the Plausible
+    # stack listens on the host's port 8000 (see docs/PLAUSIBLE.md).
+    options:
+      add-host: host.docker.internal:host-gateway
 
-# Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
-# If used with Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
-#
-# Using an SSL proxy like this requires turning on config.assume_ssl and config.force_ssl in production.rb!
-#
-# Don't use this when deploying to multiple web servers (then you have to terminate SSL at your load balancer).
-#
+# No domain yet, so no SSL — the app answers on plain HTTP (port 80) at the IP.
+# When the domain arrives: set ssl: true + host: <domain>, and turn on
+# config.assume_ssl / config.force_ssl in production.rb.
+proxy:
+  ssl: false
 # proxy:
 #   ssl: true
-#   host: app.example.com
+#   host: encarstays.com
 
 # Where you keep your container images.
 registry:
-  # Alternatives: hub.docker.com / registry.digitalocean.com / ghcr.io / ...
-  server: localhost:5555
+  server: ghcr.io
+  username: noguerajulioces
 
-  # Needed for authenticated registries.
-  # username: your-user
-
-  # Always use an access token rather than real password when possible.
-  # password:
-  #   - KAMAL_REGISTRY_PASSWORD
+  # A GitHub personal access token with write:packages (classic) — exported as
+  # KAMAL_REGISTRY_PASSWORD in your shell; .kamal/secrets picks it up from ENV.
+  password:
+    - KAMAL_REGISTRY_PASSWORD
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
@@ -44,6 +41,16 @@ env:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
     SOLID_QUEUE_IN_PUMA: true
+
+    # Host used in mailer links. Swap for the real domain when it exists.
+    APP_HOST: 2.25.149.103
+
+    # Self-hosted Plausible analytics (see docs/PLAUSIBLE.md). The tracking
+    # script only renders when PLAUSIBLE_DOMAIN is set; it must match the site
+    # name registered in the Plausible dashboard. Swap both for the real domain
+    # when it exists.
+    PLAUSIBLE_DOMAIN: 2.25.149.103
+    PLAUSIBLE_BACKEND_URL: http://host.docker.internal:8000
 
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3
