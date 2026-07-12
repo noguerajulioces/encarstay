@@ -1,0 +1,52 @@
+<% input_class = "w-full rounded-lg border border-sand-300 px-3 py-2 focus:border-brand-500 focus:ring-brand-500" %>
+
+<%= form_with model: [ :admin, user ], class: "space-y-5" do |form| %>
+  <% if user.errors.any? %>
+    <div class="rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+      <p class="font-medium">Revisá los datos ingresados:</p>
+      <ul class="mt-1 list-inside list-disc">
+        <% user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="space-y-4 rounded-xl border border-sand-200 bg-white p-5 shadow-sm">
+    <div>
+      <%= form.label :name, "Nombre", class: "mb-1 block text-sm font-medium text-sand-700" %>
+      <%= form.text_field :name, required: true, autofocus: true, autocomplete: "name", class: input_class %>
+    </div>
+
+    <div>
+      <%= form.label :email, "Email", class: "mb-1 block text-sm font-medium text-sand-700" %>
+      <%= form.email_field :email, required: true, autocomplete: "email", class: input_class %>
+      <p class="mt-1 text-xs text-sand-400">Este email se usa para iniciar sesión en el panel.</p>
+    </div>
+
+    <div class="border-t border-sand-100 pt-4">
+      <div class="flex items-baseline justify-between gap-3">
+        <%= form.label :password, user.persisted? ? "Nueva contraseña" : "Contraseña", class: "mb-1 block text-sm font-medium text-sand-700" %>
+        <% if user.persisted? %><span class="text-xs text-sand-400">Dejá en blanco para conservarla</span><% end %>
+      </div>
+      <%= form.password_field :password, required: !user.persisted?, minlength: 8, autocomplete: "new-password", class: input_class %>
+      <p class="mt-1 text-xs text-sand-400">Mínimo 8 caracteres.</p>
+    </div>
+
+    <div>
+      <%= form.label :password_confirmation, "Confirmar contraseña", class: "mb-1 block text-sm font-medium text-sand-700" %>
+      <%= form.password_field :password_confirmation, required: !user.persisted?, minlength: 8, autocomplete: "new-password", class: input_class %>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap gap-3">
+    <%= form.submit user.persisted? ? "Guardar cambios" : "Crear usuario", class: "cursor-pointer rounded-lg bg-brand-500 px-5 py-2.5 font-medium text-white hover:bg-brand-600" %>
+    <%= link_to "Cancelar", admin_users_path, class: "rounded-lg border border-sand-300 px-5 py-2.5 text-sand-700 hover:bg-white" %>
+
+    <% if user.persisted? && user.removable_by?(Current.user) %>
+      <%= button_to "Eliminar usuario", admin_user_path(user), method: :delete, form: { class: "ml-auto", data: { turbo_confirm: "¿Eliminar a #{user.name}? Ya no podrá ingresar al panel." } }, class: "cursor-pointer rounded-lg px-5 py-2.5 text-rose-700 hover:bg-rose-50" %>
+    <% elsif user == Current.user %>
+      <p class="ml-auto self-center text-xs text-sand-400">No podés eliminar tu sesión actual.</p>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,43 @@
+<% content_for :title, "Usuarios" %>
+
+<div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+  <div>
+    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">Acceso al panel</p>
+    <h1 class="mt-1 text-2xl font-semibold text-sand-900">Usuarios administradores</h1>
+    <p class="mt-1 max-w-2xl text-sm text-sand-500">Estas cuentas tienen acceso completo a reservas, propiedades, contenido y configuración.</p>
+  </div>
+  <%= link_to "+ Nuevo usuario", new_admin_user_path, class: "inline-flex justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600" %>
+</div>
+
+<div class="mt-6 overflow-hidden rounded-xl border border-sand-200 bg-white shadow-sm">
+  <div class="hidden grid-cols-[minmax(0,1.25fr)_minmax(0,1.5fr)_auto_auto] gap-4 border-b border-sand-200 bg-sand-50 px-5 py-3 text-xs font-semibold uppercase tracking-wide text-sand-500 sm:grid">
+    <span>Nombre</span>
+    <span>Email</span>
+    <span>Creado</span>
+    <span class="sr-only">Acciones</span>
+  </div>
+
+  <div class="divide-y divide-sand-100">
+    <% @users.each do |user| %>
+      <div class="grid gap-3 px-5 py-4 sm:grid-cols-[minmax(0,1.25fr)_minmax(0,1.5fr)_auto_auto] sm:items-center sm:gap-4">
+        <div class="flex min-w-0 items-center gap-3">
+          <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand-50 font-semibold text-brand-700"><%= user.name.first.upcase %></span>
+          <div class="min-w-0">
+            <p class="truncate font-medium text-sand-900"><%= user.name %></p>
+            <% if user == Current.user %>
+              <span class="text-xs font-medium text-emerald-700">Sesión actual</span>
+            <% end %>
+          </div>
+        </div>
+        <p class="truncate text-sm text-sand-600"><%= user.email %></p>
+        <p class="text-sm text-sand-400"><%= l user.created_at.to_date, format: :short %></p>
+        <%= link_to "Editar", edit_admin_user_path(user), class: "text-sm font-medium text-brand-700 hover:text-brand-900" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="mt-4 flex gap-2 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+  <span aria-hidden="true">●</span>
+  <p>Creá una cuenta individual para cada persona. Así cada administrador puede cambiar su contraseña sin compartir credenciales.</p>
+</div>

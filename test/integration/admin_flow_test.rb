@@ -25,10 +25,50 @@ class AdminFlowTest < ActionDispatch::IntegrationTest
       admin_property_path(@property), edit_admin_property_path(@property),
       admin_property_reviews_path(@property), new_admin_property_review_path(@property),
       admin_posts_path, new_admin_post_path, edit_admin_post_path(posts(:verano)),
-      admin_subscribers_path, admin_campaigns_path, new_admin_campaign_path ].each do |path|
+      admin_subscribers_path, admin_campaigns_path, new_admin_campaign_path,
+      admin_users_path, new_admin_user_path, edit_admin_user_path(users(:admin)) ].each do |path|
       get path
       assert_response :success, "Expected #{path} to render, got #{response.status}"
     end
+  end
+
+  test "admin can create, update, and remove another admin user" do
+    sign_in
+
+    assert_difference "User.count", 1 do
+      post admin_users_path, params: { user: {
+        name: "Ana Administradora", email: " ANA@EXAMPLE.COM ",
+        password: "secret456", password_confirmation: "secret456"
+      } }
+    end
+
+    user = User.find_by!(email: "ana@example.com")
+    assert_redirected_to admin_users_path
+
+    patch admin_user_path(user), params: { user: {
+      name: "Ana Actualizada", email: "ana@example.com",
+      password: "", password_confirmation: ""
+    } }
+
+    assert_redirected_to admin_users_path
+    assert_equal "Ana Actualizada", user.reload.name
+    assert user.authenticate("secret456"), "blank password fields should preserve the current password"
+
+    assert_difference "User.count", -1 do
+      delete admin_user_path(user)
+    end
+    assert_redirected_to admin_users_path
+  end
+
+  test "admin cannot remove their own user" do
+    sign_in
+
+    assert_no_difference "User.count" do
+      delete admin_user_path(users(:admin))
+    end
+
+    assert_redirected_to admin_users_path
+    assert_equal "No podés eliminar el usuario con el que estás conectado.", flash[:alert]
   end
 
   test "admin subscribers screen filters and exports CSV" do
