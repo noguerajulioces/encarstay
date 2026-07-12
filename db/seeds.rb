@@ -3,6 +3,7 @@
 admin = User.find_or_create_by!(email: "admin@reservas.test") do |user|
   user.name = "Administrador"
   user.password = "password"
+  user.password_confirmation = "password"
 end
 puts "Admin: #{admin.email} / password"
 

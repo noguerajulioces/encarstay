@@ -72,6 +72,7 @@ Rails.application.routes.draw do
     resources :campaigns do
       post :deliver, on: :member
     end
+    resources :users, except: :show
     resource :settings, only: %i[ edit update ]
   end
 
