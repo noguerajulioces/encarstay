@@ -33,7 +33,7 @@
         <% @property.photos.each do |photo| %>
           <% next unless photo.image.attached? %>
           <div class="relative group aspect-square rounded-lg overflow-hidden">
-            <%= image_tag photo.image.variant(resize_to_fill: [ 200, 200 ]), class: "h-full w-full object-cover" %>
+            <%= image_tag photo.image.variant(:card_small), class: "h-full w-full object-cover" %>
             <%= button_to "✕", admin_property_photo_path(@property, photo), method: :delete,
                   data: { turbo_confirm: "¿Eliminar foto?" },
                   class: "absolute top-1 right-1 h-6 w-6 rounded-full bg-black/60 text-white text-xs opacity-0 group-hover:opacity-100 cursor-pointer" %>

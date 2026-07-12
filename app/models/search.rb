@@ -23,13 +23,13 @@ class Search
   # N+1 across availability is fine here: this catalog holds a handful of properties.
   def results
     return [] unless valid_range?
-    Property.active.accommodating(guests).alphabetically.select { |property| property.available?(check_in, check_out) }
+    Property.active.with_attached_photos.accommodating(guests).alphabetically.select { |property| property.available?(check_in, check_out) }
   end
 
   # The left-hand list for the search+map page: availability-filtered results when
   # a valid date range is given, otherwise the whole active catalogue so the map
   # is useful even before dates are picked.
   def list
-    valid_range? ? results : Property.active.alphabetically
+    valid_range? ? results : Property.active.with_attached_photos.alphabetically
   end
 end

@@ -41,7 +41,7 @@ class GuideEntry < ApplicationRecord
   # Curated stays to cross-promote on this entry, falling back to the whole
   # active catalogue when nothing has been curated yet.
   def properties_to_promote
-    recommended_properties.active.presence || Property.active.alphabetically
+    recommended_properties.active.with_attached_photos.presence || Property.active.with_attached_photos.alphabetically
   end
 
   def to_param

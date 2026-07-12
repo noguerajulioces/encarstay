@@ -71,7 +71,7 @@
         <div class="flex gap-3">
           <div class="h-16 w-16 shrink-0 overflow-hidden rounded-xl">
             <% if @property.cover_photo %>
-              <%= image_tag @property.cover_photo.image.variant(resize_to_fill: [ 128, 128 ]), class: "h-full w-full object-cover" %>
+              <%= image_tag @property.cover_photo.image.variant(:card_small), class: "h-full w-full object-cover" %>
             <% else %>
               <div class="flex h-full w-full items-center justify-center bg-brand-800 font-display font-semibold text-brand-50"><%= @property.name.first %></div>
             <% end %>
