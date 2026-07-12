@@ -39,12 +39,12 @@
   <% if photos.any? %>
     <% mosaic = photos.first(5) %>
     <div data-controller="gallery"
-         data-gallery-urls-value="<%= photos.map { |photo| url_for(photo.image.variant(resize_to_limit: [ 1600, 1600 ])) }.to_json %>">
+         data-gallery-urls-value="<%= photos.map { |photo| url_for(photo.image.variant(:gallery)) }.to_json %>">
 
       <%# Mobile: a single tappable photo opens the viewer %>
       <button type="button" data-action="gallery#open" data-index="0"
               class="relative block w-full overflow-hidden rounded-2xl md:hidden">
-        <%= image_tag mosaic.first.image.variant(resize_to_fill: [ 900, 700 ]),
+        <%= image_tag mosaic.first.image.variant(:preview),
               alt: t("property.photo_alt", name: @property.name, index: 1), loading: "eager",
               class: "aspect-[4/3] w-full object-cover" %>
         <span class="absolute bottom-3 right-3 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white"><%= "1 / #{photos.size}" %></span>
@@ -57,7 +57,7 @@
             <% mosaic.each_with_index do |photo, index| %>
               <button type="button" data-action="gallery#open" data-index="<%= index %>"
                       class="group relative overflow-hidden <%= 'col-span-2 row-span-2' if index.zero? %>">
-                <%= image_tag photo.image.variant(resize_to_fill: index.zero? ? [ 1200, 1200 ] : [ 700, 700 ]),
+                <%= image_tag photo.image.variant(index.zero? ? :preview : :card),
                       alt: t("property.photo_alt", name: @property.name, index: index + 1), loading: (index.zero? ? "eager" : "lazy"),
                       class: "h-full w-full object-cover transition duration-300 group-hover:brightness-90" %>
               </button>
@@ -68,7 +68,7 @@
             <% mosaic.each_with_index do |photo, index| %>
               <button type="button" data-action="gallery#open" data-index="<%= index %>"
                       class="group relative overflow-hidden <%= 'col-span-2' if mosaic.size == 1 %>">
-                <%= image_tag photo.image.variant(resize_to_fill: [ 1000, 800 ]),
+                <%= image_tag photo.image.variant(index.zero? ? :preview : :card),
                       alt: t("property.photo_alt", name: @property.name, index: index + 1), loading: (index.zero? ? "eager" : "lazy"),
                       class: "h-full w-full object-cover transition duration-300 group-hover:brightness-90" %>
               </button>

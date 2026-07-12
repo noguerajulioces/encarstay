@@ -22,6 +22,7 @@ class Property < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :accommodating, ->(guests) { where("capacity >= ?", guests.to_i) }
   scope :alphabetically, -> { order(:name) }
+  scope :with_attached_photos, -> { preload(photos: { image_attachment: :blob }) }
 
   before_validation :set_slug, on: :create
 

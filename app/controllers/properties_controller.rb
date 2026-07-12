@@ -1,10 +1,10 @@
 class PropertiesController < ApplicationController
   def index
-    @properties = Property.active.alphabetically
+    @properties = Property.active.with_attached_photos.alphabetically
   end
 
   def show
-    @property = Property.active.find_by!(slug: params[:slug])
+    @property = Property.active.with_attached_photos.find_by!(slug: params[:slug])
     @check_in = parse_date(params[:check_in])
     @check_out = parse_date(params[:check_out])
     @guests = params[:guests].presence || 2

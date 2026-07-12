@@ -1,14 +1,23 @@
 <% photos = property.photos.select { |photo| photo.image.attached? }.first(5) %>
+<% image_loading = local_assigns.fetch(:image_loading, "lazy") %>
 <div class="group relative flex flex-col">
   <div class="relative aspect-square overflow-hidden rounded-2xl bg-sand-100">
     <% if photos.size > 1 %>
       <div data-controller="card-carousel" class="h-full">
         <div data-card-carousel-target="track"
              class="flex h-full snap-x snap-mandatory overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <% photos.each do |photo| %>
-            <%= image_tag photo.image.variant(resize_to_fill: [ 640, 640 ]),
-                  alt: property.name, loading: "lazy",
-                  class: "h-full w-full shrink-0 snap-center object-cover" %>
+          <% photos.each_with_index do |photo, index| %>
+            <% card_url = url_for(photo.image.variant(:card)) %>
+            <% if index.zero? %>
+              <%= image_tag card_url, alt: property.name, loading: image_loading,
+                    fetchpriority: (image_loading == "eager" ? "high" : "auto"),
+                    data: { card_carousel_target: "image" },
+                    class: "h-full w-full shrink-0 snap-center object-cover" %>
+            <% else %>
+              <%= tag.img alt: property.name, loading: "lazy",
+                    data: { card_carousel_target: "image", card_carousel_src_value: card_url },
+                    class: "h-full w-full shrink-0 snap-center object-cover" %>
+            <% end %>
           <% end %>
         </div>
 
@@ -28,8 +37,9 @@
         </div>
       </div>
     <% elsif photos.size == 1 %>
-      <%= image_tag photos.first.image.variant(resize_to_fill: [ 640, 640 ]),
-            alt: property.name, loading: "lazy",
+      <% card_url = url_for(photos.first.image.variant(:card)) %>
+      <%= image_tag card_url, alt: property.name, loading: image_loading,
+            fetchpriority: (image_loading == "eager" ? "high" : "auto"),
             class: "h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" %>
     <% else %>
       <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-sand-100 to-sand-200 font-display text-5xl font-semibold text-sand-400">

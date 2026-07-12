@@ -10,7 +10,7 @@
               class: "group flex gap-3 rounded-xl border border-sand-200 p-2.5 transition hover:border-brand-300 hover:bg-sand-50" do %>
           <div class="h-16 w-16 shrink-0 overflow-hidden rounded-lg">
             <% if property.cover_photo %>
-              <%= image_tag property.cover_photo.image.variant(resize_to_fill: [ 128, 128 ]), alt: property.name, loading: "lazy", class: "h-full w-full object-cover" %>
+              <%= image_tag property.cover_photo.image.variant(:card_small), alt: property.name, loading: "lazy", class: "h-full w-full object-cover" %>
             <% else %>
               <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-sand-100 to-sand-200 font-display text-xl font-semibold text-sand-400"><%= property.name.first %></div>
             <% end %>
