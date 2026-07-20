@@ -3,6 +3,10 @@
   <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Encar Stays">
+    <meta name="application-name" content="Encar Stays">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#faf8f5">
     <meta name="turbo-refresh-method" content="morph">
     <meta name="turbo-refresh-scroll" content="preserve">
@@ -12,6 +16,7 @@
     <%= csp_meta_tag %>
     <%= yield :head %>
 
+    <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
     <link rel="icon" href="/favicon.ico" sizes="32x32">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="icon" href="/icon.png" type="image/png" sizes="512x512">
