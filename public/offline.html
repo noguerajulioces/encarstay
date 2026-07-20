@@ -1,46 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#faf8f5">
-    <title>Sin conexión · Encar Stays</title>
-    <style>
-      :root { color-scheme: light; font-family: "Outfit", system-ui, sans-serif; }
-      * { box-sizing: border-box; }
-      body {
-        align-items: center;
-        background: #faf8f5;
-        color: #332f2b;
-        display: flex;
-        justify-content: center;
-        margin: 0;
-        min-height: 100vh;
-        padding: 24px;
-        text-align: center;
-      }
-      main { max-width: 420px; }
-      img { border-radius: 24px; height: 88px; width: 88px; }
-      h1 { font-size: 1.75rem; margin: 24px 0 12px; }
-      p { color: #6f675f; line-height: 1.6; margin: 0 0 24px; }
-      button {
-        background: #332f2b;
-        border: 0;
-        border-radius: 999px;
-        color: white;
-        cursor: pointer;
-        font: inherit;
-        font-weight: 600;
-        padding: 12px 22px;
-      }
-    </style>
+    <title>Sin conexión — Encar Stays</title>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/errors.css">
   </head>
   <body>
-    <main>
-      <img src="/icon-192.png" alt="">
-      <h1>Estás sin conexión</h1>
-      <p>Comprueba tu conexión a internet y vuelve a intentarlo para continuar con Encar Stays.</p>
-      <button type="button" onclick="window.location.reload()">Intentar de nuevo</button>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Ir al inicio de Encar Stays">
+        <img class="brand__mark" src="/icon-192.png" alt="" width="41" height="41">
+        <span>Encar Stays</span>
+      </a>
+    </header>
+
+    <main class="error-page">
+      <div class="error-layout">
+        <section class="error-copy" aria-labelledby="error-title">
+          <p class="eyebrow">Sin conexión</p>
+          <h1 id="error-title">Parece que te quedaste sin señal.</h1>
+          <p class="description">Revisá tu conexión a internet. Cuando vuelvas a estar en línea, podés continuar explorando desde donde estabas.</p>
+          <div class="actions">
+            <a class="button" href="">Comprobar conexión</a>
+            <a class="text-link" href="/">Ir al inicio</a>
+          </div>
+        </section>
+
+        <div class="scene" aria-hidden="true">
+          <span class="sun"></span>
+          <span class="shadow-card"></span>
+          <div class="room-key">
+            <span class="room-key__brand">Encar Stays · Paraguay</span>
+            <strong class="room-key__code">OFF</strong>
+            <span class="room-key__line"></span>
+            <span class="room-key__note"><span>Sin señal</span><span>Te esperamos</span></span>
+          </div>
+        </div>
+      </div>
     </main>
+
+    <footer class="site-footer">Una estadía más simple, cerca de todo.</footer>
   </body>
 </html>

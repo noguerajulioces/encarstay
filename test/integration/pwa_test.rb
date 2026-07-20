@@ -37,6 +37,6 @@ class PwaTest < ActionDispatch::IntegrationTest
     get "/offline.html"
 
     assert_response :success
-    assert_includes response.body.force_encoding(Encoding::UTF_8), "Estás sin conexión"
+    assert_includes response.body.force_encoding(Encoding::UTF_8), "Parece que te quedaste sin señal"
   end
 end
