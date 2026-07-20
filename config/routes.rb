@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  # Installable app metadata and offline support.
+  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+
   # --- Public site ---
   # Spanish (the default) lives at the root; English and Portuguese are prefixed
   # (/en, /pt). The optional (:locale) segment is constrained so only those two
