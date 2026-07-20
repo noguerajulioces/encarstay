@@ -18,6 +18,9 @@ jobs:
         with:
           bundler-cache: true
 
+      - name: Install image processing library
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libvips-dev
+
       - name: Run tests
         run: bin/rails db:test:prepare test
 
