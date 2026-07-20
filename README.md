@@ -80,6 +80,11 @@ With **Kamal** (Docker). Configuration in `config/deploy.yml` and `.kamal/`:
 bin/kamal deploy
 ```
 
+Merges to `main` are deployed automatically by
+`.github/workflows/deploy.yml` after the complete `CI` workflow passes. The
+workflow can also be started manually from GitHub Actions. Production
+credentials are stored as GitHub Actions secrets and never in the repository.
+
 ## Structure
 
 ```
