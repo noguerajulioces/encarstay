@@ -20,7 +20,7 @@
             <p class="flex items-center gap-1 truncate text-xs text-sand-500"><%= icon :users, klass: "h-3.5 w-3.5 text-sand-400" %><%= guests_label(property.capacity) %></p>
             <p class="mt-0.5 text-sm text-sand-900"><span class="font-semibold"><%= money(property.base_price_cents, property.currency) %></span> <span class="text-xs text-sand-500"><%= t("units.per_night") %></span></p>
             <% if local_assigns[:check_in].present? && local_assigns[:check_out].present? && property.available?(check_in, check_out) %>
-              <span class="mt-1 inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[0.65rem] font-semibold text-emerald-800"><%= icon :check, klass: "h-3 w-3" %><%= t("guide.available") %></span>
+              <span class="mt-1 inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-800"><%= icon :check, klass: "h-3 w-3" %><%= t("guide.available") %></span>
             <% end %>
           </div>
         <% end %>

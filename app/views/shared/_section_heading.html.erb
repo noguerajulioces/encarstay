@@ -1,0 +1,18 @@
+<%# Encabezado de sección estándar.
+    locals: title (requerido), kicker, subtitle, link_label, link_path %>
+<div class="flex flex-wrap items-end justify-between gap-3">
+  <div>
+    <% if local_assigns[:kicker].present? %>
+      <p class="kicker text-brand-700"><%= kicker %></p>
+    <% end %>
+    <h2 class="section-title <%= "mt-1" if local_assigns[:kicker].present? %>"><%= title %></h2>
+    <% if local_assigns[:subtitle].present? %>
+      <p class="mt-1 text-sand-500"><%= subtitle %></p>
+    <% end %>
+  </div>
+  <% if local_assigns[:link_path].present? %>
+    <%= link_to link_path, class: "inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-sand-900" do %>
+      <%= link_label %> <%= icon :arrow, klass: "h-4 w-4" %>
+    <% end %>
+  <% end %>
+</div>

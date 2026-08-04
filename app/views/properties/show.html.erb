@@ -288,7 +288,7 @@
               </div>
               <div class="min-w-0 flex-1">
                 <p class="truncate font-medium text-sand-900 group-hover:text-brand-700"><%= entry.title %></p>
-                <p class="truncate text-xs text-sand-500"><%= entry.category&.name %><% if entry.area.present? %> · <%= entry.area %><% end %></p>
+                <p class="truncate text-sm text-sand-500"><%= entry.category&.name %><% if entry.area.present? %> · <%= entry.area %><% end %></p>
               </div>
               <span class="self-center text-brand-400 transition-transform group-hover:translate-x-0.5"><%= icon :arrow, klass: "h-4 w-4" %></span>
             <% end %>
@@ -316,16 +316,16 @@
       <%= form_with url: property_path(@property), method: :get, data: { turbo_frame: "quote", turbo_action: "advance", date_range_target: "form" }, class: "mt-5 space-y-3" do |form| %>
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <%= form.label :check_in, t("property.arrival"), class: "mb-1 block text-xs font-semibold uppercase tracking-wide text-sand-400" %>
+            <%= form.label :check_in, t("property.arrival"), class: "kicker mb-1 block text-sand-500" %>
             <%= form.date_field :check_in, value: @check_in, min: Date.current, data: { date_range_target: "checkIn", action: "change->date-range#syncFromInputs" }, class: "w-full rounded-xl border border-sand-200 px-3 py-2 text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-500" %>
           </div>
           <div>
-            <%= form.label :check_out, t("property.departure"), class: "mb-1 block text-xs font-semibold uppercase tracking-wide text-sand-400" %>
+            <%= form.label :check_out, t("property.departure"), class: "kicker mb-1 block text-sand-500" %>
             <%= form.date_field :check_out, value: @check_out, min: Date.current + 1, data: { date_range_target: "checkOut", action: "change->date-range#syncFromInputs" }, class: "w-full rounded-xl border border-sand-200 px-3 py-2 text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-500" %>
           </div>
         </div>
         <div>
-          <%= form.label :guests, t("property.guests_label"), class: "mb-1 block text-xs font-semibold uppercase tracking-wide text-sand-400" %>
+          <%= form.label :guests, t("property.guests_label"), class: "kicker mb-1 block text-sand-500" %>
           <%= form.number_field :guests, value: @guests, min: 1, max: @property.capacity, data: { action: "change->date-range#refresh" }, class: "w-full rounded-xl border border-sand-200 px-3 py-2 text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-500" %>
         </div>
       <% end %>
@@ -337,7 +337,7 @@
             <% if @available %>
               <%= link_to new_booking_path(property_slug: @property.slug, check_in: @check_in, check_out: @check_out, guests: @guests),
                     data: { turbo_frame: "_top" },
-                    class: "mt-4 flex items-center justify-center gap-2 rounded-xl bg-brand-500 px-4 py-3 font-semibold text-white transition-colors hover:bg-brand-600" do %>
+                    class: btn_classes(:primary, "mt-4 w-full") do %>
                 <%= t("property.book") %> <%= icon :arrow, klass: "h-4 w-4" %>
               <% end %>
             <% else %>
@@ -353,7 +353,7 @@
         <% end %>
       <% end %>
 
-      <p class="mt-4 flex items-start gap-2 text-xs leading-relaxed text-sand-500">
+      <p class="mt-4 flex items-start gap-2 text-sm leading-relaxed text-sand-500">
         <span class="mt-0.5 text-sand-700"><%= icon :check, klass: "h-4 w-4" %></span>
         <%= t("property.reserve_note") %>
       </p>

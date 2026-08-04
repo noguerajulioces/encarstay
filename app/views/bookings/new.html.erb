@@ -1,7 +1,7 @@
 <% content_for :title, "#{t('property.book')} · #{@property.name}" %>
 
 <section class="mx-auto max-w-5xl px-5 py-10">
-  <p class="text-xs font-semibold uppercase tracking-widest text-sand-700"><%= t("booking.new_kicker") %></p>
+  <p class="kicker text-sand-600"><%= t("booking.new_kicker") %></p>
   <h1 class="mt-1 font-display text-3xl font-semibold text-sand-900"><%= t("booking.new_title") %></h1>
   <p class="mt-2 text-sand-500"><%= t("booking.new_subtitle") %></p>
 
@@ -50,16 +50,16 @@
             <%= form.label :applied_discount_code, t("booking.discount_code"), class: flabel %>
             <%= form.text_field :applied_discount_code, placeholder: "ENCAR-XXXXXX", autocapitalize: "characters",
                   class: "#{field} uppercase placeholder:normal-case" %>
-            <p class="mt-1 text-xs text-sand-500"><%= t("booking.discount_hint") %></p>
+            <p class="mt-1 text-sm text-sand-500"><%= t("booking.discount_hint") %></p>
           </div>
         </div>
 
-        <p class="flex items-start gap-2 text-xs leading-relaxed text-sand-500">
+        <p class="flex items-start gap-2 text-sm leading-relaxed text-sand-500">
           <span class="mt-0.5 shrink-0 text-sand-700"><%= icon :check, klass: "h-4 w-4" %></span>
           <span><%= t("booking.disclaimer_html").html_safe %></span>
         </p>
 
-        <%= form.button type: :submit, class: "flex w-full items-center justify-center gap-2 rounded-xl bg-brand-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-brand-600 cursor-pointer sm:w-auto" do %>
+        <%= form.button type: :submit, class: btn_classes(:primary, "w-full sm:w-auto") do %>
           <%= t("booking.submit") %> <%= icon :arrow, klass: "h-4 w-4" %>
         <% end %>
       <% end %>

@@ -11,7 +11,7 @@
   <div class="flex flex-1 items-center gap-3 rounded-xl border border-sand-200 bg-white px-4 py-2.5 md:border-0 md:py-1">
     <span class="text-sand-700"><%= icon :pin, klass: "h-5 w-5" %></span>
     <div class="min-w-0 flex-1">
-      <span class="block text-[0.65rem] font-semibold uppercase tracking-wider text-sand-400"><%= t("search_form.destination") %></span>
+      <span class="kicker block text-sand-500"><%= t("search_form.destination") %></span>
       <span class="block truncate text-sm font-medium text-sand-800"><%= t("search_form.destination_city") %></span>
     </div>
   </div>
@@ -22,7 +22,7 @@
        data-action="click->search-range#open">
     <span class="text-sand-700"><%= icon :calendar, klass: "h-5 w-5" %></span>
     <div class="min-w-0 flex-1">
-      <span class="block text-[0.65rem] font-semibold uppercase tracking-wider text-sand-400"><%= t("search_form.dates") %></span>
+      <span class="kicker block text-sand-500"><%= t("search_form.dates") %></span>
       <span data-search-range-target="display" class="block truncate text-sm font-medium text-sand-800"><%= t("search_form.dates_placeholder") %></span>
     </div>
     <button type="button" data-search-range-target="clear" data-action="click->search-range#clear" hidden
@@ -39,7 +39,7 @@
   <div class="flex flex-1 items-center gap-3 rounded-xl border border-sand-200 bg-white px-4 py-2.5 md:border-0 md:py-1">
     <span class="text-sand-700"><%= icon :users, klass: "h-5 w-5" %></span>
     <div class="min-w-0 flex-1">
-      <%= form.label :guests, t("search_form.guests"), class: "block text-[0.65rem] font-semibold uppercase tracking-wider text-sand-400" %>
+      <%= form.label :guests, t("search_form.guests"), class: "kicker block text-sand-500" %>
       <%= form.number_field :guests, min: 1, placeholder: "2", class: "w-full bg-transparent text-sm font-medium text-sand-800 placeholder:text-sand-300 focus:outline-none" %>
     </div>
   </div>
