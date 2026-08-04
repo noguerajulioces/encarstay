@@ -1,44 +1,132 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   ENCAR STAYS — Sistema de color (Tailwind v4, CSS-first) — estilo Airbnb.
-   brand-* = coral "Rausch" (#FF385C), reservado como acento: logo, CTAs,
-   corazón activo, botón de búsqueda. sand-* = grises neutros para fondo,
-   texto y bordes. Los títulos usan sand-900 (#222). emerald/rose siguen como
-   semántica (verde = éxito/confirmado; rose = error/no disponible).
+   ENCAR STAYS — Sistema de color (Tailwind v4, CSS-first).
+   brand-* = verde profundo, reservado como acento de acción (CTAs, enlaces,
+   palabra acento del hero). sand-* = neutros fríos, casi-negro para títulos.
+   emerald/rose siguen como semántica (éxito / error).
+   Contrastes WCAG AA verificados: blanco/brand-500 8,95:1;
+   sand-500/sand-50 5,2:1; brand-600 en titulares 10,7:1.
    ========================================================================== */
 @theme {
-  /* Marca — taupe / mocha cálido del logo (acento: logo, CTAs, enlaces).
-     brand-500 se ancla un poco más oscuro que el taupe puro del logo para que
-     el texto blanco sobre los botones tenga buen contraste. */
-  --color-brand-50:  #f9f5ef;
-  --color-brand-100: #f0e6d6;
-  --color-brand-200: #e3d0b8;
-  --color-brand-300: #d0b492;
-  --color-brand-400: #b8946a;
-  --color-brand-500: #96754e; /* mocha — botón/acción principal */
-  --color-brand-600: #7c5f3f; /* hover de botón */
-  --color-brand-700: #664d33; /* enlaces/acento sobre crema */
-  --color-brand-800: #503d29;
-  --color-brand-900: #3f301f;
-  --color-brand-950: #261c12;
+  /* Marca — verde profundo (acento: logo, CTAs, enlaces) */
+  --color-brand-50:  #f0f5f1;
+  --color-brand-100: #dce9df;
+  --color-brand-200: #bdd6c4;
+  --color-brand-300: #93bba0;
+  --color-brand-400: #5c8f73;
+  --color-brand-500: #24523b; /* botón/acción principal (blanco: 8,95:1) */
+  --color-brand-600: #1d4230; /* hover de botón / palabra acento */
+  --color-brand-700: #173528; /* enlaces sobre fondo claro */
+  --color-brand-800: #122a20;
+  --color-brand-900: #0d1f17;
+  --color-brand-950: #08130e;
 
-  /* Sand — neutros cálidos (crema/taupe) que acompañan al mocha */
-  --color-sand-50:  #faf8f5; /* fondo principal */
-  --color-sand-100: #f4f1ec; /* hover / secciones */
-  --color-sand-200: #e7e2d9; /* bordes */
-  --color-sand-300: #d6cfc2;
-  --color-sand-400: #b4ab9c;
-  --color-sand-500: #928979; /* texto secundario */
-  --color-sand-600: #746c5e;
-  --color-sand-700: #5b554a;
-  --color-sand-800: #3d3931; /* texto de cuerpo */
-  --color-sand-900: #262320; /* títulos */
-  --color-sand-950: #1a1712;
+  /* Sand — neutros fríos: blanco, grises y casi-negro (leve sesgo verde) */
+  --color-sand-50:  #fafafa; /* fondo principal */
+  --color-sand-100: #f3f4f3; /* hover / secciones */
+  --color-sand-200: #e4e6e5; /* bordes */
+  --color-sand-300: #cfd3d1;
+  --color-sand-400: #9aa09c;
+  --color-sand-500: #666c68; /* texto terciario */
+  --color-sand-600: #4b514d; /* texto secundario */
+  --color-sand-700: #363b38;
+  --color-sand-800: #242825; /* texto de cuerpo */
+  --color-sand-900: #161817; /* títulos — casi-negro */
+  --color-sand-950: #0c0d0c;
 
-  /* Tipografía — sans geométrica (sustituto libre de Airbnb Cereal) */
+  /* Tipografía — Outfit para todo, jerarquía por peso (600/700/800) */
   --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Utilities tipográficas semánticas. kicker = micro-etiqueta (12px, mínimo
+   del sitio); section-title = título de sección (fluido 24→30px). El color
+   se agrega en el markup (ej: "kicker text-brand-700"). */
+@utility kicker {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  line-height: 1.35;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+@utility section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.2rem + 1.5vw, 1.875rem);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-sand-900);
+}
+
+/* Scrollbar. Chromium/Safari via pseudo-elementos (permiten quitar flechas
+   y redondear el pulgar; el borde del pulgar hace de padding). */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--color-sand-100); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-600);
+  border-radius: 8px;
+  border: 3px solid var(--color-sand-100);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-brand-500); }
+::-webkit-scrollbar-button { display: none; height: 0; width: 0; }
+
+/* Firefox: propiedad estándar, scoped — si Chrome la viera ignoraría los
+   ::-webkit-scrollbar de arriba. */
+@supports (-moz-appearance: none) {
+  html {
+    scrollbar-color: var(--color-brand-600) var(--color-sand-100);
+    scrollbar-width: thin;
+  }
+}
+
+/* Smooth solo en saltos por ancla (el link clickeado tiene foco); las
+   restauraciones de scroll de Turbo entre páginas quedan instantáneas. */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Hero art: los trazos se "dibujan" al cargar via stroke-dashoffset
+   (pathlength=1 normaliza el largo). prefers-reduced-motion lo deja estático
+   por la regla global de abajo. */
+.hero-art-bridge path,
+.hero-art-cables path,
+.hero-art-river path,
+.hero-art-palms path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: hero-art-draw 0.9s ease-out forwards;
+}
+.hero-art-bridge path { animation-delay: 0.1s; }
+.hero-art-cables path { animation-delay: 0.55s; animation-duration: 0.7s; }
+.hero-art-river path  { animation-delay: 0.8s; }
+.hero-art-palms path  { animation-delay: 1s; animation-duration: 0.7s; }
+.hero-art-sun,
+.hero-art-beach {
+  opacity: 0;
+  animation: hero-art-appear 0.8s ease-out forwards;
+}
+.hero-art-beach { animation-delay: 0.9s; }
+.hero-art-sun { animation-delay: 1.25s; }
+@keyframes hero-art-draw { to { stroke-dashoffset: 0; } }
+@keyframes hero-art-appear { to { opacity: 1; } }
+
+/* Accesibilidad global: foco siempre visible, en el color de acción */
+:focus-visible {
+  outline: 3px solid var(--color-brand-500);
+  outline-offset: 2px;
+}
+
+/* Accesibilidad global: sin animaciones para quien las pide apagadas */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ==========================================================================
