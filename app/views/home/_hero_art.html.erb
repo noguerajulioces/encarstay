@@ -1,0 +1,78 @@
+<%# El puente San Roque González, el Paraná y la costanera, en el trazo del
+    logo. La animación de dibujado vive en application.css (.hero-art-*);
+    pathlength="1" es requisito del stroke-dashoffset. %>
+<svg viewBox="0 0 1100 620" fill="none" role="img"
+     aria-label="<%= t("home.hero_image_alt") %>"
+     class="hero-art h-auto w-full">
+  <%# Sol %>
+  <g class="hero-art-sun">
+    <circle cx="915" cy="128" r="58" class="fill-brand-200" />
+    <path d="M846 140 H984" class="stroke-sand-50" stroke-width="9" />
+    <path d="M842 160 H988" class="stroke-sand-50" stroke-width="11" />
+  </g>
+
+  <%# Playa y orilla %>
+  <path d="M755 398 Q880 428 1040 436 L1040 620 L600 620 Q690 585 720 520 Q740 452 755 398 Z"
+        class="fill-brand-100 hero-art-beach" />
+  <path d="M755 398 Q880 428 1040 436"
+        class="stroke-brand-300 hero-art-river" stroke-width="5" stroke-linecap="round" pathlength="1" />
+
+  <%# Cables %>
+  <g class="stroke-brand-300 hero-art-cables" stroke-width="3.5" stroke-linecap="round">
+    <path d="M300 112 L95 384"  pathlength="1" />
+    <path d="M300 112 L165 384" pathlength="1" />
+    <path d="M300 112 L235 384" pathlength="1" />
+    <path d="M300 112 L365 384" pathlength="1" />
+    <path d="M300 112 L435 384" pathlength="1" />
+    <path d="M300 112 L505 384" pathlength="1" />
+    <path d="M640 112 L435 384" pathlength="1" />
+    <path d="M640 112 L505 384" pathlength="1" />
+    <path d="M640 112 L575 384" pathlength="1" />
+    <path d="M640 112 L705 384" pathlength="1" />
+    <path d="M640 112 L775 384" pathlength="1" />
+    <path d="M640 112 L845 384" pathlength="1" />
+  </g>
+
+  <%# Torres y tablero %>
+  <g class="stroke-brand-600 hero-art-bridge" stroke-width="15" stroke-linecap="round">
+    <path d="M50 386 H845" pathlength="1" />
+    <path d="M300 96 V452" pathlength="1" />
+    <path d="M640 96 V452" pathlength="1" />
+  </g>
+
+  <%# Río %>
+  <g stroke-linecap="round" class="hero-art-river">
+    <path d="M80 486 Q135 470 190 486 T300 486 T410 486 T520 486 T630 486 T740 486"
+          class="stroke-brand-400" stroke-width="7" pathlength="1" />
+    <path d="M140 542 Q195 526 250 542 T360 542 T470 542 T580 542"
+          class="stroke-brand-300" stroke-width="6" pathlength="1" />
+    <path d="M230 594 Q285 578 340 594 T450 594 T560 594 T670 594"
+          class="stroke-brand-200" stroke-width="6" pathlength="1" />
+  </g>
+
+  <%# Palmeras %>
+  <g class="stroke-brand-500 hero-art-palms" stroke-linecap="round">
+    <%# Palmera baja %>
+    <path d="M885 415 C895 370 890 320 872 275" stroke-width="9" pathlength="1" />
+    <g stroke-width="7">
+      <path d="M872 275 C845 262 815 262 795 278" pathlength="1" />
+      <path d="M872 275 C842 250 810 244 788 254" pathlength="1" />
+      <path d="M872 275 C852 232 826 220 800 222" pathlength="1" />
+      <path d="M872 275 C872 228 886 210 906 200" pathlength="1" />
+      <path d="M872 275 C896 236 924 226 946 232" pathlength="1" />
+      <path d="M872 275 C902 252 932 250 952 264" pathlength="1" />
+      <path d="M872 275 C898 268 926 276 944 290" pathlength="1" />
+    </g>
+    <%# Palmera alta %>
+    <path d="M990 432 C978 370 986 300 1004 252" stroke-width="9" pathlength="1" />
+    <g stroke-width="7">
+      <path d="M1004 252 C976 240 948 240 928 256" pathlength="1" />
+      <path d="M1004 252 C974 228 944 222 922 232" pathlength="1" />
+      <path d="M1004 252 C984 210 958 198 932 200" pathlength="1" />
+      <path d="M1004 252 C1004 206 1018 188 1038 178" pathlength="1" />
+      <path d="M1004 252 C1028 214 1054 204 1074 210" pathlength="1" />
+      <path d="M1004 252 C1034 230 1062 228 1080 242" pathlength="1" />
+      <path d="M1004 252 C1030 246 1058 254 1075 268" pathlength="1" />
+    </g>
+  </g>
+</svg>
