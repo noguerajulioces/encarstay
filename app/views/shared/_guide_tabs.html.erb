@@ -1,0 +1,12 @@
+<%# Pestañas del hub de guía (/things-to-do ↔ /events).
+    locals: active (:places | :events) %>
+<nav class="mt-6 inline-flex gap-1 rounded-xl border border-sand-200 bg-white p-1"
+     aria-label="<%= t("guide.tabs_label") %>">
+  <% [ [ :places, t("guide.tab_places"), attractions_path ],
+       [ :events, t("guide.tab_events"), events_path ] ].each do |key, label, path| %>
+    <% on = (key == active) %>
+    <%= link_to label, path,
+          "aria-current": (on ? "page" : nil),
+          class: "rounded-lg px-4 py-2 text-sm font-semibold transition-colors #{on ? 'bg-brand-500 text-white' : 'text-sand-600 hover:bg-sand-100 hover:text-sand-900'}" %>
+  <% end %>
+</nav>

@@ -7,7 +7,7 @@ class SubscriptionsController < ApplicationController
   # never reveal which addresses already exist; only the server-side branch and
   # the email (if any) differ.
   def create
-    @variant = params[:variant].presence_in(%w[ footer popup ]) || "footer"
+    @variant = params[:variant].presence_in(%w[ footer popup blog ]) || "footer"
     return respond_success if spam?
 
     @subscriber = Subscriber.find_or_initialize_by(email: normalized_email)
