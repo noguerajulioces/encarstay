@@ -119,6 +119,8 @@ pt:
     hero_title: "Viva Encarnación no seu ritmo"
     hero_title_main: "Viva Encarnación"
     hero_title_accent: "no seu ritmo"
+    hero_cta: "Ver as acomodações"
+    availability_hint: "Já sabe suas datas? Veja o que está livre."
     hero_subtitle: "Escolha suas datas e garanta seu lugar falando direto com a gente, sem complicação. Depois, a cidade é sua: descubra os segredos e dicas de quem é daqui."
     hero_image_alt: "Ilustração de linha da ponte San Roque González sobre o rio Paraná"
     trust_direct: "Reserve direto com seu anfitrião"

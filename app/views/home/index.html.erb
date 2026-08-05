@@ -32,6 +32,12 @@
         <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-brand-500" %> <%= t("home.trust_no_fees") %></span>
         <span class="inline-flex items-center gap-2"><%= icon :check, klass: "h-4 w-4 text-brand-500" %> <%= t("home.trust_local") %></span>
       </div>
+
+      <div class="mt-9">
+        <a href="#alojamientos" class="<%= btn_classes(:primary) %>">
+          <%= t("home.hero_cta") %> <%= icon :arrow, klass: "h-4 w-4" %>
+        </a>
+      </div>
     </div>
 
     <div>
@@ -40,18 +46,20 @@
   </div>
 </section>
 
-<%# ===== Search (overlapping the hero) ===== %>
-<div class="relative z-10 mx-auto -mt-6 max-w-5xl px-5 sm:-mt-10">
-  <%= render "shared/search_form", search: @search %>
-</div>
-
 <%# ===== Alojamientos ===== %>
-<section class="mx-auto mt-16 max-w-6xl px-5 sm:mt-20">
+<section id="alojamientos" class="mx-auto mt-4 max-w-6xl scroll-mt-24 px-5 sm:mt-8">
   <%= render "shared/section_heading",
         title: t("home.properties_title"),
         subtitle: t("home.properties_subtitle"),
         link_label: t("home.see_all"), link_path: properties_path %>
-  <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+  <%# Verificador de disponibilidad: fechas + huéspedes al servicio del catálogo %>
+  <div class="mt-6 max-w-2xl">
+    <p class="mb-2 text-sm font-medium text-sand-600"><%= t("home.availability_hint") %></p>
+    <%= render "shared/search_form", search: @search %>
+  </div>
+
+  <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
     <% @properties.each do |property| %>
       <%= render "shared/property_card", property: property %>
     <% end %>

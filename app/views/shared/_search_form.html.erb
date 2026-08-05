@@ -8,16 +8,6 @@
         }.to_json
       },
       class: "relative flex flex-col gap-2 md:flex-row md:items-center md:gap-0 md:rounded-full md:border md:border-sand-200 md:bg-white md:p-2 md:pl-3 md:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.5)]" do |form| %>
-  <div class="flex flex-1 items-center gap-3 rounded-xl border border-sand-200 bg-white px-4 py-2.5 md:border-0 md:py-1">
-    <span class="text-sand-700"><%= icon :pin, klass: "h-5 w-5" %></span>
-    <div class="min-w-0 flex-1">
-      <span class="kicker block text-sand-500"><%= t("search_form.destination") %></span>
-      <span class="block truncate text-sm font-medium text-sand-800"><%= t("search_form.destination_city") %></span>
-    </div>
-  </div>
-
-  <div class="my-2 hidden w-px bg-sand-200 md:block"></div>
-
   <div class="flex flex-[1.5] cursor-pointer items-center gap-3 rounded-xl border border-sand-200 bg-white px-4 py-2.5 md:border-0 md:py-1"
        data-action="click->search-range#open">
     <span class="text-sand-700"><%= icon :calendar, klass: "h-5 w-5" %></span>
