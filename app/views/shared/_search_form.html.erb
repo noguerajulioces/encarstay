@@ -2,6 +2,7 @@
       data: {
         controller: "search-range",
         search_range_locale_value: I18n.locale,
+        search_range_min_nights_value: Property.active.minimum(:min_nights) || 1,
         search_range_labels_value: {
           placeholder: t("search_form.dates_placeholder"),
           weekdays: t("search_form.weekdays")

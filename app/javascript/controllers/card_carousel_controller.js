@@ -2,7 +2,8 @@ import { Controller } from "@hotwired/stimulus"
 
 // The little image slider inside a listing card: swipe/scroll photos, arrows on
 // hover, dots at the bottom. Arrows swallow the click so they never trigger the
-// card's link.
+// card's link, and the slider loops so an arrow never disappears under the
+// user's cursor (a click on a vanished arrow would fall through to the link).
 export default class extends Controller {
   static targets = ["track", "dot", "prev", "next", "image"]
 
@@ -22,14 +23,14 @@ export default class extends Controller {
   go(event) {
     event.preventDefault()
     event.stopPropagation()
-    const target = Math.min(Math.max(this.index + event.params.dir, 0), this.count - 1)
+    const target = (this.index + event.params.dir + this.count) % this.count
     this.#load(target)
     this.trackTarget.scrollTo({ left: target * this.trackTarget.clientWidth, behavior: "smooth" })
   }
 
   prepare() {
-    this.#load(this.index - 1)
-    this.#load(this.index + 1)
+    this.#load((this.index - 1 + this.count) % this.count)
+    this.#load((this.index + 1) % this.count)
   }
 
   get index() {
@@ -47,8 +48,6 @@ export default class extends Controller {
       dot.classList.toggle("opacity-100", n === i)
       dot.classList.toggle("opacity-50", n !== i)
     })
-    if (this.hasPrevTarget) this.prevTarget.classList.toggle("invisible", i <= 0)
-    if (this.hasNextTarget) this.nextTarget.classList.toggle("invisible", i >= this.count - 1)
   }
 
   #load(index) {

@@ -6,7 +6,7 @@ import { Controller } from "@hotwired/stimulus"
 // to fill by hand — one control completes the whole range.
 export default class extends Controller {
   static targets = ["display", "checkIn", "checkOut", "panel", "calendar", "clear"]
-  static values = { locale: String, labels: Object }
+  static values = { locale: String, labels: Object, minNights: { type: Number, default: 1 } }
 
   connect() {
     this.checkIn = this.checkInTarget.value || null
@@ -56,6 +56,8 @@ export default class extends Controller {
     if (!this.checkIn || this.checkOut || date <= this.checkIn) {
       this.checkIn = date // start a fresh range
       this.checkOut = null
+    } else if (date < this.minCheckout()) {
+      return // shorter than the minimum stay — the day is painted as blocked
     } else {
       this.checkOut = date // second endpoint completes the range
     }
@@ -166,11 +168,15 @@ export default class extends Controller {
 
   paintDays() {
     const hi = this.checkOut || (this.checkIn && !this.checkOut ? this.hoverDate : null)
+    const picking = this.checkIn && !this.checkOut
+    const minOut = picking ? this.minCheckout() : null
     const buttons = this.calendarTarget.querySelectorAll("button[data-date]")
     buttons.forEach((button) => {
       const iso = button.dataset.date
       let state = "base"
-      if (this.checkIn && hi && hi > this.checkIn) {
+      if (picking && iso > this.checkIn && iso < minOut) {
+        state = "blocked" // completing here would be under the minimum stay
+      } else if (this.checkIn && hi && hi > this.checkIn) {
         if (iso === this.checkIn || iso === hi) state = "endpoint"
         else if (iso > this.checkIn && iso < hi) state = "between"
       } else if (iso === this.checkIn) {
@@ -178,12 +184,20 @@ export default class extends Controller {
       }
       button.classList.remove(
         "bg-brand-700", "text-white", "bg-brand-100", "text-brand-800",
-        "text-sand-800", "hover:bg-brand-50"
+        "text-sand-800", "hover:bg-brand-50", "text-sand-300", "cursor-not-allowed"
       )
       if (state === "endpoint") button.classList.add("bg-brand-700", "text-white")
       else if (state === "between") button.classList.add("bg-brand-100", "text-brand-800")
+      else if (state === "blocked") button.classList.add("text-sand-300", "cursor-not-allowed")
       else button.classList.add("text-sand-800", "hover:bg-brand-50")
     })
+  }
+
+  // First selectable check-out for the current check-in, honoring the minimum stay.
+  minCheckout() {
+    const d = this.parse(this.checkIn)
+    d.setDate(d.getDate() + Math.max(this.minNightsValue, 1))
+    return this.iso(d)
   }
 
   // --- date helpers (local time, no DST surprises for whole days) -------------
