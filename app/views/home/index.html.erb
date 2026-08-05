@@ -49,11 +49,11 @@
 <%# ===== Alojamientos ===== %>
 <section id="alojamientos" class="scroll-mt-24 py-14 sm:py-20">
   <div class="mx-auto max-w-6xl px-5">
+  <%# Sin "Ver todos": el home ya muestra el catálogo completo. %>
   <%= render "shared/section_heading",
         kicker: t("home.properties_kicker"),
         title: t("home.properties_title"),
-        subtitle: t("home.properties_subtitle"),
-        link_label: t("home.see_all"), link_path: properties_path %>
+        subtitle: t("home.properties_subtitle") %>
 
   <%# Verificador de disponibilidad: fechas + huéspedes al servicio del catálogo %>
   <div class="mt-10 max-w-2xl">
