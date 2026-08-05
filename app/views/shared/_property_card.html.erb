@@ -2,6 +2,11 @@
 <% image_loading = local_assigns.fetch(:image_loading, "lazy") %>
 <div class="group relative flex flex-col">
   <div class="relative aspect-square overflow-hidden rounded-2xl bg-sand-100">
+    <% if property.property_type.present? %>
+      <span class="absolute left-3 top-3 z-20 rounded-lg bg-white/95 px-2.5 py-1 text-xs font-semibold text-sand-800 shadow-sm">
+        <%= t("property_types.#{property.property_type}") %>
+      </span>
+    <% end %>
     <% if photos.size > 1 %>
       <div data-controller="card-carousel" class="h-full">
         <div data-card-carousel-target="track"
@@ -22,7 +27,7 @@
         </div>
 
         <button type="button" data-card-carousel-target="prev" data-action="card-carousel#go" data-card-carousel-dir-param="-1"
-                aria-label="‹" class="invisible absolute left-2 top-1/2 z-30 grid h-7 w-7 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-sand-900 opacity-0 shadow transition group-hover:opacity-100 hover:scale-105">
+                aria-label="‹" class="absolute left-2 top-1/2 z-30 grid h-7 w-7 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-sand-900 opacity-0 shadow transition group-hover:opacity-100 hover:scale-105">
           <%= icon :chevron_left, klass: "h-4 w-4" %>
         </button>
         <button type="button" data-card-carousel-target="next" data-action="card-carousel#go" data-card-carousel-dir-param="1"

@@ -56,6 +56,13 @@ en:
               min_nights: "The minimum stay is %{count} nights"
               dates_unavailable: "The dates are no longer available"
 
+  property_types:
+    departamento: "Apartment"
+    loft: "Loft"
+    cabana: "Cabin"
+    quinta: "Country house"
+    casa: "House"
+
   site:
     name: "ENCAR STAYS"
     title_suffix: "ENCAR STAYS"

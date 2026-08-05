@@ -3,6 +3,10 @@ class Property < ApplicationRecord
 
   CURRENCIES = %w[ PYG USD ].freeze
 
+  # Tipologías del catálogo; el orden es el que muestran los selects.
+  PROPERTY_TYPES = %w[ departamento loft cabana quinta casa ].freeze
+  enum :property_type, PROPERTY_TYPES.index_by(&:itself), validate: { allow_nil: true }
+
   monetize :base_price, :cleaning_fee
 
   has_secure_token :calendar_token

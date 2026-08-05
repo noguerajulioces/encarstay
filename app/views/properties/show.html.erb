@@ -126,7 +126,10 @@
      }.to_json %>">
   <%# --- Details --- %>
   <div class="lg:col-span-2">
-    <h1 class="font-display text-4xl font-semibold leading-tight text-sand-900"><%= @property.name %></h1>
+    <% if @property.property_type.present? %>
+      <p class="kicker text-brand-700"><%= t("property_types.#{@property.property_type}") %></p>
+    <% end %>
+    <h1 class="mt-1 font-display text-4xl font-semibold leading-tight text-sand-900"><%= @property.name %></h1>
     <% if @property.rated? %>
       <p class="mt-2 flex flex-wrap items-center gap-1.5 text-sm font-semibold text-sand-900">
         <%= icon :star, klass: "h-4 w-4", filled: true %><%= rating_display(@property) %>

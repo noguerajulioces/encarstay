@@ -65,6 +65,13 @@ pt:
               min_nights: "A estadia mínima é de %{count} noites"
               dates_unavailable: "As datas não estão mais disponíveis"
 
+  property_types:
+    departamento: "Apartamento"
+    loft: "Loft"
+    cabana: "Cabana"
+    quinta: "Chácara"
+    casa: "Casa"
+
   site:
     name: "ENCAR STAYS"
     title_suffix: "ENCAR STAYS"

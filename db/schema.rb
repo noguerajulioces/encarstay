@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_11_151841) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_05_134723) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -234,6 +234,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_151841) do
     t.decimal "longitude", precision: 10, scale: 6
     t.integer "min_nights", default: 2, null: false
     t.string "name", null: false
+    t.string "property_type"
     t.decimal "rating_cache", precision: 3, scale: 2
     t.integer "reviews_count", default: 0, null: false
     t.string "slug", null: false
