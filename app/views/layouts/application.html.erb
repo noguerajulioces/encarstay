@@ -37,7 +37,9 @@
     <% end %>
   </head>
 
-  <body class="h-full bg-sand-50 text-sand-800 antialiased font-sans selection:bg-brand-200 selection:text-sand-900">
+  <%# min-h-full (no h-full): con altura fija de una pantalla, el sticky del
+      header solo actúa dentro de ese primer viewport. %>
+  <body class="min-h-full bg-sand-50 text-sand-800 antialiased font-sans selection:bg-brand-200 selection:text-sand-900">
     <a href="#contenido"
        class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-xl focus:bg-white focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-brand-700 focus:shadow-lg">
       <%= t("layout.skip_to_content") %>
