@@ -136,7 +136,7 @@ html:focus-within {
    ========================================================================== */
 .article-body {
   color: var(--color-sand-700);
-  font-size: 1.075rem;
+  font-size: 1.125rem;
   line-height: 1.75;
 }
 .article-body > * + * { margin-top: 1.25em; }

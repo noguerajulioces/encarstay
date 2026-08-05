@@ -14,7 +14,7 @@
     <span class="text-sand-700"><%= icon :calendar, klass: "h-5 w-5" %></span>
     <div class="min-w-0 flex-1">
       <span class="kicker block text-sand-500"><%= t("search_form.dates") %></span>
-      <span data-search-range-target="display" class="block truncate text-sm font-medium text-sand-800"><%= t("search_form.dates_placeholder") %></span>
+      <span data-search-range-target="display" class="block truncate text-base font-medium text-sand-800"><%= t("search_form.dates_placeholder") %></span>
     </div>
     <button type="button" data-search-range-target="clear" data-action="click->search-range#clear" hidden
             class="rounded-full p-1 text-sand-400 hover:bg-sand-100 hover:text-sand-600" aria-label="<%= t("search_form.clear") %>">
@@ -31,7 +31,7 @@
     <span class="text-sand-700"><%= icon :users, klass: "h-5 w-5" %></span>
     <div class="min-w-0 flex-1">
       <%= form.label :guests, t("search_form.guests"), class: "kicker block text-sand-500" %>
-      <%= form.number_field :guests, min: 1, placeholder: "2", class: "w-full bg-transparent text-sm font-medium text-sand-800 placeholder:text-sand-300 focus:outline-none" %>
+      <%= form.number_field :guests, min: 1, placeholder: "2", class: "w-full bg-transparent text-base font-medium text-sand-800 placeholder:text-sand-300 focus:outline-none" %>
     </div>
   </div>
 

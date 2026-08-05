@@ -28,7 +28,7 @@
 <% end %>
 
 <div class="mx-auto max-w-6xl px-5 pt-6">
-  <nav class="mb-4 flex items-center gap-1.5 text-sm text-sand-500">
+  <nav class="mb-4 flex items-center gap-1.5 text-base text-sand-500">
     <%= link_to t("layout.nav_properties"), properties_path, class: "hover:text-brand-700" %>
     <span class="text-sand-300">/</span>
     <span class="text-sand-700"><%= @property.name %></span>
@@ -76,7 +76,7 @@
           </div>
         <% end %>
         <button type="button" data-action="gallery#open" data-index="0"
-                class="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-xl border border-sand-900/10 bg-white px-4 py-2 text-sm font-semibold text-sand-900 shadow-sm transition hover:bg-sand-50">
+                class="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-xl border border-sand-900/10 bg-white px-4 py-2 text-base font-semibold text-sand-900 shadow-sm transition hover:bg-sand-50">
           <%= icon :grid, klass: "h-4 w-4" %><%= t("property.show_all_photos") %>
         </button>
       </div>
@@ -86,7 +86,7 @@
         <div class="flex items-center justify-between px-4 py-3 text-white">
           <button type="button" data-action="gallery#close" aria-label="<%= t('property.close') %>"
                   class="rounded-full p-2 transition hover:bg-white/10"><%= icon :x, klass: "h-5 w-5" %></button>
-          <span data-gallery-target="counter" class="text-sm font-medium"></span>
+          <span data-gallery-target="counter" class="text-base font-medium"></span>
           <span class="w-9"></span>
         </div>
         <div class="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden px-4 pb-6 sm:px-16"
@@ -131,7 +131,7 @@
     <% end %>
     <h1 class="mt-1 font-display text-4xl font-semibold leading-tight text-sand-900"><%= @property.name %></h1>
     <% if @property.rated? %>
-      <p class="mt-2 flex flex-wrap items-center gap-1.5 text-sm font-semibold text-sand-900">
+      <p class="mt-2 flex flex-wrap items-center gap-1.5 text-base font-semibold text-sand-900">
         <%= icon :star, klass: "h-4 w-4", filled: true %><%= rating_display(@property) %>
         <span class="text-sand-300">·</span>
         <a href="#evaluaciones" class="font-medium underline decoration-sand-300 underline-offset-2 hover:decoration-brand-500"><%= t("property.reviews_count", count: @property.reviews_count) %></a>
@@ -146,7 +146,7 @@
       </p>
     <% end %>
 
-    <% chip = "inline-flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-3 py-1.5 text-sm text-sand-700" %>
+    <% chip = "inline-flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-3 py-1.5 text-base text-sand-700" %>
     <div class="mt-5 flex flex-wrap gap-2">
       <span class="<%= chip %>"><span class="text-sand-700"><%= icon :users, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= @property.capacity %></strong> <%= t("property.guests") %></span>
       <span class="<%= chip %>"><span class="text-sand-700"><%= icon :home, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= @property.bedrooms %></strong> <%= t("property.bedrooms") %></span>
@@ -178,7 +178,7 @@
         </div>
         <% if hidden.any? %>
           <details class="group mt-4">
-            <summary class="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-xl border border-sand-300 px-4 py-2.5 text-sm font-semibold text-sand-900 transition-colors hover:bg-sand-50">
+            <summary class="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-xl border border-sand-300 px-4 py-2.5 text-base font-semibold text-sand-900 transition-colors hover:bg-sand-50">
               <%= t("property.show_all_amenities", count: amenities.size) %>
             </summary>
             <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -195,10 +195,10 @@
 
     <div class="mt-10">
       <h2 class="font-display text-xl font-semibold text-sand-900"><%= t("property.availability") %></h2>
-      <p class="mt-1 mb-4 text-sm text-sand-500"><%= t("property.calendar_help") %></p>
+      <p class="mt-1 mb-4 text-base text-sand-500"><%= t("property.calendar_help") %></p>
       <div class="rounded-2xl border border-sand-200 bg-white p-5">
         <%= render "shared/calendar", property: @property, occupied: @occupied_dates, months: 2, selectable: true %>
-        <div class="mt-3 flex items-center gap-3 text-sm" data-date-range-target="controls" hidden>
+        <div class="mt-3 flex items-center gap-3 text-base" data-date-range-target="controls" hidden>
           <span class="font-medium text-sand-700" data-date-range-target="summary"></span>
           <button type="button" data-action="date-range#clear" class="cursor-pointer text-sand-500 underline underline-offset-2 hover:text-sand-700"><%= t("property.clear") %></button>
         </div>
@@ -220,7 +220,7 @@
         <div class="mt-8 grid gap-x-10 gap-y-3 border-y border-sand-200 py-6 sm:grid-cols-2 lg:grid-cols-3">
           <% t("property.review_categories").each do |_key, label| %>
             <div class="flex items-center justify-between gap-3">
-              <span class="text-sm text-sand-700"><%= label %></span>
+              <span class="text-base text-sand-700"><%= label %></span>
               <span class="flex items-center gap-2">
                 <span class="h-1 w-24 overflow-hidden rounded-full bg-sand-200"><span class="block h-full rounded-full bg-sand-900" style="width: <%= pct %>%"></span></span>
                 <span class="w-7 text-right text-xs font-semibold text-sand-900"><%= rating_display(@property) %></span>
@@ -236,7 +236,7 @@
         </div>
         <% if @reviews.size > 6 %>
           <details class="mt-6">
-            <summary class="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-xl border border-sand-300 px-4 py-2.5 text-sm font-semibold text-sand-900 transition-colors hover:bg-sand-50">
+            <summary class="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-xl border border-sand-300 px-4 py-2.5 text-base font-semibold text-sand-900 transition-colors hover:bg-sand-50">
               <%= t("property.show_all_reviews", count: @property.reviews_count) %>
             </summary>
             <div class="mt-6 grid gap-6 sm:grid-cols-2">
@@ -253,7 +253,7 @@
     <% if @property.coordinates? %>
       <div class="mt-10">
         <h2 class="font-display text-xl font-semibold text-sand-900"><%= t("property.location") %></h2>
-        <p class="mt-1 mb-4 text-sm text-sand-500"><%= t("property.location_subtitle") %></p>
+        <p class="mt-1 mb-4 text-base text-sand-500"><%= t("property.location_subtitle") %></p>
         <%= render "shared/map", title: @property.name, latitude: @property.latitude, longitude: @property.longitude, address: @property.address_area %>
 
         <% if @attraction_distances.present? %>
@@ -263,9 +263,9 @@
                 <%= link_to guide_entry_path(entry), class: "group flex items-center justify-between gap-3 px-4 py-3 transition hover:bg-sand-50" do %>
                   <span class="flex min-w-0 items-center gap-2">
                     <span class="text-sand-700"><%= icon :pin, klass: "h-4 w-4" %></span>
-                    <span class="truncate text-sm font-medium text-sand-900 group-hover:text-brand-700"><%= entry.title %></span>
+                    <span class="truncate text-base font-medium text-sand-900 group-hover:text-brand-700"><%= entry.title %></span>
                   </span>
-                  <span class="shrink-0 text-sm font-semibold text-sand-500"><%= t("property.km_away", km: number_with_precision(km, precision: 1, strip_insignificant_zeros: true)) %></span>
+                  <span class="shrink-0 text-base font-semibold text-sand-500"><%= t("property.km_away", km: number_with_precision(km, precision: 1, strip_insignificant_zeros: true)) %></span>
                 <% end %>
               </li>
             <% end %>
@@ -278,7 +278,7 @@
     <% if @nearby_guide.any? %>
       <div class="mt-10">
         <h2 class="font-display text-xl font-semibold text-sand-900"><%= t("property.nearby_guide") %></h2>
-        <p class="mt-1 mb-4 text-sm text-sand-500"><%= t("property.nearby_guide_subtitle") %></p>
+        <p class="mt-1 mb-4 text-base text-sand-500"><%= t("property.nearby_guide_subtitle") %></p>
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <% @nearby_guide.each do |entry| %>
             <%= link_to guide_entry_path(entry), class: "group flex items-center gap-3 rounded-2xl border border-sand-200 bg-white p-3 transition hover:border-brand-300 hover:shadow-sm" do %>
@@ -291,7 +291,7 @@
               </div>
               <div class="min-w-0 flex-1">
                 <p class="truncate font-medium text-sand-900 group-hover:text-brand-700"><%= entry.title %></p>
-                <p class="truncate text-sm text-sand-500"><%= entry.category&.name %><% if entry.area.present? %> · <%= entry.area %><% end %></p>
+                <p class="truncate text-base text-sand-500"><%= entry.category&.name %><% if entry.area.present? %> · <%= entry.area %><% end %></p>
               </div>
               <span class="self-center text-brand-400 transition-transform group-hover:translate-x-0.5"><%= icon :arrow, klass: "h-4 w-4" %></span>
             <% end %>
@@ -306,10 +306,10 @@
     <div class="rounded-2xl border border-sand-200 bg-white p-6 shadow-[0_18px_44px_-28px_rgba(0,0,0,0.55)] lg:sticky lg:top-24">
       <p class="flex items-baseline gap-1.5 text-sand-900">
         <span class="font-display text-3xl font-semibold"><%= money(@property.base_price_cents, @property.currency) %></span>
-        <span class="text-sm text-sand-500"><%= t("units.per_night") %></span>
+        <span class="text-base text-sand-500"><%= t("units.per_night") %></span>
       </p>
       <% if @property.rated? %>
-        <p class="mt-1 flex items-center gap-1 text-sm text-sand-900">
+        <p class="mt-1 flex items-center gap-1 text-base text-sand-900">
           <%= icon :star, klass: "h-4 w-4", filled: true %><%= rating_display(@property) %>
           <span class="text-sand-300">·</span>
           <span class="text-sand-500"><%= t("property.reviews_count", count: @property.reviews_count) %></span>
@@ -320,16 +320,16 @@
         <div class="grid grid-cols-2 gap-2">
           <div>
             <%= form.label :check_in, t("property.arrival"), class: "kicker mb-1 block text-sand-500" %>
-            <%= form.date_field :check_in, value: @check_in, min: Date.current, data: { date_range_target: "checkIn", action: "change->date-range#syncFromInputs" }, class: "w-full rounded-xl border border-sand-200 px-3 py-2 text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-500" %>
+            <%= form.date_field :check_in, value: @check_in, min: Date.current, data: { date_range_target: "checkIn", action: "change->date-range#syncFromInputs" }, class: "w-full rounded-xl border border-sand-200 px-3 py-2 text-base focus:border-brand-500 focus:ring-1 focus:ring-brand-500" %>
           </div>
           <div>
             <%= form.label :check_out, t("property.departure"), class: "kicker mb-1 block text-sand-500" %>
-            <%= form.date_field :check_out, value: @check_out, min: Date.current + 1, data: { date_range_target: "checkOut", action: "change->date-range#syncFromInputs" }, class: "w-full rounded-xl border border-sand-200 px-3 py-2 text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-500" %>
+            <%= form.date_field :check_out, value: @check_out, min: Date.current + 1, data: { date_range_target: "checkOut", action: "change->date-range#syncFromInputs" }, class: "w-full rounded-xl border border-sand-200 px-3 py-2 text-base focus:border-brand-500 focus:ring-1 focus:ring-brand-500" %>
           </div>
         </div>
         <div>
           <%= form.label :guests, t("property.guests_label"), class: "kicker mb-1 block text-sand-500" %>
-          <%= form.number_field :guests, value: @guests, min: 1, max: @property.capacity, data: { action: "change->date-range#refresh" }, class: "w-full rounded-xl border border-sand-200 px-3 py-2 text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-500" %>
+          <%= form.number_field :guests, value: @guests, min: 1, max: @property.capacity, data: { action: "change->date-range#refresh" }, class: "w-full rounded-xl border border-sand-200 px-3 py-2 text-base focus:border-brand-500 focus:ring-1 focus:ring-brand-500" %>
         </div>
       <% end %>
 
@@ -344,19 +344,19 @@
                 <%= t("property.book") %> <%= icon :arrow, klass: "h-4 w-4" %>
               <% end %>
             <% else %>
-              <p class="mt-4 rounded-xl bg-rose-50 px-4 py-3 text-center text-sm text-rose-700">
+              <p class="mt-4 rounded-xl bg-rose-50 px-4 py-3 text-center text-base text-rose-700">
                 <%= t("property.not_available") %>
               </p>
             <% end %>
           </div>
         <% else %>
-          <p class="mt-5 border-t border-sand-200 pt-5 text-sm text-sand-500">
+          <p class="mt-5 border-t border-sand-200 pt-5 text-base text-sand-500">
             <%= t("property.pick_dates") %>
           </p>
         <% end %>
       <% end %>
 
-      <p class="mt-4 flex items-start gap-2 text-sm leading-relaxed text-sand-500">
+      <p class="mt-4 flex items-start gap-2 text-base leading-relaxed text-sand-500">
         <span class="mt-0.5 text-sand-700"><%= icon :check, klass: "h-4 w-4" %></span>
         <%= t("property.reserve_note") %>
       </p>

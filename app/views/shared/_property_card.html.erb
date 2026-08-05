@@ -63,29 +63,29 @@
     <%= icon :heart, klass: "h-6 w-6" %>
   </button>
 
-  <div class="mt-3">
+  <div class="mt-4">
     <div class="flex items-start justify-between gap-2">
-      <h3 class="min-w-0 truncate font-sans font-semibold text-sand-900">
+      <h3 class="min-w-0 truncate font-sans text-lg font-semibold text-sand-900">
         <%= link_to property.name,
               property_path(property, check_in: local_assigns[:check_in], check_out: local_assigns[:check_out]),
               class: "transition-colors after:absolute after:inset-0 after:z-10 group-hover:text-brand-700" %>
       </h3>
       <% if property.rated? %>
-        <span class="flex shrink-0 items-center gap-1 text-sm text-sand-900">
+        <span class="flex shrink-0 items-center gap-1 text-base text-sand-900">
           <%= icon :star, klass: "h-4 w-4", filled: true %><%= rating_display(property) %>
         </span>
       <% else %>
-        <span class="shrink-0 text-sm text-sand-500"><%= t("property.new_listing") %></span>
+        <span class="shrink-0 text-base text-sand-500"><%= t("property.new_listing") %></span>
       <% end %>
     </div>
 
     <% if property.address_area.present? %>
-      <p class="mt-0.5 truncate text-sm text-sand-500"><%= property.address_area %></p>
+      <p class="mt-0.5 truncate text-base text-sand-500"><%= property.address_area %></p>
     <% end %>
-    <p class="mt-0.5 text-sm text-sand-500"><%= guests_label(property.capacity) %></p>
+    <p class="mt-0.5 text-base text-sand-500"><%= guests_label(property.capacity) %></p>
 
-    <p class="mt-1.5 text-sm">
-      <span class="font-display text-base font-semibold text-sand-900"><%= money(property.base_price_cents, property.currency) %></span>
+    <p class="mt-3 text-base">
+      <span class="font-display text-lg font-semibold text-sand-900"><%= money(property.base_price_cents, property.currency) %></span>
       <span class="text-sand-600"><%= t("units.per_night") %></span>
     </p>
   </div>

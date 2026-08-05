@@ -5,9 +5,9 @@
     <% if local_assigns[:kicker].present? %>
       <p class="kicker text-brand-700"><%= kicker %></p>
     <% end %>
-    <h2 class="section-title <%= "mt-1" if local_assigns[:kicker].present? %>"><%= title %></h2>
+    <h2 class="section-title <%= "mt-2" if local_assigns[:kicker].present? %>"><%= title %></h2>
     <% if local_assigns[:subtitle].present? %>
-      <p class="mt-1 text-sand-500"><%= subtitle %></p>
+      <p class="mt-2 text-lg text-sand-500"><%= subtitle %></p>
     <% end %>
   </div>
   <% if local_assigns[:link_path].present? %>

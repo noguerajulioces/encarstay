@@ -34,14 +34,14 @@
 <% end %>
 
 <article class="mx-auto max-w-3xl px-5 pt-6">
-  <nav class="mb-4 flex items-center gap-1.5 text-sm text-sand-500">
+  <nav class="mb-4 flex items-center gap-1.5 text-base text-sand-500">
     <%= link_to t("blog.index_title"), posts_path, class: "hover:text-brand-700" %>
     <span class="text-sand-300">/</span>
     <span class="truncate text-sand-700"><%= @post.title %></span>
   </nav>
 
   <header>
-    <div class="flex flex-wrap items-center gap-2 text-sm">
+    <div class="flex flex-wrap items-center gap-2 text-base">
       <% if @post.category.present? %>
         <span class="inline-flex items-center gap-1 rounded-full bg-brand-50 px-2.5 py-1 text-xs font-semibold text-sand-900">
           <%= icon(@post.category.icon.presence&.to_sym || :sparkles, klass: "h-3.5 w-3.5") %><%= @post.category.name %>

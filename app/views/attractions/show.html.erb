@@ -24,7 +24,7 @@
 <% end %>
 
 <div class="mx-auto max-w-6xl px-5 pt-6">
-  <nav class="mb-4 flex items-center gap-1.5 text-sm text-sand-500">
+  <nav class="mb-4 flex items-center gap-1.5 text-base text-sand-500">
     <%= link_to t("guide.attractions_title"), attractions_path, class: "hover:text-brand-700" %>
     <span class="text-sand-300">/</span>
     <span class="truncate text-sand-700"><%= @attraction.title %></span>
@@ -70,7 +70,7 @@
 
     <% if @attraction.external_url.present? %>
       <%= link_to t("guide.official_link"), @attraction.external_url, target: "_blank", rel: "noopener",
-            class: "inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:underline" %>
+            class: "inline-flex items-center gap-1.5 text-base font-semibold text-brand-700 hover:underline" %>
     <% end %>
 
     <div>

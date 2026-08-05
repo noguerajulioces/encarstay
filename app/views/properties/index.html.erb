@@ -7,7 +7,7 @@
 </section>
 
 <section class="mx-auto max-w-7xl px-5 pb-4">
-  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+  <div class="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
     <% @properties.each_with_index do |property, index| %>
       <%= render "shared/property_card", property: property, image_loading: (index.zero? ? "eager" : "lazy") %>
     <% end %>

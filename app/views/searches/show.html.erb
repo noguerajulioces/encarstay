@@ -28,7 +28,7 @@
         <p class="mt-1 text-sand-500"><%= t("search.none_subtitle") %></p>
       </div>
     <% else %>
-      <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div class="mt-8 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <% @results.each_with_index do |property, index| %>
           <%= render "shared/property_card", property: property, check_in: @search.check_in, check_out: @search.check_out,
                 image_loading: (index.zero? ? "eager" : "lazy") %>

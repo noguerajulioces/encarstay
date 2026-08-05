@@ -7,6 +7,6 @@
     <% on = (key == active) %>
     <%= link_to label, path,
           "aria-current": (on ? "page" : nil),
-          class: "rounded-lg px-4 py-2 text-sm font-semibold transition-colors #{on ? 'bg-brand-500 text-white' : 'text-sand-600 hover:bg-sand-100 hover:text-sand-900'}" %>
+          class: "rounded-lg px-4 py-2 text-base font-semibold transition-colors #{on ? 'bg-brand-500 text-white' : 'text-sand-600 hover:bg-sand-100 hover:text-sand-900'}" %>
   <% end %>
 </nav>

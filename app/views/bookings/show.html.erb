@@ -23,16 +23,16 @@
     <div class="space-y-4 p-6">
       <div>
         <h2 class="font-display font-semibold text-sand-900"><%= @booking.property.name %></h2>
-        <p class="flex items-center gap-1 text-sm text-sand-500"><%= icon :pin, klass: "h-3.5 w-3.5 text-sand-400" %><%= @booking.property.address_area %></p>
+        <p class="flex items-center gap-1 text-base text-sand-500"><%= icon :pin, klass: "h-3.5 w-3.5 text-sand-400" %><%= @booking.property.address_area %></p>
       </div>
 
-      <div class="grid grid-cols-3 gap-4 text-sm">
+      <div class="grid grid-cols-3 gap-4 text-base">
         <div><p class="text-sand-500"><%= t("booking.arrival") %></p><p class="font-medium text-sand-900"><%= l @booking.check_in, format: :long %></p></div>
         <div><p class="text-sand-500"><%= t("booking.departure") %></p><p class="font-medium text-sand-900"><%= l @booking.check_out, format: :long %></p></div>
         <div><p class="text-sand-500"><%= t("booking.guests") %></p><p class="font-medium text-sand-900"><%= @booking.guests_count %></p></div>
       </div>
 
-      <div class="space-y-2 border-t border-sand-100 pt-4 text-sm">
+      <div class="space-y-2 border-t border-sand-100 pt-4 text-base">
         <div class="flex justify-between text-sand-600"><span><%= t("price.lodging") %> · <%= nights_label(@booking.nights) %></span><span><%= money(@booking.subtotal_cents, @booking.currency) %></span></div>
         <div class="flex justify-between text-sand-600"><span><%= t("price.cleaning") %></span><span><%= money(@booking.cleaning_fee_cents, @booking.currency) %></span></div>
         <% if @booking.discount_cents.positive? %>
@@ -43,7 +43,7 @@
       </div>
 
       <% if @booking.cancelled? %>
-        <div class="rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"><%= t("booking.cancelled_notice") %></div>
+        <div class="rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-base text-rose-700"><%= t("booking.cancelled_notice") %></div>
       <% end %>
     </div>
   </div>
@@ -55,6 +55,6 @@
       <span class="inline-block h-2 w-2 rounded-full bg-white/90"></span>
       <%= t("booking.coordinate_whatsapp") %>
     <% end %>
-    <p class="mt-2 text-sm text-sand-500"><%= t("booking.mention_code_html", code: @booking.code) %></p>
+    <p class="mt-2 text-base text-sand-500"><%= t("booking.mention_code_html", code: @booking.code) %></p>
   </div>
 </section>

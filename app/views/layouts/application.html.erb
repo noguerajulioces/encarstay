@@ -139,20 +139,19 @@
     </main>
 
     <%= render "shared/whatsapp" %>
-    <%= render "shared/palette_switcher" if Rails.env.development? %>
 
     <footer class="mt-20 border-t border-sand-200 bg-sand-100">
       <%# Newsletter oculto en esta fase — los partials shared/newsletter_* siguen listos. %>
       <div class="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">
         <div class="max-w-sm lg:col-span-2">
           <%= image_tag "encar-stays-logo-green.png", alt: t("site.name"), width: 175, height: 200, class: "h-16 w-auto" %>
-          <p class="mt-4 text-sm leading-relaxed text-sand-600"><%= t("layout.footer_blurb") %></p>
-          <p class="mt-4 flex items-center gap-1.5 text-sm text-sand-600"><%= icon :pin, klass: "h-4 w-4 text-sand-500" %> <%= t("layout.footer_location") %></p>
+          <p class="mt-4 text-base leading-relaxed text-sand-600"><%= t("layout.footer_blurb") %></p>
+          <p class="mt-4 flex items-center gap-1.5 text-base text-sand-600"><%= icon :pin, klass: "h-4 w-4 text-sand-500" %> <%= t("layout.footer_location") %></p>
         </div>
 
         <div>
           <h3 class="kicker text-sand-900"><%= t("layout.footer_explore") %></h3>
-          <ul class="mt-4 space-y-2.5 text-sm">
+          <ul class="mt-4 space-y-2.5 text-base">
             <li><%= link_to t("layout.nav_properties"), properties_path, class: "text-sand-600 transition-colors hover:text-sand-900 hover:underline" %></li>
             <li><%= link_to t("layout.nav_attractions"), attractions_path, class: "text-sand-600 transition-colors hover:text-sand-900 hover:underline" %></li>
             <li><%= link_to t("layout.nav_events"), events_path, class: "text-sand-600 transition-colors hover:text-sand-900 hover:underline" %></li>
@@ -163,7 +162,7 @@
 
         <div>
           <h3 class="kicker text-sand-900"><%= t("layout.footer_contact") %></h3>
-          <ul class="mt-4 space-y-2.5 text-sm">
+          <ul class="mt-4 space-y-2.5 text-base">
             <li>
               <%= link_to whatsapp_url(t("whatsapp.default_message")), target: "_blank", rel: "noopener",
                     class: "inline-flex items-center gap-2 text-sand-600 transition-colors hover:text-sand-900" do %>
@@ -174,7 +173,7 @@
         </div>
       </div>
       <div class="border-t border-sand-200">
-        <div class="mx-auto max-w-7xl px-5 py-5 text-sm text-sand-500 sm:px-8">
+        <div class="mx-auto max-w-7xl px-5 py-5 text-base text-sand-500 sm:px-8">
           <p><%= t("layout.footer_rights", year: Date.current.year) %></p>
         </div>
       </div>
