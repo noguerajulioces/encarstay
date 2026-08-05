@@ -39,28 +39,40 @@ base_reviews = [
 
 properties = [
   {
-    name: "Casa del Lago",
-    description: "Amplia casa con vista al lago, ideal para familias. Parrilla, jardín y muelle propio.\nA 5 minutos del centro de San Bernardino.",
-    address_area: "San Bernardino",
-    capacity: 6, bedrooms: 3, beds: 4, bathrooms: 2,
+    name: "Quinta Privada con Entorno Natural",
+    property_type: "quinta",
+    description: "Quinta privada con un entorno natural único. Un dormitorio, tres camas y un baño — ideal para hasta cuatro huéspedes que buscan desconectar.",
+    address_area: "Encarnación",
+    capacity: 4, bedrooms: 1, beds: 3, bathrooms: 1,
     latitude: -27.3240, longitude: -55.8770,
     base_price_cents: 45_000_000, currency: "PYG", cleaning_fee_cents: 8_000_000, min_nights: 2
   },
   {
-    name: "Cabaña del Bosque",
-    description: "Cabaña acogedora rodeada de naturaleza. Perfecta para desconectar en pareja.",
-    address_area: "Areguá",
-    capacity: 2, bedrooms: 1, beds: 1, bathrooms: 1,
+    name: "Cabaña Amplia con Piscina",
+    property_type: "cabana",
+    description: "Cabaña amplia con piscina, pensada para grupos. Dos dormitorios, cinco camas y dos baños — cómoda para hasta siete huéspedes.",
+    address_area: "Encarnación",
+    capacity: 7, bedrooms: 2, beds: 5, bathrooms: 2,
     latitude: -27.3410, longitude: -55.8560,
     base_price_cents: 28_000_000, currency: "PYG", cleaning_fee_cents: 5_000_000, min_nights: 2
   },
   {
-    name: "Loft Costanera",
-    description: "Loft moderno frente a la costanera, con todas las comodidades y excelente ubicación.",
+    name: "Depto. con Balcón y Vista al Río",
+    property_type: "departamento",
+    description: "Departamento moderno con balcón y vista al río en Encarnación. Dos dormitorios, dos camas y un baño — ideal para hasta tres huéspedes.",
     address_area: "Encarnación",
-    capacity: 4, bedrooms: 2, beds: 2, bathrooms: 1,
+    capacity: 3, bedrooms: 2, beds: 2, bathrooms: 1,
+    latitude: -27.3306, longitude: -55.8667,
+    base_price_cents: 30_000_000, currency: "PYG", cleaning_fee_cents: 5_000_000, min_nights: 2
+  },
+  {
+    name: "Loft con Piscina Privada",
+    property_type: "loft",
+    description: "Loft moderno de doble altura con piscina privada en Encarnación. Planta abierta con cocina completa y comedor, dos dormitorios, cuatro camas y un baño y medio — cómodo para hasta cinco huéspedes.",
+    address_area: "Encarnación",
+    capacity: 5, bedrooms: 2, beds: 4, bathrooms: 2,
     latitude: -27.3320, longitude: -55.8685,
-    base_price_cents: 38_000_000, currency: "PYG", cleaning_fee_cents: 6_000_000, min_nights: 2
+    base_price_cents: 42_000_000, currency: "PYG", cleaning_fee_cents: 6_000_000, min_nights: 2
   }
 ]
 
@@ -86,15 +98,16 @@ properties.each do |attributes|
   end
 
   amenity_keys = {
-    "casa-del-lago"     => %w[wifi kitchen pool free_parking tv washer air_conditioning smoke_alarm self_checkin workspace pets_allowed],
-    "cabana-del-bosque" => %w[wifi kitchen free_parking smoke_alarm self_checkin],
-    "loft-costanera"    => %w[wifi kitchen air_conditioning tv washer workspace security_cameras smoke_alarm self_checkin]
+    "quinta-privada-con-entorno-natural" => %w[wifi kitchen pool free_parking tv air_conditioning smoke_alarm self_checkin],
+    "cabana-amplia-con-piscina" => %w[wifi kitchen pool free_parking smoke_alarm self_checkin],
+    "depto-con-balcon-y-vista-al-rio" => %w[wifi kitchen air_conditioning tv self_checkin],
+    "loft-con-piscina-privada" => %w[wifi kitchen air_conditioning pool tv washer workspace security_cameras smoke_alarm self_checkin]
   }.fetch(property.slug, %w[wifi kitchen tv air_conditioning])
   property.amenities = Amenity.where(key: amenity_keys)
 
-  # Casa del Lago earns the "guest favourite" badge (all 5s); the rest average ~4.8.
+  # The loft earns the "guest favourite" badge (all 5s); the rest average ~4.8.
   if property.reviews.none?
-    ratings = property.slug == "casa-del-lago" ? [ 5, 5, 5, 5, 5, 5 ] : [ 5, 5, 5, 4, 5, 5 ]
+    ratings = property.slug == "loft-con-piscina-privada" ? [ 5, 5, 5, 5, 5, 5 ] : [ 5, 5, 5, 4, 5, 5 ]
     base_reviews.each_with_index do |attrs, i|
       property.reviews.create!(attrs.merge(rating: ratings[i]))
     end
