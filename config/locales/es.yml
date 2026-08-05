@@ -162,8 +162,8 @@ es:
     available: "Disponible"
     search_placeholder: "Buscar en la guía…"
     read_more: "Ver más"
-    none_events: "No hay eventos por ahora"
-    none_events_subtitle: "Volvé pronto: la agenda se actualiza seguido."
+    none_events: "La agenda está en camino"
+    none_events_subtitle: "Estamos cargando los eventos de la ciudad: carnaval, ferias, música y más. Volvé pronto."
     none_attractions: "Todavía no hay lugares"
     none_attractions_subtitle: "Estamos cargando la guía de la ciudad."
     location: "Ubicación"
@@ -187,7 +187,7 @@ es:
     read_more: "Leer más"
     more_posts: "Más artículos"
     none_title: "El blog está en camino"
-    none_subtitle: "Estamos escribiendo las primeras guías y novedades de Encarnación. Dejanos tu correo y te avisamos cuando publiquemos."
+    none_subtitle: "Estamos escribiendo las primeras guías y novedades de Encarnación. Volvé pronto."
 
   search_form:
     destination: "Destino"

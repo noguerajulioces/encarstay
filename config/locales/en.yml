@@ -153,8 +153,8 @@ en:
     available: "Available"
     search_placeholder: "Search the guide…"
     read_more: "Read more"
-    none_events: "No events right now"
-    none_events_subtitle: "Check back soon: the calendar updates often."
+    none_events: "The calendar is on its way"
+    none_events_subtitle: "We're loading the city's events: carnival, fairs, music and more. Check back soon."
     none_attractions: "No places yet"
     none_attractions_subtitle: "We're building the city guide."
     location: "Location"
@@ -178,7 +178,7 @@ en:
     read_more: "Read more"
     more_posts: "More articles"
     none_title: "The blog is on its way"
-    none_subtitle: "We're writing the first guides and news about Encarnación. Leave your email and we'll let you know when we publish."
+    none_subtitle: "We're writing the first guides and news about Encarnación. Check back soon."
 
   search_form:
     destination: "Destination"

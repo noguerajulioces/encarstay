@@ -134,7 +134,7 @@ carnival_year = Date.current.month <= 2 ? Date.current.year : Date.current.year 
 
 guide_entries = [
   {
-    slug: "carnaval-encarnaceno", kind: "event", category: "carnaval", featured: true, published: true,
+    slug: "carnaval-encarnaceno", kind: "event", category: "carnaval", featured: true, published: false,
     title_es: "Carnaval Encarnaceno", title_en: "Encarnación Carnival", title_pt: "Carnaval de Encarnación",
     summary_es: "El carnaval más grande del Paraguay, en el Sambódromo sobre la costanera.",
     summary_en: "Paraguay's biggest carnival, at the Sambadrome on the riverfront.",
@@ -147,7 +147,7 @@ guide_entries = [
     schedule_note_es: "Fines de semana de enero y febrero"
   },
   {
-    slug: "expo-itapua", kind: "event", category: "ferias-eventos", featured: false, published: true,
+    slug: "expo-itapua", kind: "event", category: "ferias-eventos", featured: false, published: false,
     title_es: "Expo Itapúa", title_en: "Expo Itapúa", title_pt: "Expo Itapúa",
     summary_es: "Feria agropecuaria, comercial e industrial de la región.",
     summary_en: "Regional agricultural, trade and industrial fair.",
@@ -177,9 +177,30 @@ guide_entries = [
     title_es: "Ruinas Jesuíticas de Trinidad", title_en: "Jesuit Ruins of Trinidad", title_pt: "Ruínas Jesuíticas de Trinidad",
     summary_es: "Patrimonio de la Humanidad de la UNESCO, a 30 minutos de la ciudad.",
     summary_en: "UNESCO World Heritage Site, 30 minutes from the city.",
-    description_es: "La Santísima Trinidad del Paraná es la reducción jesuítica mejor conservada del país. Imperdible el show nocturno de luces y sonido.",
+    description_es: "La Santísima Trinidad del Paraná es la reducción jesuítica mejor conservada del país, declarada Patrimonio de la Humanidad por la UNESCO en 1993. Está a unos 30 km de Encarnación por la Ruta PY06. Imperdible el show nocturno de luces y sonido.",
     address: "Trinidad, Itapúa", area: "Trinidad",
     latitude: -27.1300, longitude: -55.7200, external_url: "https://whc.unesco.org/en/list/648/"
+  },
+  {
+    slug: "ruinas-jesus-de-tavarangue", kind: "attraction", category: "cultura-historia", featured: false, published: true,
+    title_es: "Ruinas de Jesús de Tavarangue", title_en: "Jesús de Tavarangue Ruins", title_pt: "Ruínas de Jesús de Tavarangue",
+    summary_es: "La iglesia inconclusa de las misiones, Patrimonio de la Humanidad junto a Trinidad.",
+    summary_en: "The missions' unfinished church, a World Heritage Site together with Trinidad.",
+    summary_pt: "A igreja inacabada das missões, Patrimônio Mundial junto com Trinidad.",
+    description_es: "A unos 40 km de Encarnación, Jesús de Tavarangue conserva los muros monumentales de una iglesia que quedó inconclusa con la expulsión de los jesuitas en 1767. Integra, junto con Trinidad, el sitio declarado Patrimonio de la Humanidad por la UNESCO — se pueden visitar ambas ruinas en una misma tarde.",
+    description_en: "About 40 km from Encarnación, Jesús de Tavarangue preserves the monumental walls of a church left unfinished when the Jesuits were expelled in 1767. Together with Trinidad it forms a UNESCO World Heritage Site — both ruins fit in a single afternoon.",
+    address: "Jesús, Itapúa", area: "Jesús",
+    latitude: -27.0500, longitude: -55.7560, external_url: "https://whc.unesco.org/en/list/648/"
+  },
+  {
+    slug: "playa-mboi-kae", kind: "attraction", category: "playas-costanera", featured: false, published: true,
+    title_es: "Playa Mboi Ka'ê", title_en: "Mboi Ka'ê Beach", title_pt: "Praia Mboi Ka'ê",
+    summary_es: "La playa más tranquila de la ciudad, en la zona de San Isidro.",
+    summary_en: "The city's quieter beach, in the San Isidro area.",
+    summary_pt: "A praia mais tranquila da cidade, na zona de San Isidro.",
+    description_es: "Al norte del centro, Mboi Ka'ê ofrece un ambiente más relajado que San José: arena, aguas del Paraná y atardeceres, con un público más local.",
+    description_en: "North of the center, Mboi Ka'ê is more laid-back than San José: sand, the Paraná and sunsets, with a more local crowd.",
+    area: "San Isidro", latitude: -27.3130, longitude: -55.8790
   },
   {
     slug: "cervecerias-de-encarnacion", kind: "attraction", category: "gastronomia", featured: false, published: true,

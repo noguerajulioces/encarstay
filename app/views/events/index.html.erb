@@ -11,20 +11,24 @@
 
     <%= render "shared/guide_tabs", active: :events %>
 
-    <%= form_with url: events_path, method: :get, class: "mt-6 flex max-w-md gap-2" do %>
-      <% if @active_category.present? %><%= hidden_field_tag :category, @active_category %><% end %>
-      <div class="flex flex-1 items-center gap-2 rounded-xl border border-sand-200 bg-white px-3">
-        <span class="text-sand-700"><%= icon :search, klass: "h-5 w-5" %></span>
-        <%= text_field_tag :q, params[:q], placeholder: t("guide.search_placeholder"), class: "w-full bg-transparent py-2.5 text-sm focus:outline-none" %>
-      </div>
-      <%= submit_tag t("search_form.submit"), class: btn_classes(:primary) %>
+    <% if @events_exist %>
+      <%= form_with url: events_path, method: :get, class: "mt-6 flex max-w-md gap-2" do %>
+        <% if @active_category.present? %><%= hidden_field_tag :category, @active_category %><% end %>
+        <div class="flex flex-1 items-center gap-2 rounded-xl border border-sand-200 bg-white px-3">
+          <span class="text-sand-700"><%= icon :search, klass: "h-5 w-5" %></span>
+          <%= text_field_tag :q, params[:q], placeholder: t("guide.search_placeholder"), class: "w-full bg-transparent py-2.5 text-sm focus:outline-none" %>
+        </div>
+        <%= submit_tag t("search_form.submit"), class: btn_classes(:primary) %>
+      <% end %>
     <% end %>
   </div>
 </section>
 
-<section class="mx-auto max-w-6xl px-5 pt-8">
-  <%= render "shared/category_tiles", categories: @categories, kind: "events", active: @active_category %>
-</section>
+<% if @events_exist %>
+  <section class="mx-auto max-w-6xl px-5 pt-8">
+    <%= render "shared/category_tiles", categories: @categories, kind: "events", active: @active_category %>
+  </section>
+<% end %>
 
 <section class="mx-auto max-w-6xl px-5 pb-6 pt-8">
   <% if @events.any? %>
@@ -34,10 +38,10 @@
       <% end %>
     </div>
   <% else %>
-    <div class="rounded-2xl border border-dashed border-sand-300 py-16 text-center">
-      <span class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-sand-100 text-sand-400"><%= icon :ticket, klass: "h-6 w-6" %></span>
+    <div class="rounded-2xl border border-dashed border-sand-300 px-6 py-16 text-center">
+      <span class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-brand-50 text-brand-600"><%= icon :ticket, klass: "h-6 w-6" %></span>
       <p class="mt-4 font-display text-xl font-semibold text-sand-900"><%= t("guide.none_events") %></p>
-      <p class="mt-1 text-sand-500"><%= t("guide.none_events_subtitle") %></p>
+      <p class="mx-auto mt-1 max-w-md text-sand-500"><%= t("guide.none_events_subtitle") %></p>
     </div>
   <% end %>
 </section>
