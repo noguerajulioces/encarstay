@@ -17,7 +17,7 @@
         <span class="text-sand-700"><%= icon :search, klass: "h-5 w-5" %></span>
         <%= text_field_tag :q, params[:q], placeholder: t("guide.search_placeholder"), class: "w-full bg-transparent py-2.5 text-sm focus:outline-none" %>
       </div>
-      <%= submit_tag t("search_form.submit"), class: "rounded-xl bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-600 cursor-pointer" %>
+      <%= submit_tag t("search_form.submit"), class: btn_classes(:primary) %>
     <% end %>
   </div>
 </section>

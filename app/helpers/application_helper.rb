@@ -26,7 +26,7 @@ module ApplicationHelper
   # el inline-flex de la base y gana el orden de compilación del CSS, no el
   # del atributo; envolver en un wrapper responsivo en su lugar.
   def btn_classes(variant = :primary, extra = nil)
-    base = "inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-colors"
+    base = "inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl px-6 py-3 text-base font-semibold transition-colors"
     variants = {
       primary: "bg-brand-500 text-white hover:bg-brand-600",
       ghost: "border border-sand-300 text-sand-800 hover:bg-sand-100",
