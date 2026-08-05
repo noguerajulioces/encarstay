@@ -38,12 +38,9 @@
     </div>
   <% else %>
     <div class="rounded-2xl border border-dashed border-sand-300 px-6 py-16 text-center">
-      <span class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-brand-50 text-brand-600"><%= icon :envelope, klass: "h-6 w-6" %></span>
+      <span class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-brand-50 text-brand-600"><%= icon :compass, klass: "h-6 w-6" %></span>
       <p class="mt-4 font-display text-xl font-semibold text-sand-900"><%= t("blog.none_title") %></p>
       <p class="mx-auto mt-1 max-w-md text-sand-500"><%= t("blog.none_subtitle") %></p>
-      <div class="mx-auto mt-6 max-w-md text-left">
-        <%= render "shared/newsletter_form", variant: "blog" %>
-      </div>
     </div>
   <% end %>
 </section>
