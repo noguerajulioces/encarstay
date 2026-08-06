@@ -223,8 +223,8 @@ en:
     map_kicker: "Location"
     map_title: "Where each one is"
     map_subtitle: "All four are in Encarnación — here you can see each one's area and its distance to the center."
-    map_label: "Illustrated map with the location of the stays in Encarnación"
-    map_note: "Illustrative map, approximate scale: each pin marks the stay's area, not its exact address."
+    map_label: "Map with the approximate location of the stays in Encarnación"
+    map_note: "Each pin marks the stay's approximate area, not its exact address."
     distance_center: "approx. %{distance} to the city center"
     distance_costanera: "approx. %{distance} to Shopping Costanera"
 

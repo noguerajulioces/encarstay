@@ -15,9 +15,6 @@ class PropertiesController < ApplicationController
         quote: (property.quote(@search.check_in, @search.check_out) if @search.valid_range?)
       }
     end
-
-    # La entrada de la guía marca la costanera como escenografía del mapa.
-    @costanera = GuideEntry.attractions.find_by(slug: "costanera-de-encarnacion")
   end
 
   def show

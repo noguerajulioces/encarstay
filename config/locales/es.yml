@@ -237,8 +237,8 @@ es:
     map_kicker: "Ubicación"
     map_title: "Dónde está cada una"
     map_subtitle: "Las cuatro quedan en Encarnación: acá ves la zona de cada una y su distancia al centro."
-    map_label: "Mapa ilustrado con la ubicación de los alojamientos en Encarnación"
-    map_note: "Mapa ilustrativo a escala aproximada: cada pin marca la zona del alojamiento, no la dirección puntual."
+    map_label: "Mapa con la ubicación aproximada de los alojamientos en Encarnación"
+    map_note: "Cada pin marca la zona aproximada del alojamiento, no la dirección puntual."
     distance_center: "aprox. %{distance} al centro"
     distance_costanera: "aprox. %{distance} al Shopping Costanera"
 
