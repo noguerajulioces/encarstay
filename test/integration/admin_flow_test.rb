@@ -221,6 +221,19 @@ class AdminFlowTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "admin can change a property's nightly price and cleaning fee" do
+    sign_in
+
+    patch admin_property_path(@property), params: { property: {
+      name: @property.name, base_price: "4200", cleaning_fee: "700"
+    } }
+
+    assert_redirected_to admin_property_path(@property)
+    @property.reload
+    assert_equal 420_000, @property.base_price_cents
+    assert_equal 70_000, @property.cleaning_fee_cents
+  end
+
   test "the public iCal feed serves calendar data for a valid token" do
     create_booking
     get calendar_feed_path(calendar_token: @property.calendar_token, slug: @property.slug)
