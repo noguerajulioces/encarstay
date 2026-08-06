@@ -46,24 +46,44 @@
   </div>
 </section>
 
-<%# ===== Alojamientos ===== %>
+<%# ===== Alojamientos: vitrina editorial. El catálogo operativo (fechas,
+    comparación, mapa) vive en /properties — acá solo se muestra y se invita. %>
 <section id="alojamientos" class="scroll-mt-24 py-14 sm:py-20">
   <div class="mx-auto max-w-6xl px-5">
-  <%# Sin "Ver todos": el home ya muestra el catálogo completo. %>
   <%= render "shared/section_heading",
         kicker: t("home.properties_kicker"),
         title: t("home.properties_title"),
         subtitle: t("home.properties_subtitle") %>
 
-  <%# Verificador de disponibilidad: fechas + huéspedes al servicio del catálogo %>
-  <div class="mt-10 max-w-2xl">
-    <p class="mb-2 text-base font-medium text-sand-600"><%= t("home.availability_hint") %></p>
-    <%= render "shared/search_form", search: @search %>
+  <div class="mt-12 grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-4">
+    <% @properties.each do |property| %>
+      <%= link_to property_path(property), class: "group block" do %>
+        <span class="relative block aspect-[4/5] overflow-hidden rounded-2xl bg-sand-100">
+          <% if (photo = property.cover_photo) %>
+            <%= image_tag url_for(photo.image.variant(:card)), alt: property.name, loading: "lazy",
+                  class: "h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" %>
+          <% else %>
+            <span class="flex h-full w-full items-center justify-center bg-gradient-to-br from-sand-100 to-sand-200 font-display text-5xl font-semibold text-sand-400">
+              <%= property.name.first %>
+            </span>
+          <% end %>
+        </span>
+        <% if property.property_type.present? %>
+          <span class="kicker mt-4 block text-brand-700"><%= t("property_types.#{property.property_type}") %></span>
+        <% end %>
+        <span class="mt-1 block font-display text-lg font-semibold leading-snug text-sand-900 transition-colors group-hover:text-brand-700">
+          <%= property.name %>
+        </span>
+        <span class="mt-1 block text-base text-sand-600">
+          <%= t("units.from") %> <span class="font-semibold text-sand-900"><%= money(property.base_price_cents, property.currency) %></span> <%= t("units.per_night") %>
+        </span>
+      <% end %>
+    <% end %>
   </div>
 
-  <div class="mt-14 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-    <% @properties.each do |property| %>
-      <%= render "shared/property_card", property: property %>
+  <div class="mt-12 text-center">
+    <%= link_to properties_path, class: btn_classes(:primary) do %>
+      <%= t("home.choose_cta") %> <%= icon :arrow, klass: "h-4 w-4" %>
     <% end %>
   </div>
   </div>

@@ -94,11 +94,11 @@
           </div>
 
           <span class="hidden md:block">
-            <%= link_to search_path, class: btn_classes(:primary) do %>
+            <%= link_to properties_path, class: btn_classes(:primary) do %>
               <%= icon :search, klass: "h-4 w-4" %><%= t("layout.nav_search") %>
             <% end %>
           </span>
-          <%= link_to search_path, "aria-label": t("layout.nav_search"),
+          <%= link_to properties_path, "aria-label": t("layout.nav_search"),
                 class: "grid h-11 w-11 place-items-center rounded-xl bg-brand-500 text-white transition-colors hover:bg-brand-600 md:hidden" do %>
             <%= icon :search, klass: "h-5 w-5" %>
           <% end %>

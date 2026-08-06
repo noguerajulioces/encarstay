@@ -1,7 +1,9 @@
 class SearchesController < ApplicationController
+  # /search fue la página de resultados; ese trabajo hoy lo hace el comparador
+  # de /properties con más contexto. Redirigimos preservando fechas y huéspedes.
   def show
-    @search = Search.new(search_params)
-    @results = @search.list
+    redirect_to properties_path(search: search_params.to_h.presence, anchor: "comparador"),
+      status: :moved_permanently
   end
 
   private

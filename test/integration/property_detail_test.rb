@@ -24,27 +24,24 @@ class PropertyDetailTest < ActionDispatch::IntegrationTest
     assert_no_match(/#evaluaciones/, response.body)
   end
 
-  test "cards expose the favorite toggle hook" do
+  test "the home showcase links every active stay to its page" do
     get root_path
     assert_response :success
-    assert_select "button[data-controller='favorite'][data-favorite-slug-value=?]", @property.slug
+    Property.active.find_each do |property|
+      assert_select "#alojamientos a[href=?]", property_path(property)
+    end
   end
 
-  test "property cards load one image and defer the rest of the carousel" do
+  test "the home showcase renders one lazy cover image per stay, no carousel" do
     property = properties(:bosque)
     attach_photo(property, "first.png")
     attach_photo(property, "second.png")
 
-    get search_path
+    get root_path
     assert_response :success
 
-    assert_select "[data-controller='card-carousel']", 1 do
-      assert_select "img[data-card-carousel-target='image']", 2
-      assert_select "img[data-card-carousel-target='image'][src*='/rails/active_storage/representations/proxy/']", 1
-      assert_select "img[data-card-carousel-target='image']:not([src])[data-card-carousel-src-value*='/rails/active_storage/representations/proxy/']", 1
-      assert_select "img[loading='eager'][fetchpriority='high']", 1
-      assert_select "img[srcset]", 0
-    end
+    assert_select "#alojamientos [data-controller='card-carousel']", 0
+    assert_select "#alojamientos img[loading='lazy'][src*='/rails/active_storage/representations/proxy/']", 1
   end
 
   test "proxy variants are WebP and publicly cacheable" do
