@@ -209,7 +209,7 @@ pt:
     page_title: "Nossas acomodações"
     kicker: "Acomodações"
     title: "Qual é para você?"
-    subtitle: "As quatro acomodações lado a lado: capacidade, comodidades, localização e disponibilidade para suas datas."
+    subtitle: "As quatro acomodações com tudo para decidir: capacidade, comodidades, localização e disponibilidade para suas datas."
     hint: "Escolha suas datas e veja qual está livre:"
     guests_chip:
       one: "hóspede"
@@ -273,7 +273,6 @@ pt:
     location: "Localização"
     location_subtitle: "Onde você vai se hospedar e o que tem por perto."
     km_away: "~%{km} km"
-    new_listing: "Novo"
     guest_favorite: "Favorito dos hóspedes"
     guest_favorite_note: "Uma das acomodações mais bem avaliadas pelos hóspedes."
     amenities_title: "O que este lugar oferece"
