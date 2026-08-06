@@ -209,7 +209,7 @@ es:
     page_title: "Nuestros alojamientos"
     kicker: "Alojamientos"
     title: "¿Cuál es para vos?"
-    subtitle: "Los cuatro alojamientos lado a lado: capacidad, servicios, ubicación y disponibilidad para tus fechas."
+    subtitle: "Los cuatro alojamientos con todo para decidir: capacidad, servicios, ubicación y disponibilidad para tus fechas."
     hint: "Elegí tus fechas y mirá cuál está libre:"
     guests_chip:
       one: "huésped"
@@ -273,7 +273,6 @@ es:
     location: "Ubicación"
     location_subtitle: "Dónde te vas a alojar y qué tenés cerca."
     km_away: "~%{km} km"
-    new_listing: "Nuevo"
     guest_favorite: "Favorito entre huéspedes"
     guest_favorite_note: "Uno de los alojamientos más valorados por los huéspedes."
     amenities_title: "Qué ofrece este lugar"

@@ -195,7 +195,7 @@ en:
     page_title: "Our stays"
     kicker: "Stays"
     title: "Which one is for you?"
-    subtitle: "All four stays side by side: capacity, amenities, location and availability for your dates."
+    subtitle: "All four stays with everything you need to decide: capacity, amenities, location and availability for your dates."
     hint: "Pick your dates and see which one is free:"
     guests_chip:
       one: "guest"
@@ -259,7 +259,6 @@ en:
     location: "Location"
     location_subtitle: "Where you'll stay and what's nearby."
     km_away: "~%{km} km"
-    new_listing: "New"
     guest_favorite: "Guest favorite"
     guest_favorite_note: "One of the most loved stays according to guests."
     amenities_title: "What this place offers"
