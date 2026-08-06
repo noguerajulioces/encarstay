@@ -476,7 +476,7 @@ es:
         cta: "Confirmar suscripción"
         footer: "Si no fuiste vos, podés ignorar este correo."
       welcome:
-        subject: "¡Bienvenido/a! Aquí está tu 5% de descuento"
+        subject: "¡Bienvenido/a! Tu 5% de descuento te espera"
         heading: "¡Ya sos parte de Encar Stays!"
         intro_html: "Gracias por confirmar tu suscripción. Como regalo de bienvenida, te dejamos un <strong>5% de descuento</strong> para tu primera reserva."
         intro_text: "Gracias por confirmar. Como regalo de bienvenida, te dejamos un 5% de descuento para tu primera reserva."
