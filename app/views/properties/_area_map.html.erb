@@ -79,8 +79,8 @@
         <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-500 font-display text-base font-semibold text-white"><%= index + 1 %></span>
         <div class="min-w-0 flex-1">
           <p class="truncate text-base font-semibold text-sand-900"><%= link_to property.name, property_path(property), class: "hover:text-brand-700" %></p>
-          <% if entry[:distance_km].present? %>
-            <p class="text-sm text-sand-500"><%= t("compare.distance_away", distance: distance_label(entry[:distance_km])) %></p>
+          <% if property.distance_center_km.present? %>
+            <p class="text-sm text-sand-500"><%= t("compare.distance_center", distance: distance_label(property.distance_center_km)) %></p>
           <% end %>
         </div>
         <%= link_to t("guide.open_in_maps"),

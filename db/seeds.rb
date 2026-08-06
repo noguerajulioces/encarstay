@@ -44,7 +44,7 @@ properties = [
     description: "Quinta privada con un entorno natural único. Un dormitorio, tres camas y un baño — ideal para hasta cuatro huéspedes que buscan desconectar.",
     address_area: "Encarnación",
     capacity: 4, bedrooms: 1, beds: 3, bathrooms: 1,
-    latitude: -27.3240, longitude: -55.8770,
+    latitude: -27.31710, longitude: -55.82330,
     base_price_cents: 45_000_000, currency: "PYG", cleaning_fee_cents: 8_000_000, min_nights: 2
   },
   {
@@ -53,7 +53,7 @@ properties = [
     description: "Cabaña amplia con piscina, pensada para grupos. Dos dormitorios, cinco camas y dos baños — cómoda para hasta siete huéspedes.",
     address_area: "Encarnación",
     capacity: 7, bedrooms: 2, beds: 5, bathrooms: 2,
-    latitude: -27.3410, longitude: -55.8560,
+    latitude: -27.3170, longitude: -55.8234,
     base_price_cents: 28_000_000, currency: "PYG", cleaning_fee_cents: 5_000_000, min_nights: 2
   },
   {
@@ -62,7 +62,7 @@ properties = [
     description: "Departamento moderno con balcón y vista al río en Encarnación. Dos dormitorios, dos camas y un baño — ideal para hasta tres huéspedes.",
     address_area: "Encarnación",
     capacity: 3, bedrooms: 2, beds: 2, bathrooms: 1,
-    latitude: -27.3306, longitude: -55.8667,
+    latitude: -27.3111, longitude: -55.8579,
     base_price_cents: 30_000_000, currency: "PYG", cleaning_fee_cents: 5_000_000, min_nights: 2
   },
   {
@@ -71,7 +71,7 @@ properties = [
     description: "Loft moderno de doble altura con piscina privada en Encarnación. Planta abierta con cocina completa y comedor, dos dormitorios, cuatro camas y un baño y medio — cómodo para hasta cinco huéspedes.",
     address_area: "Encarnación",
     capacity: 5, bedrooms: 2, beds: 4, bathrooms: 2,
-    latitude: -27.3320, longitude: -55.8685,
+    latitude: -27.314578, longitude: -55.823905,
     base_price_cents: 42_000_000, currency: "PYG", cleaning_fee_cents: 6_000_000, min_nights: 2
   }
 ]

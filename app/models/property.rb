@@ -5,6 +5,13 @@ class Property < ApplicationRecord
 
   # Tipologías del catálogo; el orden es el que muestran los selects.
   PROPERTY_TYPES = %w[ departamento loft cabana quinta casa ].freeze
+
+  # Puntos de referencia de la ciudad, verificados en OpenStreetMap (Nominatim,
+  # agosto 2026). Los usan el mapa público y la tarea distances:refresh.
+  LANDMARKS = {
+    center:    { name: "Plaza de Armas",     latitude: -27.3322663, longitude: -55.8656244, column: :distance_center_km },
+    costanera: { name: "Shopping Costanera", latitude: -27.3252685, longitude: -55.8753826, column: :distance_costanera_km }
+  }.freeze
   enum :property_type, PROPERTY_TYPES.index_by(&:itself), validate: { allow_nil: true }
 
   monetize :base_price, :cleaning_fee

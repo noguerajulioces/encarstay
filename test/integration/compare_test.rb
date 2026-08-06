@@ -8,6 +8,10 @@ class CompareTest < ActionDispatch::IntegrationTest
     assert_match properties(:lago).name, response.body
     assert_match properties(:bosque).name, response.body
     assert_no_match I18n.t("compare.available"), response.body
+
+    # Distancias por calle: se muestran cuando están cargadas y se omiten si no.
+    assert_match I18n.t("compare.distance_center", distance: "1,2 km"), response.body
+    assert_match I18n.t("compare.distance_costanera", distance: "2,3 km"), response.body
   end
 
   test "with dates the comparator marks occupied stays and keeps the free ones bookable" do

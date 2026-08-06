@@ -14,6 +14,8 @@ lago:
   active: true
   latitude: -27.330000
   longitude: -55.870000
+  distance_center_km: 1.2
+  distance_costanera_km: 2.3
   calendar_token: tok-lago-fixture-0000000001
   # Fixtures bypass Review callbacks, so the cached aggregates are set by hand to
   # match reviews.yml (5 × 5★ → guest favourite).

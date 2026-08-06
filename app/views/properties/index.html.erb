@@ -71,9 +71,13 @@
               </div>
             <% end %>
 
-            <% if entry[:distance_km].present? %>
-              <p class="mt-4 flex items-center gap-1.5 text-base text-sand-500">
-                <%= icon :pin, klass: "h-4 w-4" %><%= t("compare.distance_away", distance: distance_label(entry[:distance_km])) %>
+            <% distances = [
+                 (t("compare.distance_center", distance: distance_label(property.distance_center_km)) if property.distance_center_km),
+                 (t("compare.distance_costanera", distance: distance_label(property.distance_costanera_km)) if property.distance_costanera_km)
+               ].compact %>
+            <% if distances.any? %>
+              <p class="mt-4 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-base text-sand-500">
+                <%= icon :pin, klass: "h-4 w-4 shrink-0" %><%= distances.join(" · ") %>
               </p>
             <% end %>
           </div>

@@ -25,6 +25,11 @@ pt:
       words_connector: ", "
       two_words_connector: " e "
       last_word_connector: " e "
+  number:
+    format:
+      separator: ","
+      delimiter: "."
+
   helpers:
     submit:
       create: "Criar %{model}"
@@ -227,14 +232,15 @@ pt:
       one: "Até 1 hóspede"
       other: "Até %{count} hóspedes"
     cta: "Ver e reservar"
-    total_note: "O total inclui a limpeza. As distâncias são em linha reta."
-    distance_note: "As distâncias são em linha reta."
+    total_note: "O total inclui a limpeza. Distâncias aproximadas por rua, segundo o OpenStreetMap."
+    distance_note: "Distâncias aproximadas por rua, segundo o OpenStreetMap."
     map_kicker: "Localização"
     map_title: "Onde fica cada uma"
-    map_subtitle: "As quatro ficam em Encarnación, a minutos da beira-rio."
+    map_subtitle: "As quatro ficam em Encarnación: aqui você vê a zona de cada uma e a distância até o centro."
     map_label: "Mapa ilustrado com a localização das acomodações em Encarnación"
-    map_note: "Mapa ilustrativo em escala aproximada. Toque em um pin ou em “Abrir no Google Maps” para a localização exata."
-    distance_away: "%{distance} até a beira-rio"
+    map_note: "Mapa ilustrativo em escala aproximada: cada pin marca a zona da acomodação, não o endereço exato."
+    distance_center: "aprox. %{distance} até o centro"
+    distance_costanera: "aprox. %{distance} até o Shopping Costanera"
 
   property:
     photo_alt: "%{name} — foto %{index}"
