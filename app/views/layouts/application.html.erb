@@ -141,7 +141,8 @@
     <%= render "shared/whatsapp" %>
 
     <footer class="mt-20 border-t border-sand-200 bg-sand-100">
-      <%# Newsletter oculto en esta fase — los partials shared/newsletter_* siguen listos. %>
+      <%# El popup de entrada (shared/newsletter_popup) sigue apagado a propósito. %>
+      <%= render "shared/newsletter_footer" %>
       <div class="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">
         <div class="max-w-sm lg:col-span-2">
           <%= image_tag "encar-stays-logo-green.png", alt: t("site.name"), width: 175, height: 200, class: "h-16 w-auto" %>
