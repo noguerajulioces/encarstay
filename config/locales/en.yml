@@ -259,7 +259,6 @@ en:
     location_subtitle: "Where you'll stay and what's nearby."
     km_away: "~%{km} km"
     new_listing: "New"
-    save: "Save"
     guest_favorite: "Guest favorite"
     guest_favorite_note: "One of the most loved stays according to guests."
     amenities_title: "What this place offers"
