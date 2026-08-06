@@ -1,6 +1,25 @@
 class PropertiesController < ApplicationController
   def index
-    @properties = Property.active.with_attached_photos.alphabetically
+    @search = Search.new(search_params)
+
+    # La costanera es la referencia de distancias del comparador; vive en la guía
+    # para que corregir sus coordenadas ahí corrija también las distancias acá.
+    costanera = GuideEntry.attractions.find_by(slug: "costanera-de-encarnacion")
+
+    # De menor a mayor capacidad: la tabla cuenta "de 3 a 7 huéspedes" de un vistazo.
+    properties = Property.active.with_attached_photos.includes(:amenities).order(:capacity, :name)
+
+    @comparison = properties.map do |property|
+      {
+        property: property,
+        amenity_keys: property.amenities.map(&:key),
+        distance_km: (property.distance_km_to(costanera.latitude, costanera.longitude) if costanera),
+        fits: !@search.valid_range? || property.capacity >= @search.guests.to_i,
+        available: (property.available?(@search.check_in, @search.check_out) if @search.valid_range?),
+        quote: (property.quote(@search.check_in, @search.check_out) if @search.valid_range?)
+      }
+    end
+    @costanera = costanera
   end
 
   def show
@@ -25,4 +44,9 @@ class PropertiesController < ApplicationController
           .first(5)
     end
   end
+
+  private
+    def search_params
+      params.fetch(:search, {}).permit(:check_in, :check_out, :guests)
+    end
 end

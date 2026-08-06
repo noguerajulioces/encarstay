@@ -219,10 +219,41 @@ es:
     map_events: "Eventos"
     map_all_categories: "Todas"
 
-  properties:
-    index_kicker: "Alojamientos"
-    index_title: "Nuestros alojamientos"
-    index_subtitle: "Elegí uno para ver fotos, disponibilidad y precios."
+  compare:
+    page_title: "Nuestros alojamientos"
+    kicker: "Alojamientos"
+    title: "¿Cuál es para vos?"
+    subtitle: "Los cuatro alojamientos lado a lado: capacidad, servicios, ubicación y disponibilidad para tus fechas."
+    hint: "Elegí tus fechas y mirá cuál está libre:"
+    guests_chip:
+      one: "huésped"
+      other: "huéspedes"
+    bedrooms_chip:
+      one: "dormitorio"
+      other: "dormitorios"
+    beds_chip:
+      one: "cama"
+      other: "camas"
+    bathrooms_chip:
+      one: "baño"
+      other: "baños"
+    row_total:
+      one: "Total por 1 noche"
+      other: "Total por %{count} noches"
+    available: "Disponible"
+    unavailable: "Ocupada"
+    fits_up_to:
+      one: "Hasta 1 huésped"
+      other: "Hasta %{count} huéspedes"
+    cta: "Ver y reservar"
+    total_note: "El total incluye la limpieza. Las distancias son en línea recta."
+    distance_note: "Las distancias son en línea recta."
+    map_kicker: "Ubicación"
+    map_title: "Dónde está cada una"
+    map_subtitle: "Las cuatro quedan en Encarnación, a minutos de la costanera."
+    map_label: "Mapa ilustrado con la ubicación de los alojamientos en Encarnación"
+    map_note: "Mapa ilustrativo a escala aproximada. Tocá un pin o «Abrir en Google Maps» para la ubicación exacta."
+    distance_away: "%{distance} a la costanera"
 
   property:
     photo_alt: "%{name} — foto %{index}"

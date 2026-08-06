@@ -35,7 +35,7 @@ class PropertyDetailTest < ActionDispatch::IntegrationTest
     attach_photo(property, "first.png")
     attach_photo(property, "second.png")
 
-    get properties_path
+    get search_path
     assert_response :success
 
     assert_select "[data-controller='card-carousel']", 1 do

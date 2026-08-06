@@ -219,10 +219,41 @@ pt:
     map_events: "Eventos"
     map_all_categories: "Todas"
 
-  properties:
-    index_kicker: "Acomodações"
-    index_title: "Nossas acomodações"
-    index_subtitle: "Escolha uma para ver fotos, disponibilidade e preços."
+  compare:
+    page_title: "Nossas acomodações"
+    kicker: "Acomodações"
+    title: "Qual é para você?"
+    subtitle: "As quatro acomodações lado a lado: capacidade, comodidades, localização e disponibilidade para suas datas."
+    hint: "Escolha suas datas e veja qual está livre:"
+    guests_chip:
+      one: "hóspede"
+      other: "hóspedes"
+    bedrooms_chip:
+      one: "quarto"
+      other: "quartos"
+    beds_chip:
+      one: "cama"
+      other: "camas"
+    bathrooms_chip:
+      one: "banheiro"
+      other: "banheiros"
+    row_total:
+      one: "Total por 1 noite"
+      other: "Total por %{count} noites"
+    available: "Disponível"
+    unavailable: "Ocupada"
+    fits_up_to:
+      one: "Até 1 hóspede"
+      other: "Até %{count} hóspedes"
+    cta: "Ver e reservar"
+    total_note: "O total inclui a limpeza. As distâncias são em linha reta."
+    distance_note: "As distâncias são em linha reta."
+    map_kicker: "Localização"
+    map_title: "Onde fica cada uma"
+    map_subtitle: "As quatro ficam em Encarnación, a minutos da beira-rio."
+    map_label: "Mapa ilustrado com a localização das acomodações em Encarnación"
+    map_note: "Mapa ilustrativo em escala aproximada. Toque em um pin ou em “Abrir no Google Maps” para a localização exata."
+    distance_away: "%{distance} até a beira-rio"
 
   property:
     photo_alt: "%{name} — foto %{index}"

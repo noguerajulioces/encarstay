@@ -210,10 +210,41 @@ en:
     map_events: "Events"
     map_all_categories: "All"
 
-  properties:
-    index_kicker: "Stays"
-    index_title: "Our stays"
-    index_subtitle: "Pick one to see photos, availability and prices."
+  compare:
+    page_title: "Our stays"
+    kicker: "Stays"
+    title: "Which one is for you?"
+    subtitle: "All four stays side by side: capacity, amenities, location and availability for your dates."
+    hint: "Pick your dates and see which one is free:"
+    guests_chip:
+      one: "guest"
+      other: "guests"
+    bedrooms_chip:
+      one: "bedroom"
+      other: "bedrooms"
+    beds_chip:
+      one: "bed"
+      other: "beds"
+    bathrooms_chip:
+      one: "bathroom"
+      other: "bathrooms"
+    row_total:
+      one: "Total for 1 night"
+      other: "Total for %{count} nights"
+    available: "Available"
+    unavailable: "Booked"
+    fits_up_to:
+      one: "Up to 1 guest"
+      other: "Up to %{count} guests"
+    cta: "View & book"
+    total_note: "Totals include the cleaning fee. Distances are straight-line."
+    distance_note: "Distances are straight-line."
+    map_kicker: "Location"
+    map_title: "Where each one is"
+    map_subtitle: "All four are in Encarnación, minutes from the riverfront."
+    map_label: "Illustrated map with the location of the stays in Encarnación"
+    map_note: "Illustrative map, approximate scale. Tap a pin or “Open in Google Maps” for the exact location."
+    distance_away: "%{distance} to the riverfront"
 
   property:
     photo_alt: "%{name} — photo %{index}"

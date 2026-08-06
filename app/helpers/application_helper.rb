@@ -39,6 +39,18 @@ module ApplicationHelper
     t("units.nights", count: count)
   end
 
+  # Distancia legible para el comparador: metros redondeados bajo el kilómetro,
+  # un decimal (coma en es/pt) de ahí en adelante. Es línea recta, por eso el "≈".
+  def distance_label(km)
+    return if km.blank?
+
+    if km < 1
+      "≈ #{(km * 1000).round(-1).to_i} m"
+    else
+      "≈ #{number_with_precision(km, precision: 1, locale: I18n.locale)} km"
+    end
+  end
+
   def guests_label(count)
     t("units.guests", count: count)
   end

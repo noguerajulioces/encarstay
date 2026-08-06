@@ -1,4 +1,6 @@
-<%= form_with model: search, url: search_path, method: :get,
+<%# locals: (search:, url: nil) %>
+<%# Sin `url`, el form manda a la búsqueda global (/search). %>
+<%= form_with model: search, url: local_assigns[:url] || search_path, method: :get,
       data: {
         controller: "search-range",
         search_range_locale_value: I18n.locale,
