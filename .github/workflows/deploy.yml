@@ -17,7 +17,16 @@ concurrency:
 
 jobs:
   deploy:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    # The repo is public, so anyone can open a pull request and make CI run.
+    # Only ever deploy a CI run that came from a push to main in this very
+    # repository — a fork whose branch is also named "main" must not slip past
+    # the `branches:` filter above and reach production with our secrets.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository)
     runs-on: ubuntu-latest
     timeout-minutes: 45
     environment:
