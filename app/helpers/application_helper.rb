@@ -39,6 +39,11 @@ module ApplicationHelper
     t("units.nights", count: count)
   end
 
+  # "2" o "1,5" — los medios baños (toilette sin ducha) cuentan 0,5.
+  def bathrooms_display(value)
+    number_with_precision(value, precision: 1, strip_insignificant_zeros: true, locale: I18n.locale)
+  end
+
   # Distancia legible para el comparador: metros redondeados bajo el kilómetro,
   # un decimal (coma en es/pt) de ahí en adelante.
   def distance_label(km)

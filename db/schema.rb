@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_06_142145) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_06_163432) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -222,7 +222,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_06_142145) do
     t.string "airbnb_listing_url"
     t.string "airbnb_public_url"
     t.integer "base_price_cents", default: 0, null: false
-    t.integer "bathrooms", default: 1, null: false
+    t.decimal "bathrooms", precision: 3, scale: 1, default: "1.0", null: false
     t.integer "bedrooms", default: 1, null: false
     t.integer "beds", default: 1, null: false
     t.string "calendar_token", null: false

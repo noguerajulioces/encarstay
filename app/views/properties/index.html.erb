@@ -59,7 +59,7 @@
               <span class="<%= fact_chip %>"><span class="text-sand-700"><%= icon :users, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= property.capacity %></strong> <%= t("compare.guests_chip", count: property.capacity) %></span>
               <span class="<%= fact_chip %>"><span class="text-sand-700"><%= icon :home, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= property.bedrooms %></strong> <%= t("compare.bedrooms_chip", count: property.bedrooms) %></span>
               <span class="<%= fact_chip %>"><span class="text-sand-700"><%= icon :bed, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= property.beds %></strong> <%= t("compare.beds_chip", count: property.beds) %></span>
-              <span class="<%= fact_chip %>"><span class="text-sand-700"><%= icon :bath, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= property.bathrooms %></strong> <%= t("compare.bathrooms_chip", count: property.bathrooms) %></span>
+              <span class="<%= fact_chip %>"><span class="text-sand-700"><%= icon :bath, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= bathrooms_display(property.bathrooms) %></strong> <%= t("compare.bathrooms_chip", count: property.bathrooms) %></span>
             </div>
 
             <% highlights = [ [ "pool", :pool ], [ "air_conditioning", :snowflake ], [ "free_parking", :car ] ].select { |key, _| entry[:amenity_keys].include?(key) } %>

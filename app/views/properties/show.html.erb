@@ -151,7 +151,7 @@
       <span class="<%= chip %>"><span class="text-sand-700"><%= icon :users, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= @property.capacity %></strong> <%= t("property.guests") %></span>
       <span class="<%= chip %>"><span class="text-sand-700"><%= icon :home, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= @property.bedrooms %></strong> <%= t("property.bedrooms") %></span>
       <span class="<%= chip %>"><span class="text-sand-700"><%= icon :bed, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= @property.beds %></strong> <%= t("property.beds") %></span>
-      <span class="<%= chip %>"><span class="text-sand-700"><%= icon :bath, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= @property.bathrooms %></strong> <%= t("property.bathrooms") %></span>
+      <span class="<%= chip %>"><span class="text-sand-700"><%= icon :bath, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= bathrooms_display(@property.bathrooms) %></strong> <%= t("property.bathrooms") %></span>
       <span class="<%= chip %>"><span class="text-sand-700"><%= icon :calendar, klass: "h-4 w-4" %></span><%= t("property.min_stay") %> <strong class="font-semibold text-sand-900"><%= @property.min_nights %></strong> <%= t("property.min_stay_nights") %></span>
     </div>
 

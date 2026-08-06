@@ -70,7 +70,7 @@ properties = [
     property_type: "loft",
     description: "Loft moderno de doble altura con piscina privada en Encarnación. Planta abierta con cocina completa y comedor, dos dormitorios, cuatro camas y un baño y medio — cómodo para hasta cinco huéspedes.",
     address_area: "Encarnación",
-    capacity: 5, bedrooms: 2, beds: 4, bathrooms: 2,
+    capacity: 5, bedrooms: 2, beds: 4, bathrooms: 1.5,
     latitude: -27.314578, longitude: -55.823905,
     base_price_cents: 42_000_000, currency: "PYG", cleaning_fee_cents: 6_000_000, min_nights: 2
   }
