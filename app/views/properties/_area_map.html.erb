@@ -26,7 +26,9 @@
     access_paths = loft ? [ [ [ -27.31440, -55.82459 ], [ -27.314394, -55.823507 ], [ loft.latitude.to_f, loft.longitude.to_f ] ] ] : []
   %>
 
-  <div class="overflow-hidden rounded-3xl border border-sand-200 bg-white">
+  <%# isolate: los z-index internos de Leaflet (hasta 1000) quedan contenidos
+      acá y no se superponen al header sticky (z-40). %>
+  <div class="isolate overflow-hidden rounded-3xl border border-sand-200 bg-white">
     <div data-controller="area-map"
          data-area-map-stays-value="<%= stays.to_json %>"
          data-area-map-references-value="<%= references.to_json %>"
@@ -36,13 +38,15 @@
     <p class="border-t border-sand-200 bg-white px-4 py-3 text-sm text-sand-500"><%= t("compare.map_note") %></p>
   </div>
 
-  <ol class="mt-4 grid gap-2 sm:grid-cols-2">
+  <%# grid-cols-1 explícito: la columna implícita se dimensiona por contenido
+      y un nombre largo desbordaría el viewport en mobile. %>
+  <ol class="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
     <% points.each_with_index do |entry, index| %>
       <% property = entry[:property] %>
       <li class="flex items-center gap-3 rounded-xl border border-sand-200 bg-white px-4 py-3">
         <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-500 font-display text-base font-semibold text-white"><%= index + 1 %></span>
         <div class="min-w-0 flex-1">
-          <p class="truncate text-base font-semibold text-sand-900"><%= link_to property.name, property_path(property), class: "hover:text-brand-700" %></p>
+          <p class="text-base font-semibold leading-snug text-sand-900"><%= link_to property.name, property_path(property), class: "hover:text-brand-700" %></p>
           <% if property.distance_center_km.present? %>
             <p class="text-sm text-sand-500"><%= t("compare.distance_center", distance: distance_label(property.distance_center_km)) %></p>
           <% end %>
