@@ -17,17 +17,17 @@
         <input type="text" data-redirect-target="input" placeholder="RES-XXXX" autofocus
                class="w-full rounded-xl border border-sand-300 bg-white py-3 pl-11 pr-4 text-sand-900 uppercase placeholder:normal-case placeholder:text-sand-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200" />
       </div>
-      <button type="submit" class="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-brand-600">
+      <button type="submit" class="<%= btn_classes(:primary) %>">
         <%= icon :search, klass: "h-5 w-5" %> <%= t("reservation_lookup.submit") %>
       </button>
     <% end %>
-    <p class="mt-4 flex items-start gap-2 text-xs leading-relaxed text-sand-500">
+    <p class="mt-4 flex items-start gap-2 text-base leading-relaxed text-sand-500">
       <span class="mt-0.5 text-sand-400"><%= icon :info, klass: "h-4 w-4" %></span>
       <%= t("reservation_lookup.help") %>
     </p>
   </div>
 
-  <p class="mt-6 text-center text-sm text-sand-500">
+  <p class="mt-6 text-center text-base text-sand-500">
     <%= t("reservation_lookup.whatsapp_prompt") %>
     <%= link_to t("reservation_lookup.whatsapp_link"), whatsapp_url(t("whatsapp.default_message")),
           target: "_blank", rel: "noopener",

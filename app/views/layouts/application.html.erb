@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-title" content="Encar Stays">
     <meta name="application-name" content="Encar Stays">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#faf8f5">
+    <meta name="theme-color" content="#fafafa">
     <meta name="turbo-refresh-method" content="morph">
     <meta name="turbo-refresh-scroll" content="preserve">
     <%= render "shared/meta" %>
@@ -23,7 +23,7 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 
@@ -37,58 +37,55 @@
     <% end %>
   </head>
 
-  <body class="h-full bg-sand-50 text-sand-800 antialiased font-sans selection:bg-brand-200 selection:text-sand-900">
-    <header data-controller="header" data-state="top"
-            class="group/hdr sticky top-0 z-40 border-b border-sand-200 bg-white/95 backdrop-blur">
-      <div class="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
-        <%# Logo — original brand image %>
+  <%# min-h-full (no h-full): con altura fija de una pantalla, el sticky del
+      header solo actúa dentro de ese primer viewport. %>
+  <body class="min-h-full bg-sand-50 text-sand-800 antialiased font-sans selection:bg-brand-200 selection:text-sand-900">
+    <a href="#contenido"
+       class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-xl focus:bg-white focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-brand-700 focus:shadow-lg">
+      <%= t("layout.skip_to_content") %>
+    </a>
+
+    <header class="sticky top-0 z-40 border-b border-sand-200 bg-white/95 backdrop-blur">
+      <div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-5 sm:px-8 md:h-20">
         <%= link_to root_path, class: "shrink-0 transition-opacity hover:opacity-80", "aria-label": t("site.name") do %>
-          <%= image_tag "encar-stays-logo.png", alt: t("site.name"), width: 140, height: 160, class: "h-12 w-auto sm:h-14" %>
+          <%= image_tag "encar-stays-lockup-green.png", alt: t("site.name"), width: 770, height: 300, class: "hidden h-10 w-auto md:block" %>
+          <%= image_tag "encar-stays-symbol-green.png", alt: t("site.name"), width: 288, height: 332, class: "h-9 w-auto md:hidden" %>
         <% end %>
 
-        <%# Center — tabs at the top, cross-fading to a compact search pill on scroll %>
-        <div class="relative hidden flex-1 justify-center md:flex">
-          <% tabs = [
-               { label: t("layout.tab_stays"),       path: properties_path,  icon: :home,     badge: false },
-               { label: t("layout.tab_experiences"), path: attractions_path, icon: :sparkles, badge: true },
-               { label: t("layout.tab_services"),    path: events_path,      icon: :ticket,   badge: true }
-             ] %>
-          <nav class="flex items-center gap-1 transition-all duration-200 group-data-[state=scrolled]/hdr:pointer-events-none group-data-[state=scrolled]/hdr:opacity-0">
-            <% tabs.each do |tab| %>
-              <% on = current_page?(tab[:path]) %>
-              <%= link_to tab[:path], class: "relative flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-colors #{on ? 'text-sand-900' : 'text-sand-500 hover:text-sand-900'}" do %>
-                <% if tab[:badge] %><span class="absolute -top-1 left-7 z-10 rounded-md bg-brand-500 px-1 py-0.5 text-[0.5rem] font-bold leading-none text-white shadow"><%= t("layout.new_badge") %></span><% end %>
-                <%= icon tab[:icon], klass: "h-5 w-5" %>
-                <span><%= tab[:label] %></span>
-                <% if on %><span class="absolute inset-x-3 -bottom-1 h-0.5 rounded-full bg-sand-900"></span><% end %>
-              <% end %>
-            <% end %>
-          </nav>
-          <%= link_to search_path, class: "pointer-events-none absolute top-1/2 flex w-full max-w-sm -translate-y-1/2 items-center justify-between gap-3 rounded-full border border-sand-200 bg-white py-2 pl-5 pr-2 opacity-0 shadow-[0_1px_8px_rgba(0,0,0,0.12)] transition-all duration-200 hover:shadow-[0_2px_12px_rgba(0,0,0,0.18)] group-data-[state=scrolled]/hdr:pointer-events-auto group-data-[state=scrolled]/hdr:opacity-100" do %>
-            <span class="text-sm font-medium text-sand-900"><%= t("layout.search_start") %></span>
-            <span class="grid h-8 w-8 place-items-center rounded-full bg-brand-500 text-white"><%= icon :search, klass: "h-4 w-4" %></span>
-          <% end %>
-        </div>
+        <%# "Qué hacer" queda activo también en /events: son pestañas del mismo hub. %>
+        <% nav_links = [
+             [ t("layout.nav_properties"),  properties_path,  %w[properties].include?(controller_name) ],
+             [ t("layout.nav_attractions"), attractions_path, %w[attractions events].include?(controller_name) ],
+             [ t("layout.nav_blog"),        posts_path,       %w[posts].include?(controller_name) ]
+           ] %>
 
-        <%# Right cluster %>
+        <nav class="hidden flex-1 items-center justify-center gap-1 md:flex" aria-label="<%= t("layout.menu") %>">
+          <% nav_links.each do |label, path, on| %>
+            <%= link_to label, path,
+                  "aria-current": (on ? "page" : nil),
+                  class: "relative rounded-lg px-3 py-2 text-base font-medium transition-colors #{on ? 'text-sand-900 after:absolute after:inset-x-3 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-brand-500' : 'text-sand-600 hover:bg-sand-100 hover:text-sand-900'}" %>
+          <% end %>
+        </nav>
+
         <div class="flex shrink-0 items-center gap-2 sm:gap-3">
-          <%# Language switcher — round flag, click to choose %>
-          <div class="relative" data-controller="menu">
+          <%= link_to t("layout.nav_my_booking"), booking_lookup_path,
+                class: "hidden rounded-lg px-3 py-2 text-base font-medium text-sand-600 transition-colors hover:bg-sand-100 hover:text-sand-900 lg:block" %>
+
+          <%# Selector de idioma %>
+          <div class="relative hidden md:block" data-controller="menu">
             <button type="button" data-menu-target="button" data-action="menu#toggle"
                     aria-haspopup="true" aria-expanded="false" aria-label="<%= t('layout.language') %>"
-                    class="flex items-center gap-1.5 rounded-full border border-sand-200 py-1.5 pl-1.5 pr-2 transition hover:shadow-md">
-              <%= flag_icon I18n.locale, klass: "h-6 w-6" %>
-              <span class="hidden text-xs font-semibold text-sand-700 sm:inline"><%= I18n.locale.to_s.upcase %></span>
+                    class="flex h-11 items-center gap-1 rounded-xl border border-sand-200 px-3 text-base font-semibold text-sand-700 transition hover:border-sand-300">
+              <%= I18n.locale.to_s.upcase %>
               <%= icon :chevron_down, klass: "h-3.5 w-3.5 text-sand-500" %>
             </button>
             <div data-menu-target="panel" hidden
-                 class="absolute right-0 top-full z-50 mt-2 w-48 overflow-hidden rounded-2xl border border-sand-200 bg-white py-2 shadow-[0_8px_28px_rgba(0,0,0,0.18)]">
+                 class="absolute right-0 top-full z-50 mt-2 w-44 overflow-hidden rounded-2xl border border-sand-200 bg-white py-2 shadow-[0_8px_28px_rgba(0,0,0,0.18)]">
               <% I18n.available_locales.each do |loc| %>
                 <% active = (loc == I18n.locale) %>
                 <%= link_to path_for_locale(loc), lang: loc, hreflang: loc,
                       "aria-current": (active ? "true" : nil),
-                      class: "flex items-center gap-3 px-4 py-2.5 text-sm transition hover:bg-sand-100 #{active ? 'font-semibold text-sand-900' : 'text-sand-700'}" do %>
-                  <%= flag_icon loc, klass: "h-5 w-5" %>
+                      class: "flex items-center px-4 py-2.5 text-base transition hover:bg-sand-100 #{active ? 'font-semibold text-sand-900' : 'text-sand-700'}" do %>
                   <span><%= t("layout.locale_names.#{loc}", default: loc.to_s.upcase) %></span>
                   <% if active %><span class="ml-auto text-brand-500"><%= icon :check, klass: "h-4 w-4" %></span><% end %>
                 <% end %>
@@ -96,25 +93,37 @@
             </div>
           </div>
 
-          <div class="relative" data-controller="menu">
+          <span class="hidden md:block">
+            <%= link_to properties_path, class: btn_classes(:primary) do %>
+              <%= icon :search, klass: "h-4 w-4" %><%= t("layout.nav_search") %>
+            <% end %>
+          </span>
+          <%= link_to properties_path, "aria-label": t("layout.nav_search"),
+                class: "grid h-11 w-11 place-items-center rounded-xl bg-brand-500 text-white transition-colors hover:bg-brand-600 md:hidden" do %>
+            <%= icon :search, klass: "h-5 w-5" %>
+          <% end %>
+
+          <%# Menú móvil %>
+          <div class="relative md:hidden" data-controller="menu">
             <button type="button" data-menu-target="button" data-action="menu#toggle"
                     aria-haspopup="true" aria-expanded="false" aria-label="<%= t('layout.menu') %>"
-                    class="flex items-center gap-2 rounded-full border border-sand-200 py-1.5 pl-3 pr-1.5 transition hover:shadow-md">
-              <%= icon :menu, klass: "h-4 w-4 text-sand-700" %>
-              <span class="grid h-7 w-7 place-items-center rounded-full bg-sand-500 text-white"><%= icon :user, klass: "h-5 w-5" %></span>
+                    class="grid h-11 w-11 place-items-center rounded-xl border border-sand-200 text-sand-700 transition hover:border-sand-300">
+              <%= icon :menu, klass: "h-5 w-5" %>
             </button>
             <div data-menu-target="panel" hidden
                  class="absolute right-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-sand-200 bg-white py-2 shadow-[0_8px_28px_rgba(0,0,0,0.18)]">
-              <% menu_links = [
-                   [ t("layout.nav_properties"),  properties_path ],
-                   [ t("layout.nav_attractions"), attractions_path ],
-                   [ t("layout.nav_events"),      events_path ],
-                   [ t("layout.nav_blog"),        posts_path ],
-                   [ t("layout.nav_my_booking"),  booking_lookup_path ]
-                 ] %>
-              <% menu_links.each do |label, path| %>
-                <%= link_to label, path, class: "block px-4 py-2.5 text-sm text-sand-800 transition hover:bg-sand-100" %>
+              <% (nav_links + [ [ t("layout.nav_my_booking"), booking_lookup_path, current_page?(booking_lookup_path) ] ]).each do |label, path, on| %>
+                <%= link_to label, path, "aria-current": (on ? "page" : nil),
+                      class: "block px-4 py-2.5 text-base transition hover:bg-sand-100 #{on ? 'font-semibold text-sand-900' : 'text-sand-800'}" %>
               <% end %>
+              <div class="mt-2 flex items-center gap-1 border-t border-sand-100 px-4 pt-3 pb-1.5">
+                <% I18n.available_locales.each do |loc| %>
+                  <% active = (loc == I18n.locale) %>
+                  <%= link_to loc.to_s.upcase, path_for_locale(loc), lang: loc, hreflang: loc,
+                        "aria-current": (active ? "true" : nil),
+                        class: "rounded-lg px-2.5 py-1.5 text-xs font-semibold transition #{active ? 'bg-brand-50 text-brand-700' : 'text-sand-500 hover:text-sand-900'}" %>
+                <% end %>
+              </div>
             </div>
           </div>
         </div>
@@ -125,26 +134,25 @@
       <%= render "shared/toasts" %>
     </div>
 
-    <main class="min-h-[70vh]">
+    <main id="contenido" class="min-h-[70vh]">
       <%= yield %>
     </main>
 
     <%= render "shared/whatsapp" %>
-    <%= render "shared/palette_switcher" if Rails.env.development? %>
-    <%= render "shared/newsletter_popup" unless controller_name == "subscriptions" %>
 
     <footer class="mt-20 border-t border-sand-200 bg-sand-100">
+      <%# El popup de entrada (shared/newsletter_popup) sigue apagado a propósito. %>
       <%= render "shared/newsletter_footer" %>
       <div class="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">
         <div class="max-w-sm lg:col-span-2">
-          <%= image_tag "encar-stays-logo.png", alt: t("site.name"), width: 175, height: 200, class: "h-16 w-auto" %>
-          <p class="mt-4 text-sm leading-relaxed text-sand-600"><%= t("layout.footer_blurb") %></p>
-          <p class="mt-4 flex items-center gap-1.5 text-sm text-sand-600"><%= icon :pin, klass: "h-4 w-4 text-sand-500" %> <%= t("layout.footer_location") %></p>
+          <%= image_tag "encar-stays-logo-green.png", alt: t("site.name"), width: 175, height: 200, class: "h-16 w-auto" %>
+          <p class="mt-4 text-base leading-relaxed text-sand-600"><%= t("layout.footer_blurb") %></p>
+          <p class="mt-4 flex items-center gap-1.5 text-base text-sand-600"><%= icon :pin, klass: "h-4 w-4 text-sand-500" %> <%= t("layout.footer_location") %></p>
         </div>
 
         <div>
-          <h3 class="text-xs font-semibold uppercase tracking-widest text-sand-900"><%= t("layout.footer_explore") %></h3>
-          <ul class="mt-4 space-y-2.5 text-sm">
+          <h3 class="kicker text-sand-900"><%= t("layout.footer_explore") %></h3>
+          <ul class="mt-4 space-y-2.5 text-base">
             <li><%= link_to t("layout.nav_properties"), properties_path, class: "text-sand-600 transition-colors hover:text-sand-900 hover:underline" %></li>
             <li><%= link_to t("layout.nav_attractions"), attractions_path, class: "text-sand-600 transition-colors hover:text-sand-900 hover:underline" %></li>
             <li><%= link_to t("layout.nav_events"), events_path, class: "text-sand-600 transition-colors hover:text-sand-900 hover:underline" %></li>
@@ -154,8 +162,8 @@
         </div>
 
         <div>
-          <h3 class="text-xs font-semibold uppercase tracking-widest text-sand-900"><%= t("layout.footer_contact") %></h3>
-          <ul class="mt-4 space-y-2.5 text-sm">
+          <h3 class="kicker text-sand-900"><%= t("layout.footer_contact") %></h3>
+          <ul class="mt-4 space-y-2.5 text-base">
             <li>
               <%= link_to whatsapp_url(t("whatsapp.default_message")), target: "_blank", rel: "noopener",
                     class: "inline-flex items-center gap-2 text-sand-600 transition-colors hover:text-sand-900" do %>
@@ -166,7 +174,7 @@
         </div>
       </div>
       <div class="border-t border-sand-200">
-        <div class="mx-auto max-w-7xl px-5 py-5 text-xs text-sand-500 sm:px-8">
+        <div class="mx-auto max-w-7xl px-5 py-5 text-base text-sand-500 sm:px-8">
           <p><%= t("layout.footer_rights", year: Date.current.year) %></p>
         </div>
       </div>

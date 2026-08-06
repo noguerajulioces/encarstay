@@ -1,0 +1,56 @@
+<%# locals: (comparison:)
+    Mapa real (Leaflet + OpenStreetMap) con un pin numerado por propiedad —
+    marcan la zona aproximada, no la dirección — y los puntos de referencia
+    de Property::LANDMARKS. La leyenda numerada de abajo espeja los pines. %>
+<% points = comparison.select { |entry| entry[:property].coordinates? } %>
+<% if points.any? %>
+  <% content_for :head do %>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <% end %>
+
+  <%
+    stays = points.each_with_index.map do |entry, index|
+      property = entry[:property]
+      { number: index + 1, name: property.name, url: property_path(property),
+        latitude: property.latitude.to_f, longitude: property.longitude.to_f }
+    end
+    references = Property::LANDMARKS.values.map do |landmark|
+      landmark.slice(:name, :latitude, :longitude)
+    end
+
+    # El camino de tierra al loft no está mapeado en OSM: va desde la calle al
+    # oeste (way 286303922) hasta el cruce del track (way 974288958) y de ahí
+    # al loft. Trazo punteado propio, con el último punto pegado al pin.
+    loft = points.map { |entry| entry[:property] }.find { |p| p.slug == "loft-con-piscina-privada" }
+    access_paths = loft ? [ [ [ -27.31440, -55.82459 ], [ -27.314394, -55.823507 ], [ loft.latitude.to_f, loft.longitude.to_f ] ] ] : []
+  %>
+
+  <div class="overflow-hidden rounded-3xl border border-sand-200 bg-white">
+    <div data-controller="area-map"
+         data-area-map-stays-value="<%= stays.to_json %>"
+         data-area-map-references-value="<%= references.to_json %>"
+         data-area-map-paths-value="<%= access_paths.to_json %>"
+         role="region" aria-label="<%= t("compare.map_label") %>"
+         class="h-[420px] w-full sm:h-[480px]"></div>
+    <p class="border-t border-sand-200 bg-white px-4 py-3 text-sm text-sand-500"><%= t("compare.map_note") %></p>
+  </div>
+
+  <ol class="mt-4 grid gap-2 sm:grid-cols-2">
+    <% points.each_with_index do |entry, index| %>
+      <% property = entry[:property] %>
+      <li class="flex items-center gap-3 rounded-xl border border-sand-200 bg-white px-4 py-3">
+        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-500 font-display text-base font-semibold text-white"><%= index + 1 %></span>
+        <div class="min-w-0 flex-1">
+          <p class="truncate text-base font-semibold text-sand-900"><%= link_to property.name, property_path(property), class: "hover:text-brand-700" %></p>
+          <% if property.distance_center_km.present? %>
+            <p class="text-sm text-sand-500"><%= t("compare.distance_center", distance: distance_label(property.distance_center_km)) %></p>
+          <% end %>
+        </div>
+        <%= link_to t("guide.open_in_maps"),
+              "https://www.google.com/maps/search/?api=1&query=#{property.latitude},#{property.longitude}",
+              target: "_blank", rel: "noopener", class: "shrink-0 text-sm font-semibold text-brand-700 hover:underline" %>
+      </li>
+    <% end %>
+  </ol>
+<% end %>

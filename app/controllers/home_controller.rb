@@ -1,9 +1,8 @@
 class HomeController < ApplicationController
   def index
-    @search = Search.new
-    @properties = Property.active.with_attached_photos.alphabetically
+    # Mismo orden que el comparador (capacidad ascendente) para que la vitrina
+    # y /properties cuenten la misma historia.
+    @properties = Property.active.with_attached_photos.order(:capacity, :name)
     @categories = Category.ordered
-    @featured_events = GuideEntry.events.published.featured.upcoming.limit(6)
-    @featured_attractions = GuideEntry.attractions.published.featured.ordered.limit(6)
   end
 end

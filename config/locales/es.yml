@@ -25,6 +25,11 @@ es:
       words_connector: ", "
       two_words_connector: " y "
       last_word_connector: " y "
+  number:
+    format:
+      separator: ","
+      delimiter: "."
+
   helpers:
     submit:
       create: "Crear %{model}"
@@ -65,6 +70,13 @@ es:
               min_nights: "La estadía mínima es de %{count} noches"
               dates_unavailable: "Las fechas ya no están disponibles"
 
+  property_types:
+    departamento: "Departamento"
+    loft: "Loft"
+    cabana: "Cabaña"
+    quinta: "Quinta"
+    casa: "Casa"
+
   site:
     name: "ENCAR STAYS"
     title_suffix: "ENCAR STAYS"
@@ -94,6 +106,8 @@ es:
       es: "Español"
       en: "English"
       pt: "Português"
+    nav_search: "Buscar"
+    skip_to_content: "Saltar al contenido"
     tab_stays: "Alojamientos"
     tab_experiences: "Experiencias"
     tab_services: "Servicios"
@@ -113,17 +127,20 @@ es:
 
   home:
     org_description: "Reservas directas de alojamientos en Encarnación, Paraguay, sin intermediarios."
-    hero_kicker: "Tu base en Encarnación"
-    hero_title: "Alojate en Encarnación y viví la ciudad"
-    hero_subtitle: "Elegí fechas y consultá disponibilidad real. Reservás directo con nosotros — sin intermediarios, sin comisiones."
-    hero_image_alt: "Acuarela de Encarnación: el puente San Roque González, la costanera y la ciudad al atardecer"
-    trust_direct: "Reserva directa con el anfitrión"
-    trust_no_fees: "Sin comisiones ni intermediarios"
-    trust_local: "Anfitrión local en Encarnación"
+    hero_kicker: "Elegí el espacio que mejor va con tu viaje"
+    hero_title: "Viví Encarnación a tu ritmo"
+    hero_title_main: "Viví Encarnación"
+    hero_title_accent: "a tu ritmo"
+    hero_cta: "Ver los alojamientos"
+    hero_subtitle: "Elegí tus fechas y asegurá tu lugar hablando directo con nosotros, sin vueltas. Después, la ciudad es tuya: descubrila con los secretos y recomendaciones de gente de acá."
+    hero_image_alt: "Ilustración de línea del puente San Roque González sobre el río Paraná"
+    trust_direct: "Reservás directo con tu anfitrión"
+    trust_no_fees: "Sin comisiones ni letra chica"
+    trust_local: "Somos de acá, estamos cerca"
     properties_kicker: "Dónde alojarte"
-    properties_title: "Nuestros alojamientos"
-    properties_subtitle: "Elegí uno para ver fotos, disponibilidad y precios."
-    see_all: "Ver todos"
+    properties_title: "Una casa para cada plan"
+    properties_subtitle: "Departamento, quinta, loft y cabaña: cuatro formas distintas de quedarte en Encarnación."
+    choose_cta: "Elegí la tuya"
     guide_kicker: "Guía de Encarnación"
     guide_title: "Explorá la ciudad"
     guide_subtitle: "Eventos, playas, cultura y gastronomía para aprovechar tu estadía."
@@ -134,6 +151,9 @@ es:
     events_title: "Próximos eventos"
 
   guide:
+    tabs_label: "Secciones de la guía"
+    tab_places: "Lugares"
+    tab_events: "Eventos"
     events_title: "Eventos en Encarnación"
     events_subtitle: "La agenda de la ciudad: carnaval, ferias, música y más."
     events_kicker: "Agenda"
@@ -146,8 +166,8 @@ es:
     available: "Disponible"
     search_placeholder: "Buscar en la guía…"
     read_more: "Ver más"
-    none_events: "No hay eventos por ahora"
-    none_events_subtitle: "Volvé pronto: la agenda se actualiza seguido."
+    none_events: "La agenda está en camino"
+    none_events_subtitle: "Estamos cargando los eventos de la ciudad: carnaval, ferias, música y más. Volvé pronto."
     none_attractions: "Todavía no hay lugares"
     none_attractions_subtitle: "Estamos cargando la guía de la ciudad."
     location: "Ubicación"
@@ -170,8 +190,8 @@ es:
     index_meta: "Blog sobre Encarnación: qué hacer, playas, eventos, gastronomía y consejos de viaje para tu estadía."
     read_more: "Leer más"
     more_posts: "Más artículos"
-    none_title: "Todavía no hay artículos"
-    none_subtitle: "Pronto vamos a publicar guías y novedades de Encarnación."
+    none_title: "El blog está en camino"
+    none_subtitle: "Estamos escribiendo las primeras guías y novedades de Encarnación. Volvé pronto."
 
   search_form:
     destination: "Destino"
@@ -185,28 +205,42 @@ es:
     guests: "Huéspedes"
     submit: "Buscar disponibilidad"
 
-  search:
-    title: "Disponibilidad"
-    prompt: "Elegí una fecha de llegada y otra de salida para ver disponibilidad."
-    none_title: "No hay disponibilidad para esas fechas"
-    none_subtitle: "Probá con otras fechas o menos huéspedes."
-    results_count:
-      one: "%{count} propiedad disponible"
-      other: "%{count} propiedades disponibles"
-    up_to_guests: "hasta %{count} huéspedes"
-    total_summary: "Total %{nights} + limpieza"
-    view_and_book: "Ver y reservar"
-    all_stays_title: "Explorá los alojamientos"
-    all_stays_subtitle: "Elegí fechas para ver disponibilidad real."
-    map_stays: "Alojamientos"
-    map_attractions: "Atracciones"
-    map_events: "Eventos"
-    map_all_categories: "Todas"
-
-  properties:
-    index_kicker: "Alojamientos"
-    index_title: "Nuestros alojamientos"
-    index_subtitle: "Elegí uno para ver fotos, disponibilidad y precios."
+  compare:
+    page_title: "Nuestros alojamientos"
+    kicker: "Alojamientos"
+    title: "¿Cuál es para vos?"
+    subtitle: "Los cuatro alojamientos lado a lado: capacidad, servicios, ubicación y disponibilidad para tus fechas."
+    hint: "Elegí tus fechas y mirá cuál está libre:"
+    guests_chip:
+      one: "huésped"
+      other: "huéspedes"
+    bedrooms_chip:
+      one: "dormitorio"
+      other: "dormitorios"
+    beds_chip:
+      one: "cama"
+      other: "camas"
+    bathrooms_chip:
+      one: "baño"
+      other: "baños"
+    row_total:
+      one: "Total por 1 noche"
+      other: "Total por %{count} noches"
+    available: "Disponible"
+    unavailable: "Ocupada"
+    fits_up_to:
+      one: "Hasta 1 huésped"
+      other: "Hasta %{count} huéspedes"
+    cta: "Ver y reservar"
+    total_note: "El total incluye la limpieza. Distancias aproximadas por calle, según OpenStreetMap."
+    distance_note: "Distancias aproximadas por calle, según OpenStreetMap."
+    map_kicker: "Ubicación"
+    map_title: "Dónde está cada una"
+    map_subtitle: "Las cuatro quedan en Encarnación: acá ves la zona de cada una y su distancia al centro."
+    map_label: "Mapa con la ubicación aproximada de los alojamientos en Encarnación"
+    map_note: "Cada pin marca la zona aproximada del alojamiento, no la dirección puntual."
+    distance_center: "aprox. %{distance} al centro"
+    distance_costanera: "aprox. %{distance} al Shopping Costanera"
 
   property:
     photo_alt: "%{name} — foto %{index}"
@@ -240,7 +274,6 @@ es:
     location_subtitle: "Dónde te vas a alojar y qué tenés cerca."
     km_away: "~%{km} km"
     new_listing: "Nuevo"
-    save: "Guardar"
     guest_favorite: "Favorito entre huéspedes"
     guest_favorite_note: "Uno de los alojamientos más valorados por los huéspedes."
     amenities_title: "Qué ofrece este lugar"
@@ -443,7 +476,7 @@ es:
         cta: "Confirmar suscripción"
         footer: "Si no fuiste vos, podés ignorar este correo."
       welcome:
-        subject: "¡Bienvenido/a! Aquí está tu 5% de descuento"
+        subject: "¡Bienvenido/a! Tu 5% de descuento te espera"
         heading: "¡Ya sos parte de Encar Stays!"
         intro_html: "Gracias por confirmar tu suscripción. Como regalo de bienvenida, te dejamos un <strong>5% de descuento</strong> para tu primera reserva."
         intro_text: "Gracias por confirmar. Como regalo de bienvenida, te dejamos un 5% de descuento para tu primera reserva."

@@ -2,6 +2,9 @@ class EventsController < ApplicationController
   def index
     @categories = Category.ordered
     @active_category = params[:category]
+    # Sin eventos publicados, el índice se muestra como "próximamente" y
+    # esconde buscador y categorías.
+    @events_exist = GuideEntry.events.published.exists?
     @events = GuideEntry.events.published.upcoming
     @events = @events.in_category(@active_category) if @active_category.present?
     @events = search(@events, params[:q]) if params[:q].present?

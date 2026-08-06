@@ -6,7 +6,7 @@ class PwaTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "link[rel=manifest][href='#{pwa_manifest_path(format: :json)}']"
-    assert_select "meta[name=theme-color][content='#faf8f5']"
+    assert_select "meta[name=theme-color][content='#fafafa']"
     assert_select "meta[name=apple-mobile-web-app-capable][content=yes]"
   end
 

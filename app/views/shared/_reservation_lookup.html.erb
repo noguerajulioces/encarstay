@@ -1,5 +1,5 @@
-<div id="buscar-reserva" class="relative overflow-hidden rounded-3xl bg-sand-900 p-8 text-white sm:p-10"
-     style="background: radial-gradient(700px 300px at 100% 0%, rgba(255,56,92,0.35), transparent 60%), #222222;">
+<div id="buscar-reserva" class="relative overflow-hidden rounded-3xl bg-brand-900 p-8 text-white sm:p-10"
+     style="background: radial-gradient(700px 300px at 100% 0%, rgba(92,143,115,0.25), transparent 60%), #0d1211;">
   <div class="pointer-events-none absolute -left-16 -bottom-16 h-52 w-52 rounded-full bg-brand-500/15 blur-3xl"></div>
   <div class="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
     <div class="max-w-md">
@@ -7,14 +7,14 @@
         <%= icon :ticket, klass: "h-4 w-4" %> <%= t("layout.nav_my_booking") %>
       </span>
       <h2 class="mt-3 font-display text-2xl font-semibold"><%= t("reservation_lookup.title") %></h2>
-      <p class="mt-1 text-sm text-brand-100/90"><%= t("reservation_lookup.subtitle") %></p>
+      <p class="mt-1 text-base text-brand-100/90"><%= t("reservation_lookup.subtitle") %></p>
     </div>
 
     <form data-controller="redirect" data-redirect-template-value="<%= booking_path(":code") %>"
           data-action="submit->redirect#go" class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
       <input type="text" data-redirect-target="input" placeholder="RES-XXXX"
              class="w-full rounded-xl border border-white/10 bg-white px-4 py-3 uppercase text-sand-900 placeholder:normal-case placeholder:text-sand-400 focus:outline-none focus:ring-2 focus:ring-brand-300 sm:w-44" />
-      <button type="submit" class="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 font-semibold text-sand-900 transition hover:bg-brand-50">
+      <button type="submit" class="<%= btn_classes(:white) %>">
         <%= t("reservation_lookup.submit") %> <%= icon :arrow, klass: "h-4 w-4" %>
       </button>
     </form>

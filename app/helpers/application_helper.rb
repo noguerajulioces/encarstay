@@ -16,12 +16,44 @@ module ApplicationHelper
     when "USD"
       "US$ #{number_to_currency(cents / 100.0, unit: '', delimiter: ',', separator: '.', precision: 2)}"
     else
-      "₲ #{number_with_delimiter(cents / 100, delimiter: '.')}"
+      "Gs. #{number_with_delimiter(cents / 100, delimiter: '.')}"
     end
+  end
+
+  # Botones del sitio público. Variantes: :primary (verde sólido), :ghost
+  # (borde neutro), :white (para fondos oscuros). `extra` es para layout
+  # (ancho, márgenes) — no pasar utilidades de display ("hidden"): chocan con
+  # el inline-flex de la base y gana el orden de compilación del CSS, no el
+  # del atributo; envolver en un wrapper responsivo en su lugar.
+  def btn_classes(variant = :primary, extra = nil)
+    base = "inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl px-6 py-3 text-base font-semibold transition-colors"
+    variants = {
+      primary: "bg-brand-500 text-white hover:bg-brand-600",
+      ghost: "border border-sand-300 text-sand-800 hover:bg-sand-100",
+      white: "bg-white text-sand-900 hover:bg-sand-100"
+    }
+    [ base, variants.fetch(variant), extra ].compact.join(" ")
   end
 
   def nights_label(count)
     t("units.nights", count: count)
+  end
+
+  # "2" o "1,5" — los medios baños (toilette sin ducha) cuentan 0,5.
+  def bathrooms_display(value)
+    number_with_precision(value, precision: 1, strip_insignificant_zeros: true, locale: I18n.locale)
+  end
+
+  # Distancia legible para el comparador: metros redondeados bajo el kilómetro,
+  # un decimal (coma en es/pt) de ahí en adelante.
+  def distance_label(km)
+    return if km.blank?
+
+    if km < 1
+      "#{(km * 1000).round(-1).to_i} m"
+    else
+      "#{number_with_precision(km, precision: 1, locale: I18n.locale)} km"
+    end
   end
 
   def guests_label(count)

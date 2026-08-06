@@ -1,7 +1,7 @@
 <% content_for :title, "#{t('property.book')} · #{@property.name}" %>
 
 <section class="mx-auto max-w-5xl px-5 py-10">
-  <p class="text-xs font-semibold uppercase tracking-widest text-sand-700"><%= t("booking.new_kicker") %></p>
+  <p class="kicker text-sand-600"><%= t("booking.new_kicker") %></p>
   <h1 class="mt-1 font-display text-3xl font-semibold text-sand-900"><%= t("booking.new_title") %></h1>
   <p class="mt-2 text-sand-500"><%= t("booking.new_subtitle") %></p>
 
@@ -10,7 +10,7 @@
     <div class="order-2 lg:order-1 lg:col-span-2">
       <%= form_with model: @booking, url: bookings_path, class: "space-y-5" do |form| %>
         <% if @booking.errors.any? %>
-          <div class="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+          <div class="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-base text-rose-800">
             <ul class="list-inside list-disc">
               <% @booking.errors.full_messages.each do |message| %><li><%= message %></li><% end %>
             </ul>
@@ -27,8 +27,8 @@
           <label><%= t("booking.honeypot") %><%= text_field_tag :company, nil, tabindex: -1, autocomplete: "off" %></label>
         </div>
 
-        <% field = "w-full rounded-xl border border-sand-200 px-3 py-2.5 text-sm focus:border-brand-500 focus:ring-1 focus:ring-brand-500" %>
-        <% flabel = "mb-1 block text-sm font-medium text-sand-700" %>
+        <% field = "w-full rounded-xl border border-sand-200 px-3 py-2.5 text-base focus:border-brand-500 focus:ring-1 focus:ring-brand-500" %>
+        <% flabel = "mb-1 block text-base font-medium text-sand-700" %>
         <div class="grid grid-cols-1 gap-4 rounded-2xl border border-sand-200 bg-white p-5 sm:grid-cols-2">
           <div class="sm:col-span-2">
             <%= form.label :guest_name, t("booking.guest_name"), class: flabel %>
@@ -50,16 +50,16 @@
             <%= form.label :applied_discount_code, t("booking.discount_code"), class: flabel %>
             <%= form.text_field :applied_discount_code, placeholder: "ENCAR-XXXXXX", autocapitalize: "characters",
                   class: "#{field} uppercase placeholder:normal-case" %>
-            <p class="mt-1 text-xs text-sand-500"><%= t("booking.discount_hint") %></p>
+            <p class="mt-1 text-base text-sand-500"><%= t("booking.discount_hint") %></p>
           </div>
         </div>
 
-        <p class="flex items-start gap-2 text-xs leading-relaxed text-sand-500">
+        <p class="flex items-start gap-2 text-base leading-relaxed text-sand-500">
           <span class="mt-0.5 shrink-0 text-sand-700"><%= icon :check, klass: "h-4 w-4" %></span>
           <span><%= t("booking.disclaimer_html").html_safe %></span>
         </p>
 
-        <%= form.button type: :submit, class: "flex w-full items-center justify-center gap-2 rounded-xl bg-brand-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-brand-600 cursor-pointer sm:w-auto" do %>
+        <%= form.button type: :submit, class: btn_classes(:primary, "w-full sm:w-auto") do %>
           <%= t("booking.submit") %> <%= icon :arrow, klass: "h-4 w-4" %>
         <% end %>
       <% end %>
@@ -78,11 +78,11 @@
           </div>
           <div>
             <h2 class="font-display font-semibold text-sand-900"><%= @property.name %></h2>
-            <p class="flex items-center gap-1 text-sm text-sand-500"><%= icon :pin, klass: "h-3.5 w-3.5 text-sand-400" %><%= @property.address_area %></p>
+            <p class="flex items-center gap-1 text-base text-sand-500"><%= icon :pin, klass: "h-3.5 w-3.5 text-sand-400" %><%= @property.address_area %></p>
           </div>
         </div>
 
-        <div class="mt-4 space-y-1 border-t border-sand-100 pt-4 text-sm text-sand-600">
+        <div class="mt-4 space-y-1 border-t border-sand-100 pt-4 text-base text-sand-600">
           <div class="flex justify-between"><span><%= t("booking.arrival") %></span><span class="text-sand-900"><%= l @booking.check_in, format: :long if @booking.check_in %></span></div>
           <div class="flex justify-between"><span><%= t("booking.departure") %></span><span class="text-sand-900"><%= l @booking.check_out, format: :long if @booking.check_out %></span></div>
           <div class="flex justify-between"><span><%= t("booking.guests") %></span><span class="text-sand-900"><%= @booking.guests_count %></span></div>

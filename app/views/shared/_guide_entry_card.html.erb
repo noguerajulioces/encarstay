@@ -24,11 +24,11 @@
   </div>
 
   <div class="flex flex-1 flex-col p-5">
-    <h3 class="font-display text-lg font-semibold leading-snug text-sand-900 transition-colors group-hover:text-brand-700"><%= entry.title %></h3>
+    <h3 class="font-display text-xl font-semibold leading-snug text-sand-900 transition-colors group-hover:text-brand-700"><%= entry.title %></h3>
     <% if entry.summary.present? %>
-      <p class="mt-1 line-clamp-2 text-sm text-sand-500"><%= entry.summary %></p>
+      <p class="mt-1 line-clamp-2 text-base text-sand-500"><%= entry.summary %></p>
     <% end %>
-    <div class="mt-4 flex items-center justify-between border-t border-sand-100 pt-3 text-sm">
+    <div class="mt-4 flex items-center justify-between border-t border-sand-100 pt-3 text-base">
       <span class="flex items-center gap-1 text-sand-500">
         <% if entry.event? && entry.schedule_note.present? %>
           <%= icon :calendar, klass: "h-4 w-4 text-brand-400" %><%= entry.schedule_note %>

@@ -1,15 +1,131 @@
-<% content_for :title, t("properties.index_title") %>
+<% content_for :title, t("compare.page_title") %>
+<% content_for :description, t("compare.subtitle") %>
 
-<section class="mx-auto max-w-7xl px-5 pt-10 pb-4 sm:pt-14">
-  <p class="text-xs font-semibold uppercase tracking-widest text-sand-700"><%= t("properties.index_kicker") %></p>
-  <h1 class="mt-1 font-display text-4xl font-semibold text-sand-900"><%= t("properties.index_title") %></h1>
-  <p class="mt-2 max-w-xl text-sand-500"><%= t("properties.index_subtitle") %></p>
+<section class="mx-auto max-w-6xl px-5 pt-10 sm:pt-14">
+  <%= render "shared/section_heading",
+        kicker: t("compare.kicker"),
+        title: t("compare.title"),
+        subtitle: t("compare.subtitle") %>
+
+  <div class="mt-8 max-w-2xl">
+    <p class="mb-2 text-base font-medium text-sand-600"><%= t("compare.hint") %></p>
+    <%= render "shared/search_form", search: @search, url: properties_path(anchor: "comparador") %>
+  </div>
 </section>
 
-<section class="mx-auto max-w-7xl px-5 pb-4">
-  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-    <% @properties.each_with_index do |property, index| %>
-      <%= render "shared/property_card", property: property, image_loading: (index.zero? ? "eager" : "lazy") %>
+<%# ===== Fichas comparativas: una por propiedad, mismos chips que la página
+    de propiedad para que el catálogo hable el idioma del resto del sitio. %>
+<section id="comparador" class="mx-auto max-w-6xl scroll-mt-24 px-5 py-10 sm:py-14">
+  <% fact_chip = "inline-flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-3 py-1.5 text-base text-sand-700" %>
+  <% amenity_chip = "inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1.5 text-base font-medium text-brand-700" %>
+
+  <div class="space-y-6">
+    <% @comparison.each do |entry| %>
+      <% property = entry[:property] %>
+      <article class="overflow-hidden rounded-2xl border border-sand-200 bg-white sm:flex">
+        <%# Foto: duplica el link del nombre, así que fuera del tab-order. %>
+        <%= link_to property_path(property), class: "relative block shrink-0 sm:w-64 lg:w-72", "aria-hidden": true, tabindex: -1 do %>
+          <% if (photo = property.cover_photo) %>
+            <%= image_tag url_for(photo.image.variant(:card)), alt: "", loading: "lazy",
+                  class: "aspect-[4/3] h-full w-full object-cover sm:aspect-auto" %>
+          <% else %>
+            <div class="flex aspect-[4/3] h-full w-full items-center justify-center bg-gradient-to-br from-sand-100 to-sand-200 font-display text-5xl font-semibold text-sand-400 sm:aspect-auto">
+              <%= property.name.first %>
+            </div>
+          <% end %>
+          <% if property.property_type.present? %>
+            <span class="absolute left-3 top-3 rounded-lg bg-white/95 px-2.5 py-1 text-xs font-semibold text-sand-800 shadow-sm">
+              <%= t("property_types.#{property.property_type}") %>
+            </span>
+          <% end %>
+        <% end %>
+
+        <div class="flex flex-1 flex-col gap-5 p-5 sm:p-6 lg:flex-row">
+          <div class="min-w-0 flex-1">
+            <div class="flex items-start justify-between gap-3">
+              <h2 class="font-display text-xl font-semibold text-sand-900">
+                <%= link_to property.name, property_path(property), class: "transition-colors hover:text-brand-700" %>
+              </h2>
+              <% if property.rated? %>
+                <span class="flex shrink-0 items-center gap-1 pt-0.5 text-base text-sand-900">
+                  <%= icon :star, klass: "h-4 w-4", filled: true %><%= rating_display(property) %>
+                </span>
+              <% else %>
+                <span class="shrink-0 pt-0.5 text-base text-sand-500"><%= t("property.new_listing") %></span>
+              <% end %>
+            </div>
+
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="<%= fact_chip %>"><span class="text-sand-700"><%= icon :users, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= property.capacity %></strong> <%= t("compare.guests_chip", count: property.capacity) %></span>
+              <span class="<%= fact_chip %>"><span class="text-sand-700"><%= icon :home, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= property.bedrooms %></strong> <%= t("compare.bedrooms_chip", count: property.bedrooms) %></span>
+              <span class="<%= fact_chip %>"><span class="text-sand-700"><%= icon :bed, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= property.beds %></strong> <%= t("compare.beds_chip", count: property.beds) %></span>
+              <span class="<%= fact_chip %>"><span class="text-sand-700"><%= icon :bath, klass: "h-4 w-4" %></span><strong class="font-semibold text-sand-900"><%= bathrooms_display(property.bathrooms) %></strong> <%= t("compare.bathrooms_chip", count: property.bathrooms) %></span>
+            </div>
+
+            <% highlights = [ [ "pool", :pool ], [ "air_conditioning", :snowflake ], [ "free_parking", :car ] ].select { |key, _| entry[:amenity_keys].include?(key) } %>
+            <% if highlights.any? %>
+              <div class="mt-2 flex flex-wrap gap-2">
+                <% highlights.each do |key, icon_name| %>
+                  <span class="<%= amenity_chip %>"><%= icon icon_name, klass: "h-4 w-4" %><%= t("amenities.#{key}") %></span>
+                <% end %>
+              </div>
+            <% end %>
+
+            <% distances = [
+                 (t("compare.distance_center", distance: distance_label(property.distance_center_km)) if property.distance_center_km),
+                 (t("compare.distance_costanera", distance: distance_label(property.distance_costanera_km)) if property.distance_costanera_km)
+               ].compact %>
+            <% if distances.any? %>
+              <p class="mt-4 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-base text-sand-500">
+                <%= icon :pin, klass: "h-4 w-4 shrink-0" %><%= distances.join(" · ") %>
+              </p>
+            <% end %>
+          </div>
+
+          <div class="flex flex-col gap-3 border-t border-sand-200 pt-4 lg:w-60 lg:items-end lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0 lg:text-right">
+            <p>
+              <span class="font-display text-2xl font-semibold text-sand-900"><%= money(property.base_price_cents, property.currency) %></span>
+              <span class="text-sand-500"><%= t("units.per_night") %></span>
+            </p>
+
+            <% if @search.valid_range? %>
+              <% if !entry[:fits] %>
+                <span class="inline-flex items-center gap-1.5 self-start rounded-full bg-sand-100 px-3 py-1 text-sm font-semibold text-sand-600 lg:self-end">
+                  <%= t("compare.fits_up_to", count: property.capacity) %>
+                </span>
+              <% elsif entry[:available] %>
+                <span class="inline-flex items-center gap-1.5 self-start rounded-full bg-emerald-50 px-3 py-1 text-sm font-semibold text-emerald-700 lg:self-end">
+                  <%= icon :check, klass: "h-4 w-4" %><%= t("compare.available") %>
+                </span>
+                <p class="text-base text-sand-600">
+                  <%= t("compare.row_total", count: @search.nights) %>:
+                  <strong class="whitespace-nowrap font-semibold text-sand-900"><%= money(entry[:quote].total_cents, entry[:quote].currency) %></strong>
+                </p>
+              <% else %>
+                <span class="inline-flex items-center gap-1.5 self-start rounded-full bg-rose-50 px-3 py-1 text-sm font-semibold text-rose-700 lg:self-end">
+                  <%= icon :x, klass: "h-4 w-4" %><%= t("compare.unavailable") %>
+                </span>
+              <% end %>
+            <% end %>
+
+            <% booking_params = (@search.valid_range? && entry[:fits] && entry[:available]) ? { check_in: @search.check_in, check_out: @search.check_out, guests: @search.guests } : {} %>
+            <%= link_to t("compare.cta"), property_path(property, booking_params), class: btn_classes(:primary, "mt-auto w-full sm:w-auto") %>
+          </div>
+        </div>
+      </article>
     <% end %>
+  </div>
+
+  <p class="mt-3 text-sm text-sand-500"><%= @search.valid_range? ? t("compare.total_note") : t("compare.distance_note") %></p>
+</section>
+
+<%# ===== Mapa de ubicaciones ===== %>
+<section class="mx-auto max-w-6xl px-5 pb-14 sm:pb-20">
+  <%= render "shared/section_heading",
+        kicker: t("compare.map_kicker"),
+        title: t("compare.map_title"),
+        subtitle: t("compare.map_subtitle") %>
+  <div class="mt-8">
+    <%= render "properties/area_map", comparison: @comparison %>
   </div>
 </section>

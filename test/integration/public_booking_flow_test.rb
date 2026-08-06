@@ -16,10 +16,12 @@ class PublicBookingFlowTest < ActionDispatch::IntegrationTest
     assert_match @property.name, response.body
   end
 
-  test "search shows properties available for the dates" do
+  test "search redirects to the comparator, which marks the stay available for the dates" do
     get search_path(search: { check_in: @check_in, check_out: @check_out, guests: 2 })
+    follow_redirect!
     assert_response :success
     assert_match @property.name, response.body
+    assert_match I18n.t("compare.available"), response.body
   end
 
   test "property page renders with a quote when dates are given" do

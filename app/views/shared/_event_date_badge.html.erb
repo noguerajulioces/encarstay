@@ -1,7 +1,7 @@
 <%# locals: entry %>
 <% if entry.starts_at.present? %>
   <div class="flex flex-col items-center justify-center rounded-xl bg-white/95 px-2.5 py-1 text-center leading-none shadow-sm backdrop-blur">
-    <span class="text-[0.6rem] font-bold uppercase tracking-wide text-sand-700"><%= l entry.starts_at.to_date, format: "%b" %></span>
+    <span class="kicker text-sand-700"><%= l entry.starts_at.to_date, format: "%b" %></span>
     <span class="font-display text-lg font-bold text-sand-900"><%= entry.starts_at.day %></span>
   </div>
 <% end %>

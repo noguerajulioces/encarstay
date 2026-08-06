@@ -25,6 +25,11 @@ pt:
       words_connector: ", "
       two_words_connector: " e "
       last_word_connector: " e "
+  number:
+    format:
+      separator: ","
+      delimiter: "."
+
   helpers:
     submit:
       create: "Criar %{model}"
@@ -65,11 +70,18 @@ pt:
               min_nights: "A estadia mínima é de %{count} noites"
               dates_unavailable: "As datas não estão mais disponíveis"
 
+  property_types:
+    departamento: "Apartamento"
+    loft: "Loft"
+    cabana: "Cabana"
+    quinta: "Chácara"
+    casa: "Casa"
+
   site:
     name: "ENCAR STAYS"
     title_suffix: "ENCAR STAYS"
-    default_title: "ENCAR STAYS — Hospedagens e guia de Encarnación"
-    default_description: "Reserve direto a sua hospedagem em Encarnación, sem intermediários. Disponibilidade real e um guia local de eventos e o que fazer na cidade."
+    default_title: "ENCAR STAYS — Acomodações e guia de Encarnación"
+    default_description: "Reserve direto a sua acomodação em Encarnación, sem intermediários. Disponibilidade real e um guia local de eventos e o que fazer na cidade."
     og_locale: "pt_BR"
 
   units:
@@ -94,6 +106,8 @@ pt:
       es: "Español"
       en: "English"
       pt: "Português"
+    nav_search: "Buscar"
+    skip_to_content: "Pular para o conteúdo"
     tab_stays: "Acomodações"
     tab_experiences: "Experiências"
     tab_services: "Serviços"
@@ -113,17 +127,20 @@ pt:
 
   home:
     org_description: "Reservas diretas de acomodações em Encarnación, Paraguai, sem intermediários."
-    hero_kicker: "Sua base em Encarnación"
-    hero_title: "Hospede-se em Encarnación e viva a cidade"
-    hero_subtitle: "Escolha as datas e confira a disponibilidade real. Reserve direto com a gente — sem intermediários, sem comissão."
-    hero_image_alt: "Aquarela de Encarnación: a ponte San Roque González, a orla e a cidade ao entardecer"
-    trust_direct: "Reserva direta com o anfitrião"
-    trust_no_fees: "Sem comissão, sem intermediários"
-    trust_local: "Anfitrião local em Encarnación"
+    hero_kicker: "Escolha o espaço que combina com a sua viagem"
+    hero_title: "Viva Encarnación no seu ritmo"
+    hero_title_main: "Viva Encarnación"
+    hero_title_accent: "no seu ritmo"
+    hero_cta: "Ver as acomodações"
+    hero_subtitle: "Escolha suas datas e garanta seu lugar falando direto com a gente, sem complicação. Depois, a cidade é sua: descubra os segredos e dicas de quem é daqui."
+    hero_image_alt: "Ilustração de linha da ponte San Roque González sobre o rio Paraná"
+    trust_direct: "Reserve direto com seu anfitrião"
+    trust_no_fees: "Sem comissões nem letras miúdas"
+    trust_local: "Somos daqui, estamos por perto"
     properties_kicker: "Onde ficar"
-    properties_title: "Nossas acomodações"
-    properties_subtitle: "Escolha uma para ver fotos, disponibilidade e preços."
-    see_all: "Ver todas"
+    properties_title: "Uma casa para cada plano"
+    properties_subtitle: "Apartamento, chácara, loft e cabana: quatro formas diferentes de ficar em Encarnación."
+    choose_cta: "Escolha a sua"
     guide_kicker: "Guia de Encarnación"
     guide_title: "Explore a cidade"
     guide_subtitle: "Eventos, praias, cultura e gastronomia para aproveitar a estadia."
@@ -134,6 +151,9 @@ pt:
     events_title: "Próximos eventos"
 
   guide:
+    tabs_label: "Seções do guia"
+    tab_places: "Lugares"
+    tab_events: "Eventos"
     events_title: "Eventos em Encarnación"
     events_subtitle: "A agenda da cidade: carnaval, feiras, música e mais."
     events_kicker: "Agenda"
@@ -146,8 +166,8 @@ pt:
     available: "Disponível"
     search_placeholder: "Buscar no guia…"
     read_more: "Ver mais"
-    none_events: "Sem eventos por enquanto"
-    none_events_subtitle: "Volte em breve: a agenda é atualizada com frequência."
+    none_events: "A agenda está a caminho"
+    none_events_subtitle: "Estamos carregando os eventos da cidade: carnaval, feiras, música e mais. Volte em breve."
     none_attractions: "Ainda não há lugares"
     none_attractions_subtitle: "Estamos montando o guia da cidade."
     location: "Localização"
@@ -155,9 +175,9 @@ pt:
     open_in_maps: "Abrir no Maps"
     stay_nearby: "Onde ficar"
     stay_nearby_subtitle: "Reserve direto por perto e aproveite ainda mais a sua visita."
-    see_all_stays: "Ver todas as hospedagens"
+    see_all_stays: "Ver todas as acomodações"
     ask_whatsapp: "Perguntar no WhatsApp"
-    whatsapp_message: "Olá, quero saber sobre uma hospedagem para %{title}."
+    whatsapp_message: "Olá, quero perguntar sobre uma acomodação para %{title}."
     more_events: "Mais eventos"
     more_places: "Mais lugares para ver"
     see_all_places: "Ver o guia completo"
@@ -170,8 +190,8 @@ pt:
     index_meta: "Blog sobre Encarnación: o que fazer, praias, eventos, gastronomia e dicas de viagem para sua estadia."
     read_more: "Ler mais"
     more_posts: "Mais artigos"
-    none_title: "Ainda não há artigos"
-    none_subtitle: "Em breve vamos publicar guias e novidades de Encarnación."
+    none_title: "O blog está a caminho"
+    none_subtitle: "Estamos escrevendo os primeiros guias e novidades de Encarnación. Volte em breve."
 
   search_form:
     destination: "Destino"
@@ -185,28 +205,42 @@ pt:
     guests: "Hóspedes"
     submit: "Buscar disponibilidade"
 
-  search:
-    title: "Disponibilidade"
-    prompt: "Escolha uma data de chegada e outra de saída para ver a disponibilidade."
-    none_title: "Sem disponibilidade para essas datas"
-    none_subtitle: "Tente outras datas ou menos hóspedes."
-    results_count:
-      one: "%{count} propriedade disponível"
-      other: "%{count} propriedades disponíveis"
-    up_to_guests: "até %{count} hóspedes"
-    total_summary: "Total %{nights} + limpeza"
-    view_and_book: "Ver e reservar"
-    all_stays_title: "Explore as acomodações"
-    all_stays_subtitle: "Escolha datas para ver a disponibilidade."
-    map_stays: "Acomodações"
-    map_attractions: "Atrações"
-    map_events: "Eventos"
-    map_all_categories: "Todas"
-
-  properties:
-    index_kicker: "Acomodações"
-    index_title: "Nossas acomodações"
-    index_subtitle: "Escolha uma para ver fotos, disponibilidade e preços."
+  compare:
+    page_title: "Nossas acomodações"
+    kicker: "Acomodações"
+    title: "Qual é para você?"
+    subtitle: "As quatro acomodações lado a lado: capacidade, comodidades, localização e disponibilidade para suas datas."
+    hint: "Escolha suas datas e veja qual está livre:"
+    guests_chip:
+      one: "hóspede"
+      other: "hóspedes"
+    bedrooms_chip:
+      one: "quarto"
+      other: "quartos"
+    beds_chip:
+      one: "cama"
+      other: "camas"
+    bathrooms_chip:
+      one: "banheiro"
+      other: "banheiros"
+    row_total:
+      one: "Total por 1 noite"
+      other: "Total por %{count} noites"
+    available: "Disponível"
+    unavailable: "Ocupada"
+    fits_up_to:
+      one: "Até 1 hóspede"
+      other: "Até %{count} hóspedes"
+    cta: "Ver e reservar"
+    total_note: "O total inclui a limpeza. Distâncias aproximadas por rua, segundo o OpenStreetMap."
+    distance_note: "Distâncias aproximadas por rua, segundo o OpenStreetMap."
+    map_kicker: "Localização"
+    map_title: "Onde fica cada uma"
+    map_subtitle: "As quatro ficam em Encarnación: aqui você vê a zona de cada uma e a distância até o centro."
+    map_label: "Mapa com a localização aproximada das acomodações em Encarnación"
+    map_note: "Cada pin marca a zona aproximada da acomodação, não o endereço exato."
+    distance_center: "aprox. %{distance} até o centro"
+    distance_costanera: "aprox. %{distance} até o Shopping Costanera"
 
   property:
     photo_alt: "%{name} — foto %{index}"
@@ -235,12 +269,11 @@ pt:
     book_on_airbnb: "Reservar pelo Airbnb"
     or_prefer: "Prefere reservar por outro meio?"
     nearby_guide: "O que fazer por perto"
-    nearby_guide_subtitle: "Eventos e lugares imperdíveis a um passo da sua hospedagem."
+    nearby_guide_subtitle: "Eventos e lugares imperdíveis a um passo da sua acomodação."
     location: "Localização"
     location_subtitle: "Onde você vai se hospedar e o que tem por perto."
     km_away: "~%{km} km"
     new_listing: "Novo"
-    save: "Salvar"
     guest_favorite: "Favorito dos hóspedes"
     guest_favorite_note: "Uma das acomodações mais bem avaliadas pelos hóspedes."
     amenities_title: "O que este lugar oferece"
@@ -250,7 +283,7 @@ pt:
       one: "%{count} avaliação"
       other: "%{count} avaliações"
     show_all_reviews: "Ver as %{count} avaliações"
-    guest_favorite_long: "Esta acomodação é uma das favoritas dos hóspedes com base nas avaliações e na confiabilidade."
+    guest_favorite_long: "Esta acomodação é uma das favoritas dos hóspedes com base nas notas, nas avaliações e na confiabilidade."
     overall_rating: "Avaliação geral"
     review_categories:
       cleanliness: "Limpeza"
@@ -282,7 +315,7 @@ pt:
     years_hosting:
       one: "%{count} ano como anfitrião"
       other: "%{count} anos como anfitrião"
-    contact: "Escrever ao anfitrião"
+    contact: "Fale com o anfitrião"
     stat_reviews: "Avaliações"
     stat_rating: "Nota"
     stat_years: "Anos"
@@ -314,11 +347,11 @@ pt:
       confirmed: "Confirmada"
       completed: "Concluída"
       cancelled: "Cancelada"
-    flash_received: "Recebemos o seu pedido! Vamos escrever para confirmar."
+    flash_received: "Recebemos o seu pedido! Entramos em contato para confirmar."
     not_found: "Não encontramos uma reserva com esse código. Confira se está escrito corretamente."
     new_kicker: "Pedido de reserva"
     new_title: "Complete o seu pedido"
-    new_subtitle: "Verificamos a disponibilidade e confirmamos por email ou WhatsApp."
+    new_subtitle: "Verificamos a disponibilidade e confirmamos com você por email ou WhatsApp."
     honeypot: "Não preencher"
     guest_name: "Nome e sobrenome"
     email: "Email"
@@ -344,7 +377,7 @@ pt:
     submit: "Consultar"
     help: "Você encontra seu código no email ou WhatsApp de confirmação (começa com RES-)."
     whatsapp_prompt: "Não encontra seu código?"
-    whatsapp_link: "Fale conosco no WhatsApp"
+    whatsapp_link: "Fale com a gente no WhatsApp"
 
   whatsapp:
     label: "WhatsApp"
@@ -373,7 +406,7 @@ pt:
     discount_label: "Seu código"
     discount_note: "5% off na sua primeira reserva. Mencione ao combinar a reserva."
     browse_stays: "Ver acomodações"
-    unsubscribe_heading: "Você foi removido da lista"
+    unsubscribe_heading: "Você saiu da lista"
     unsubscribe_body: "Você não vai receber mais emails de marketing. Pode se inscrever de novo quando quiser."
     back_home: "Voltar ao início"
     invalid_token: "Link inválido"
@@ -443,8 +476,8 @@ pt:
         cta: "Confirmar inscrição"
         footer: "Se não foi você, pode ignorar este email."
       welcome:
-        subject: "Bem-vindo(a)! Aqui está seu 5% de desconto"
-        heading: "Você faz parte da Encar Stays!"
+        subject: "Bem-vindo(a)! Seu 5% de desconto está esperando por você"
+        heading: "Você já faz parte da Encar Stays!"
         intro_html: "Obrigado por confirmar sua inscrição. Como presente de boas-vindas, aqui está <strong>5% off</strong> na sua primeira reserva."
         intro_text: "Obrigado por confirmar. Como presente de boas-vindas, aqui está 5% off na sua primeira reserva."
         discount_label: "Seu código de desconto"
@@ -454,7 +487,7 @@ pt:
         unsubscribe_link: "Cancelar inscrição"
       invitation:
         subject: "Entre na nossa lista e ganhe 5% off"
-        heading: "Até a próxima?"
+        heading: "Vamos manter contato?"
         intro_html: "Obrigado por se hospedar com a gente! Entre na nossa lista para receber datas disponíveis e ofertas de temporada — e ganhe <strong>5% off</strong> na sua próxima reserva."
         intro_text: "Obrigado por se hospedar com a gente. Entre na nossa lista e ganhe 5% off na sua próxima reserva."
         cta: "Entrar e ganhar 5% off"

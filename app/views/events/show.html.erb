@@ -35,7 +35,7 @@
 <% check_out = @event.ends_at&.to_date || (check_in ? check_in + 1 : nil) %>
 
 <div class="mx-auto max-w-6xl px-5 pt-6">
-  <nav class="mb-4 flex items-center gap-1.5 text-sm text-sand-500">
+  <nav class="mb-4 flex items-center gap-1.5 text-base text-sand-500">
     <%= link_to t("guide.events_title"), events_path, class: "hover:text-brand-700" %>
     <span class="text-sand-300">/</span>
     <span class="truncate text-sand-700"><%= @event.title %></span>
@@ -44,6 +44,9 @@
   <div class="relative aspect-[16/10] overflow-hidden rounded-3xl sm:aspect-[16/7]">
     <% if @event.cover_image.attached? %>
       <%= image_tag @event.cover_image.variant(resize_to_fill: [ 1600, 700 ]), alt: @event.title, class: "h-full w-full object-cover" %>
+      <% if @event.image_credit.present? %>
+        <span class="absolute right-3 top-3 rounded-full bg-black/45 px-2.5 py-1 text-xs text-white/90"><%= @event.image_credit %></span>
+      <% end %>
     <% else %>
       <div class="h-full w-full bg-gradient-to-br from-brand-500 to-brand-900"></div>
     <% end %>
@@ -70,16 +73,16 @@
   <div class="space-y-8 lg:col-span-2">
     <div class="flex flex-wrap gap-2">
       <% if @event.starts_at %>
-        <span class="inline-flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-3 py-1.5 text-sm text-sand-700">
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-3 py-1.5 text-base text-sand-700">
           <span class="text-sand-700"><%= icon :calendar, klass: "h-4 w-4" %></span>
           <%= l @event.starts_at.to_date, format: :long %><% if check_out && check_out != check_in %> – <%= l (@event.ends_at || @event.starts_at).to_date, format: :long %><% end %>
         </span>
       <% end %>
       <% if @event.schedule_note.present? %>
-        <span class="inline-flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-3 py-1.5 text-sm text-sand-700"><span class="text-sand-700"><%= icon :clock, klass: "h-4 w-4" %></span><%= @event.schedule_note %></span>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-3 py-1.5 text-base text-sand-700"><span class="text-sand-700"><%= icon :clock, klass: "h-4 w-4" %></span><%= @event.schedule_note %></span>
       <% end %>
       <% if @event.area.present? %>
-        <span class="inline-flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-3 py-1.5 text-sm text-sand-700"><span class="text-sand-700"><%= icon :pin, klass: "h-4 w-4" %></span><%= @event.area %></span>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-3 py-1.5 text-base text-sand-700"><span class="text-sand-700"><%= icon :pin, klass: "h-4 w-4" %></span><%= @event.area %></span>
       <% end %>
     </div>
 
@@ -89,7 +92,7 @@
 
     <% if @event.external_url.present? %>
       <%= link_to t("guide.official_link"), @event.external_url, target: "_blank", rel: "noopener",
-            class: "inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:underline" %>
+            class: "inline-flex items-center gap-1.5 text-base font-semibold text-brand-700 hover:underline" %>
     <% end %>
 
     <div>

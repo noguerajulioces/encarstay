@@ -39,28 +39,40 @@ base_reviews = [
 
 properties = [
   {
-    name: "Casa del Lago",
-    description: "Amplia casa con vista al lago, ideal para familias. Parrilla, jardín y muelle propio.\nA 5 minutos del centro de San Bernardino.",
-    address_area: "San Bernardino",
-    capacity: 6, bedrooms: 3, beds: 4, bathrooms: 2,
-    latitude: -27.3240, longitude: -55.8770,
+    name: "Quinta Privada con Entorno Natural",
+    property_type: "quinta",
+    description: "Quinta privada con un entorno natural único. Un dormitorio, tres camas y un baño — ideal para hasta cuatro huéspedes que buscan desconectar.",
+    address_area: "Encarnación",
+    capacity: 4, bedrooms: 1, beds: 3, bathrooms: 1,
+    latitude: -27.31710, longitude: -55.82330,
     base_price_cents: 45_000_000, currency: "PYG", cleaning_fee_cents: 8_000_000, min_nights: 2
   },
   {
-    name: "Cabaña del Bosque",
-    description: "Cabaña acogedora rodeada de naturaleza. Perfecta para desconectar en pareja.",
-    address_area: "Areguá",
-    capacity: 2, bedrooms: 1, beds: 1, bathrooms: 1,
-    latitude: -27.3410, longitude: -55.8560,
+    name: "Cabaña Amplia con Piscina",
+    property_type: "cabana",
+    description: "Cabaña amplia con piscina, pensada para grupos. Dos dormitorios, cinco camas y dos baños — cómoda para hasta siete huéspedes.",
+    address_area: "Encarnación",
+    capacity: 7, bedrooms: 2, beds: 5, bathrooms: 2,
+    latitude: -27.3170, longitude: -55.8234,
     base_price_cents: 28_000_000, currency: "PYG", cleaning_fee_cents: 5_000_000, min_nights: 2
   },
   {
-    name: "Loft Costanera",
-    description: "Loft moderno frente a la costanera, con todas las comodidades y excelente ubicación.",
+    name: "Depto. con Balcón y Vista al Río",
+    property_type: "departamento",
+    description: "Departamento moderno con balcón y vista al río en Encarnación. Dos dormitorios, dos camas y un baño — ideal para hasta tres huéspedes.",
     address_area: "Encarnación",
-    capacity: 4, bedrooms: 2, beds: 2, bathrooms: 1,
-    latitude: -27.3320, longitude: -55.8685,
-    base_price_cents: 38_000_000, currency: "PYG", cleaning_fee_cents: 6_000_000, min_nights: 2
+    capacity: 3, bedrooms: 2, beds: 2, bathrooms: 1,
+    latitude: -27.3111, longitude: -55.8579,
+    base_price_cents: 30_000_000, currency: "PYG", cleaning_fee_cents: 5_000_000, min_nights: 2
+  },
+  {
+    name: "Loft con Piscina Privada",
+    property_type: "loft",
+    description: "Loft moderno de doble altura con piscina privada en Encarnación. Planta abierta con cocina completa y comedor, dos dormitorios, cuatro camas y un baño y medio — cómodo para hasta cinco huéspedes.",
+    address_area: "Encarnación",
+    capacity: 5, bedrooms: 2, beds: 4, bathrooms: 1.5,
+    latitude: -27.314578, longitude: -55.823905,
+    base_price_cents: 42_000_000, currency: "PYG", cleaning_fee_cents: 6_000_000, min_nights: 2
   }
 ]
 
@@ -86,15 +98,16 @@ properties.each do |attributes|
   end
 
   amenity_keys = {
-    "casa-del-lago"     => %w[wifi kitchen pool free_parking tv washer air_conditioning smoke_alarm self_checkin workspace pets_allowed],
-    "cabana-del-bosque" => %w[wifi kitchen free_parking smoke_alarm self_checkin],
-    "loft-costanera"    => %w[wifi kitchen air_conditioning tv washer workspace security_cameras smoke_alarm self_checkin]
+    "quinta-privada-con-entorno-natural" => %w[wifi kitchen pool free_parking tv air_conditioning smoke_alarm self_checkin],
+    "cabana-amplia-con-piscina" => %w[wifi kitchen pool free_parking smoke_alarm self_checkin],
+    "depto-con-balcon-y-vista-al-rio" => %w[wifi kitchen air_conditioning tv self_checkin],
+    "loft-con-piscina-privada" => %w[wifi kitchen air_conditioning pool tv washer workspace security_cameras smoke_alarm self_checkin]
   }.fetch(property.slug, %w[wifi kitchen tv air_conditioning])
   property.amenities = Amenity.where(key: amenity_keys)
 
-  # Casa del Lago earns the "guest favourite" badge (all 5s); the rest average ~4.8.
+  # The loft earns the "guest favourite" badge (all 5s); the rest average ~4.8.
   if property.reviews.none?
-    ratings = property.slug == "casa-del-lago" ? [ 5, 5, 5, 5, 5, 5 ] : [ 5, 5, 5, 4, 5, 5 ]
+    ratings = property.slug == "loft-con-piscina-privada" ? [ 5, 5, 5, 5, 5, 5 ] : [ 5, 5, 5, 4, 5, 5 ]
     base_reviews.each_with_index do |attrs, i|
       property.reviews.create!(attrs.merge(rating: ratings[i]))
     end
@@ -121,7 +134,7 @@ carnival_year = Date.current.month <= 2 ? Date.current.year : Date.current.year 
 
 guide_entries = [
   {
-    slug: "carnaval-encarnaceno", kind: "event", category: "carnaval", featured: true, published: true,
+    slug: "carnaval-encarnaceno", kind: "event", category: "carnaval", featured: true, published: false,
     title_es: "Carnaval Encarnaceno", title_en: "Encarnación Carnival", title_pt: "Carnaval de Encarnación",
     summary_es: "El carnaval más grande del Paraguay, en el Sambódromo sobre la costanera.",
     summary_en: "Paraguay's biggest carnival, at the Sambadrome on the riverfront.",
@@ -134,7 +147,7 @@ guide_entries = [
     schedule_note_es: "Fines de semana de enero y febrero"
   },
   {
-    slug: "expo-itapua", kind: "event", category: "ferias-eventos", featured: false, published: true,
+    slug: "expo-itapua", kind: "event", category: "ferias-eventos", featured: false, published: false,
     title_es: "Expo Itapúa", title_en: "Expo Itapúa", title_pt: "Expo Itapúa",
     summary_es: "Feria agropecuaria, comercial e industrial de la región.",
     summary_en: "Regional agricultural, trade and industrial fair.",
@@ -164,9 +177,30 @@ guide_entries = [
     title_es: "Ruinas Jesuíticas de Trinidad", title_en: "Jesuit Ruins of Trinidad", title_pt: "Ruínas Jesuíticas de Trinidad",
     summary_es: "Patrimonio de la Humanidad de la UNESCO, a 30 minutos de la ciudad.",
     summary_en: "UNESCO World Heritage Site, 30 minutes from the city.",
-    description_es: "La Santísima Trinidad del Paraná es la reducción jesuítica mejor conservada del país. Imperdible el show nocturno de luces y sonido.",
+    description_es: "La Santísima Trinidad del Paraná es la reducción jesuítica mejor conservada del país, declarada Patrimonio de la Humanidad por la UNESCO en 1993. Está a unos 30 km de Encarnación por la Ruta PY06. Imperdible el show nocturno de luces y sonido.",
     address: "Trinidad, Itapúa", area: "Trinidad",
     latitude: -27.1300, longitude: -55.7200, external_url: "https://whc.unesco.org/en/list/648/"
+  },
+  {
+    slug: "ruinas-jesus-de-tavarangue", kind: "attraction", category: "cultura-historia", featured: false, published: true,
+    title_es: "Ruinas de Jesús de Tavarangue", title_en: "Jesús de Tavarangue Ruins", title_pt: "Ruínas de Jesús de Tavarangue",
+    summary_es: "La iglesia inconclusa de las misiones, Patrimonio de la Humanidad junto a Trinidad.",
+    summary_en: "The missions' unfinished church, a World Heritage Site together with Trinidad.",
+    summary_pt: "A igreja inacabada das missões, Patrimônio Mundial junto com Trinidad.",
+    description_es: "A unos 40 km de Encarnación, Jesús de Tavarangue conserva los muros monumentales de una iglesia que quedó inconclusa con la expulsión de los jesuitas en 1767. Integra, junto con Trinidad, el sitio declarado Patrimonio de la Humanidad por la UNESCO — se pueden visitar ambas ruinas en una misma tarde.",
+    description_en: "About 40 km from Encarnación, Jesús de Tavarangue preserves the monumental walls of a church left unfinished when the Jesuits were expelled in 1767. Together with Trinidad it forms a UNESCO World Heritage Site — both ruins fit in a single afternoon.",
+    address: "Jesús, Itapúa", area: "Jesús",
+    latitude: -27.0500, longitude: -55.7560, external_url: "https://whc.unesco.org/en/list/648/"
+  },
+  {
+    slug: "playa-mboi-kae", kind: "attraction", category: "playas-costanera", featured: false, published: true,
+    title_es: "Playa Mboi Ka'ê", title_en: "Mboi Ka'ê Beach", title_pt: "Praia Mboi Ka'ê",
+    summary_es: "La playa más tranquila de la ciudad, en la zona de San Isidro.",
+    summary_en: "The city's quieter beach, in the San Isidro area.",
+    summary_pt: "A praia mais tranquila da cidade, na zona de San Isidro.",
+    description_es: "Al norte del centro, Mboi Ka'ê ofrece un ambiente más relajado que San José: arena, aguas del Paraná y atardeceres, con un público más local.",
+    description_en: "North of the center, Mboi Ka'ê is more laid-back than San José: sand, the Paraná and sunsets, with a more local crowd.",
+    area: "San Isidro", latitude: -27.3130, longitude: -55.8790
   },
   {
     slug: "cervecerias-de-encarnacion", kind: "attraction", category: "gastronomia", featured: false, published: true,
