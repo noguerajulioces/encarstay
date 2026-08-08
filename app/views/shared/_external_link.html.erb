@@ -1,0 +1,11 @@
+<%# locals: url %>
+<%= link_to url, target: "_blank", rel: "noopener",
+      class: "inline-flex items-center gap-1.5 text-base font-semibold text-brand-700 hover:underline" do %>
+  <%= external_site_mark(url) %>
+  <%= t("guide.official_link") %>
+  <% if (host = external_host(url)) %>
+    <span class="font-normal text-sand-400" aria-hidden="true">·</span>
+    <span class="font-normal text-sand-500"><%= host %></span>
+  <% end %>
+  <%= icon :external_link, klass: "h-3.5 w-3.5 text-sand-400" %>
+<% end %>

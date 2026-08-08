@@ -69,8 +69,7 @@
     <% end %>
 
     <% if @attraction.external_url.present? %>
-      <%= link_to t("guide.official_link"), @attraction.external_url, target: "_blank", rel: "noopener",
-            class: "inline-flex items-center gap-1.5 text-base font-semibold text-brand-700 hover:underline" %>
+      <%= render "shared/external_link", url: @attraction.external_url %>
     <% end %>
 
     <div>
